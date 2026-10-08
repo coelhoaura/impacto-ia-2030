@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Prisma Insights • Impacto da IA no Trabalho 2030
+   Complementos do layout do Claude Design (header, Power BI, simulador,
+   modo apresentação). As cores seguem a paleta oficial do projeto.
+   ========================================================================== */
+
+:root {
+  --c-gold:#F7AF20; --c-amber:#E07618; --c-terracotta:#D83C15; --c-crimson:#CB1D4E;
+  --c-magenta:#E6228C; --c-wine:#951165; --c-maroon:#780D34; --c-espresso:#580704;
+  /* aliases usados pelos scripts antigos (slides, simulador) */
+  --font-heading: 'Outfit', system-ui, sans-serif;
+  --radius-sm: 10px; --radius-md: 14px; --radius-lg: 20px; --radius-xl: 26px;
+  --border-glass: rgba(255,255,255,0.14);
+  --secondary-amber: #F7AF20; --primary-terracotta: #E07618;
+  --color-success: #F7AF20; --color-danger: #F0457A;
+  --text-primary: #FFFFFF; --text-secondary: #E8DCD8; --text-muted: #C3B1AC;
+}
+
+/* ---------- Header ---------- */
+.site-nav a.active { color: #FFFFFF !important; background: rgba(247,175,32,0.12); }
+@media (max-width: 1199px) {
+  .site-nav { order: 4 !important; flex-basis: 100% !important; }
+}
+.hdr-present {
+  display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #E8DCD8;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s;
+}
+.hdr-present:hover { color: #FFFFFF; background: rgba(255,255,255,0.06); border-color: rgba(247,175,32,0.5); }
+@media (max-width: 560px) { .hdr-present span { display: none; } }
+
+/* ---------- Simulador (classes aplicadas pelo app.js) ---------- */
+.val.green { color: var(--c-gold) !important; }
+.val.amber { color: var(--c-amber) !important; }
+.val.red   { color: #F0457A !important; }
+.skill-tag {
+  font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+  background: rgba(224,118,24,0.14); border: 1px solid rgba(224,118,24,0.35); color: #FFFFFF;
+}
+#simCurrentJob option[data-rec="1"], #simTargetTrack option[data-rec="1"] { font-weight: 700; }
+
+/* ---------- Power BI ---------- */
+.pbi-tabs {
+  position: absolute; top: 10px; left: 10px; right: 10px; z-index: 2;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.pbi-tab {
+  padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(36,23,25,0.85); color: #E8DCD8; font-family: var(--font-sans);
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s;
+}
+.pbi-tab:hover { color: #FFFFFF; border-color: rgba(247,175,32,0.5); }
+.pbi-tab.active { background: #FFFFFF; color: #1A0B06; border-color: #FFFFFF; }
+.pbi-tab.pbi-live { margin-left: auto; background: linear-gradient(100deg,#E07618,#CB1D4E); border: none; color: #FFFFFF; }
+.pbi-tab.pbi-live.active { background: #FFFFFF; color: #1A0B06; }
+#pbiFrame:fullscreen { border-radius: 0; }
+#pbiFrame:fullscreen > div:last-child { aspect-ratio: auto !important; height: calc(100vh - 60px); }
+
+/* ---------- Treemap de habilidades (gerado pelo charts.js) ---------- */
+#containerHabilidadesTecnicas > div:hover { transform: translateY(-2px); }
+
+/* ==========================================================================
+   MODO APRESENTAÇÃO
+   ========================================================================== */
+.presentation-modal {
+  position: fixed; inset: 0; z-index: 2000; display: none; flex-direction: column;
+  background: radial-gradient(90% 60% at 50% 0%, rgba(224,118,24,0.14), transparent 60%), #1E1315;
+  color: #FFFFFF; font-family: var(--font-sans);
+}
+.presentation-modal.active { display: flex; }
+.modal-deck-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(36,23,25,0.9);
+}
+.deck-head-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.deck-logo { width: 38px; height: auto; }
+.deck-category-pill {
+  display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--c-gold); margin-bottom: 2px;
+}
+.deck-head-title { font-family: var(--font-display); font-weight: 400; font-size: 17px; line-height: 1.2; }
+.deck-head-sub { display: block; font-size: 12.5px; color: #C3B1AC; }
+.deck-head-right { display: flex; align-items: center; gap: 10px; }
+.deck-counter {
+  font-family: var(--font-mono); font-size: 13px; color: var(--c-gold); font-weight: 600;
+  background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);
+}
+.deck-step-dots { display: flex; gap: 6px; }
+.deck-step-dot { width: 26px; height: 6px; border-radius: 99px; border: none; background: rgba(255,255,255,0.14); cursor: pointer; transition: all .2s; }
+.deck-step-dot.active { background: linear-gradient(90deg,#F7AF20,#E6228C); width: 40px; }
+.deck-progress-line { height: 3px; background: rgba(255,255,255,0.06); }
+.deck-progress-fill { height: 100%; background: linear-gradient(90deg,#F7AF20,#E07618,#CB1D4E,#E6228C); transition: width .3s ease; }
+.modal-deck-body { flex: 1; overflow-y: auto; padding: clamp(20px, 4vw, 48px); }
+.deck-slide-card { max-width: 1180px; margin: 0 auto; }
+.speaker-notes-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(36,23,25,0.95);
+}
+.speaker-notes-text { flex: 1; display: flex; align-items: center; gap: 14px; min-width: 260px; }
+.speaker-notes-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--c-amber); white-space: nowrap; }
+#speakerNoteText { margin: 0; font-size: 13px; line-height: 1.5; color: #E8DCD8; font-style: italic; }
+.speaker-notes-nav { display: flex; gap: 10px; }
+.btn-ghost-nav {
+  padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent;
+  color: #FFFFFF; font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; cursor: pointer;
+}
+.btn-ghost-nav:hover { background: rgba(255,255,255,0.08); }
+.btn-glow-primary {
+  padding: 7px 18px; border-radius: 999px; border: none; background: linear-gradient(100deg,#E07618,#CB1D4E 60%,#E6228C);
+  color: #FFFFFF; font-family: var(--font-sans); font-size: 12.5px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(203,29,78,0.35);
+}
+.btn-glow-primary:hover { filter: brightness(1.1); }
+
+/* Slides (conteúdo gerado pelo presentation.js) */
+.deck-slide-card h2 { font-family: var(--font-display); font-weight: 300; font-size: 34px; margin-bottom: 12px; }
+.deck-slide-card p { color: #E8DCD8; line-height: 1.6; }
+.saas-slide-hero { text-align: center; }
+.saas-badge-pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: #E8DCD8;
+}
+.saas-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-gold); }
+.saas-slide-title { font-family: var(--font-display); font-weight: 200; font-size: clamp(40px, 6vw, 76px); line-height: 1; letter-spacing: -0.04em; margin: 22px 0 14px; }
+.saas-gradient-text { font-weight: 400; background: linear-gradient(90deg,#F7AF20,#E07618 35%,#CB1D4E 70%,#E6228C); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.saas-slide-lead { font-size: 17px; color: #E8DCD8; max-width: 760px; margin: 0 auto 24px; }
+.saas-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; text-align: left; }
+.saas-kpi-card { padding: 20px; border-radius: 18px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 6px; }
+.saas-kpi-card.green { border-top: 3px solid var(--c-gold); }
+.saas-kpi-card.amber { border-top: 3px solid var(--c-amber); }
+.saas-kpi-card.terracotta { border-top: 3px solid var(--c-crimson); }
+.saas-kpi-val { font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; }
+.saas-kpi-lbl { font-size: 13px; font-weight: 600; }
+.saas-kpi-trend { font-size: 12px; color: #C3B1AC; }
+.saas-two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.saas-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.saas-card-box { padding: 24px; border-radius: 20px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); }
+.saas-card-box.highlight { background: linear-gradient(160deg, rgba(224,118,24,0.16), rgba(203,29,78,0.12)), #2F1F22; border-color: rgba(247,175,32,0.35); }
+.saas-card-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; color: var(--c-gold); }
+.saas-card-tag.danger { color: #F0457A; } .saas-card-tag.success { color: var(--c-gold); }
+.saas-card-tag.terracotta { color: var(--c-amber); } .saas-card-tag.blue { color: #F27DBD; }
+.saas-box-title { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin-bottom: 10px; }
+.saas-box-text { font-size: 14.5px; }
+.saas-feature-list { padding-left: 18px; display: flex; flex-direction: column; gap: 8px; color: #E8DCD8; font-size: 14px; }
+.saas-badge-cluster { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.saas-chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); color: #E8DCD8; }
+.saas-hypo-card { padding: 20px; border-radius: 18px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); }
+.saas-hypo-card.rejected { border-top: 3px solid #CB1D4E; }
+.saas-hypo-card.verified { border-top: 3px solid var(--c-gold); }
+.saas-hypo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.saas-hypo-num { font-family: var(--font-display); font-size: 26px; font-weight: 300; }
+.saas-status-badge { font-family: var(--font-mono); font-size: 10.5px; padding: 3px 9px; border-radius: 999px; }
+.saas-status-badge.red { background: rgba(203,29,78,0.2); color: #FF8AAE; }
+.saas-status-badge.green { background: rgba(247,175,32,0.16); color: var(--c-gold); }
+.saas-quad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.saas-quad-box { padding: 22px; border-radius: 18px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); }
+.saas-quad-box.q-amplification { background: linear-gradient(150deg, rgba(247,175,32,0.22), #2F1F22 70%); }
+.saas-quad-box.q-transition { background: linear-gradient(150deg, rgba(224,118,24,0.22), #2F1F22 70%); }
+.saas-quad-box.q-substitution { background: linear-gradient(150deg, rgba(203,29,78,0.26), #2F1F22 70%); }
+.saas-quad-box.q-stability { background: linear-gradient(150deg, rgba(149,17,101,0.26), #2F1F22 70%); }
+.saas-quad-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; }
+.saas-quad-pill, .saas-pct-tag, .saas-val-tag { font-family: var(--font-mono); font-size: 10.5px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,0.08); color: #FFFFFF; }
+.saas-quad-pill.green { color: var(--c-gold); } .saas-quad-pill.amber { color: var(--c-amber); }
+.saas-quad-pill.red { color: #FF8AAE; } .saas-quad-pill.blue { color: #F27DBD; }
+.saas-quad-stat { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: #FFFFFF !important; }
+.saas-quad-examples { font-size: 13px; color: #C3B1AC; }
+.saas-budget-card { padding: 20px; border-radius: 18px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); }
+.saas-budget-card h4 { font-family: var(--font-display); font-weight: 400; font-size: 18px; margin: 12px 0 6px; }
+.saas-budget-card p { font-size: 13.5px; }
+.saas-budget-card.b-amber { border-top: 3px solid var(--c-gold); } .saas-budget-card.b-terracotta { border-top: 3px solid var(--c-amber); }
+.saas-budget-card.b-green { border-top: 3px solid var(--c-crimson); } .saas-budget-card.b-blue { border-top: 3px solid var(--c-magenta); }
+.saas-budget-header { display: flex; justify-content: space-between; }
+.saas-star-deck { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.saas-star-card { padding: 22px; border-radius: 18px; background: #2F1F22; border: 1px solid rgba(255,255,255,0.12); }
+.saas-star-card h4 { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--c-gold); margin: 12px 0 6px; }
+.saas-star-card p { font-size: 14px; }
+.saas-star-badge {
+  width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 22px; background: linear-gradient(135deg,#F7AF20,#E07618); color: #1A0B06;
+}
+.saas-star-card.a .saas-star-badge { background: linear-gradient(135deg,#CB1D4E,#E6228C); color: #FFFFFF; }
+.saas-star-card.r .saas-star-badge { background: linear-gradient(135deg,#951165,#E6228C); color: #FFFFFF; }
