@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/logos/prisma-insights_icone_colorido.svg">
+<title>Impacto da IA no Trabalho 2030 • Prisma Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+:root{
+  --c-gold:#F7AF20;--c-amber:#E07618;--c-terracotta:#D83C15;--c-crimson:#CB1D4E;--c-magenta:#E6228C;--c-wine:#951165;--c-maroon:#780D34;--c-espresso:#580704;--c-white:#FFFFFF;
+  --bg:#241719;--bg-2:#2A1B1E;--bg-card:#2F1F22;--bg-card-2:#3A272B;--line:rgba(255,255,255,0.12);--line-2:rgba(255,255,255,0.2);
+  --text:#FFFFFF;--text-2:#E8DCD8;--text-3:#C3B1AC;
+  --grad:linear-gradient(90deg,#F7AF20 0%,#E07618 35%,#CB1D4E 70%,#E6228C 100%);
+  --grad-gain:linear-gradient(90deg,#F7AF20,#E07618);--grad-loss:linear-gradient(90deg,#CB1D4E,#951165);
+  --font-display:'Outfit',system-ui,sans-serif;--font-sans:'Plus Jakarta Sans',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h, 64px) + 96px)}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--c-gold);text-decoration:none}a:hover{color:#FFFFFF}
+select option{background:#3A272B;color:#FFFFFF}
+textarea::placeholder,input::placeholder{color:#A6938E}
+@keyframes spin{to{transform:rotate(360deg)}}
+::selection{background:rgba(230,34,140,.35)}
+@keyframes glowBreath{0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.04)}}
+@keyframes auroraDrift{0%,100%{transform:translate(-50%,0) rotate(0deg)}50%{transform:translate(-48%,-14px) rotate(4deg)}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+<link rel="stylesheet" href="css/prisma.css?v=2">
+<style>
+.hv0:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv1:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv2:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv3:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv4:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv5:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv6:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv7:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv8:hover{color: #FFFFFF !important;filter: brightness(1.1) !important}
+.hv9:hover{background: rgba(255,255,255,0.07) !important}
+.hv10:hover{color: #FFFFFF !important;border-color: rgba(247,175,32,0.6) !important}
+.hv11:hover{background: #D83C15 !important}
+.hv12:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv13:hover{filter: brightness(1.1) !important}
+.hv14:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.06) !important}
+.hv15:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv16:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv17:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv18:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv19:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv20:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv21:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv22:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv23:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv24:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv25:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv26:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv27:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv28:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv29:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv30:hover{border-color: rgba(247,175,32,0.35) !important}
+.hv31:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv32:hover{color: #FFFFFF !important;background: rgba(255,255,255,0.08) !important}
+.hv33:hover{color: #FFFFFF !important}
+.hv34:hover{color: #FFFFFF !important}
+.hv35:hover{color: #FFFFFF !important}
+.hv36:hover{color: #FFFFFF !important}
+.hv37:hover{color: #FFFFFF !important}
+.hv38:hover{color: #FFFFFF !important}
+.hv39:hover{color: #FFFFFF !important}
+.hv40:hover{color: #FFFFFF !important}
+</style>
+</head>
+<body>
+<header id="siteHeader" data-screen-label="00 Header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(36,23,25,0.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line);">
+  <div style="max-width: 1400px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px;">
+    <a href="#visao-geral" style="display: flex; align-items: center; flex-shrink: 0; order: 1;"><img src="assets/logos/prisma-insights_horizontal_branco.svg" alt="Prisma Insights" style="height: 34px; width: auto; display: block;"></a>
+    <nav class="site-nav" style="flex: 1 1 0px; min-width: 0; order: 2; overflow-x: auto; scrollbar-width: none;">
+      <ul style="list-style: none; display: flex; align-items: center; gap: 0; justify-content: center; white-space: nowrap; min-width: max-content; margin: 0 auto;">
+        <li><a class="hv0" href="#visao-geral" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Visão Geral</a></li>
+        <li><a class="hv1" href="#analise-bi" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Matriz BI</a></li>
+        <li><a class="hv2" href="#painel-degree-escalation" title="Degree Escalation" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Mais Estudo</a></li>
+        <li><a class="hv3" href="#painel-powerbi" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Painel Power BI</a></li>
+        <li><button class="hv4" data-action="openCode" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2); background: transparent; border: none; cursor: pointer; font-family: var(--font-sans);">Engenharia &amp; SQL</button></li>
+        <li><a class="hv5" href="#simulador-carreira" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Simulador</a></li>
+        <li><a class="hv6" href="#plano-orcamento-15m" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Plano R$ 15M</a></li>
+        <li><a class="hv7" href="#equipe" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);">Equipe</a></li>
+      </ul>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap; order: 3;">
+      
+      <button id="btnStartPresentation" type="button" class="hdr-present" title="Modo apresentação"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Apresentar</span></button>
+      <a class="hv8" href="bussola.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 10px; border-radius: 999px; background: linear-gradient(100deg,#E07618 0%,#CB1D4E 60%,#E6228C 100%); color: #FFFFFF; font-size: 13px; font-weight: 700; box-shadow: 0 6px 24px rgba(203,29,78,0.35);">
+        <img src="assets/logos/bussola-2030_icone_branco.svg" alt="" style="width: 22px; height: 22px;">
+        <span>Bússola 2030</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main style="position: relative; overflow-x: clip;">
+
+<!-- HERO -->
+<section id="visao-geral" data-screen-label="01 Visão Geral" style="position: relative; padding: 150px 24px 40px; text-align: center; isolation: isolate;">
+  <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;"><div style="position:absolute;left:50%;top:-6%;width:1100px;height:700px;border-radius:50%;background:radial-gradient(closest-side, rgba(224,118,24,0.30), rgba(203,29,78,0.16) 55%, transparent 80%);filter:blur(30px);animation:auroraDrift 14s ease-in-out infinite;"></div><div style="position:absolute;left:50%;top:520px;width:1700px;height:1700px;border-radius:50%;background:#241719;box-shadow:0 -1px 0 rgba(247,175,32,0.95), 0 -18px 50px rgba(224,118,24,0.55), 0 -70px 160px rgba(203,29,78,0.42), 0 -140px 260px rgba(230,34,140,0.18);animation:glowBreath 9s ease-in-out infinite;"></div><div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 70%, #241719 100%);"></div></div>
+  <div style="position: relative; z-index: 2; max-width: 1180px; margin: 0 auto;">
+    
+    <h1 style="font-family: var(--font-display); font-weight: 200; font-size: clamp(48px, 8vw, 104px); line-height: 0.98; letter-spacing: -0.045em; text-wrap: balance;">Impacto da IA no Trabalho <span style="font-weight: 400; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;">2030</span></h1>
+    <p style="font-family: var(--font-display); font-weight: 300; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.25; color: #FFFFFF; margin: 26px auto 0; max-width: 820px; text-wrap: balance;">A IA não está acabando com os empregos. <span style="color: var(--c-gold);">Está dividindo o mercado.</span></p>
+    <p style="font-size: 17px; color: var(--text-2); max-width: 760px; margin: 22px auto 0; line-height: 1.65; text-wrap: pretty;">Uma empresa de <strong style="color: #FFFFFF;">35.000 colaboradores</strong> tem medo da IA e um orçamento de <strong style="color: #FFFFFF;">R$ 15 milhões</strong> para investir. Analisamos <strong style="color: #FFFFFF;">3.755 salários reais</strong> e <strong style="color: #FFFFFF;">3.200 postos de trabalho</strong> para mostrar quem ganha, quem perde e onde o dinheiro faz diferença.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 60px; text-align: left;">
+      <div data-reveal="1" style="position: relative; padding: 26px 26px 24px; border-radius: 22px; background: linear-gradient(155deg, #D83C15 0%, #CB1D4E 55%, #951165 100%); box-shadow: 0 24px 60px rgba(203,29,78,0.28); overflow: hidden;">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85);">01 • Vagas</span>
+        <span id="kpiSaldoVagas" data-count="1" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 54px; letter-spacing: -0.04em; line-height: 1; margin-top: 22px; color: #FFFFFF;">+6,33 Mil</span>
+        <span style="display: block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #FFFFFF;">Saldo líquido global de vagas</span>
+      </div>
+      <div data-reveal="1" style="padding: 26px 26px 24px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);">02 • Salário</span>
+        <span id="kpiVariacaoSalarial" data-count="1" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 54px; letter-spacing: -0.04em; line-height: 1; margin-top: 22px; color: var(--c-gold);">+18,0%</span>
+        <span style="display: block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #FFFFFF;">Variação salarial média</span>
+      </div>
+      <div data-reveal="1" style="padding: 26px 26px 24px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);">03 • Escolaridade</span>
+        <span id="kpiElevacaoEscolaridade" data-count="1" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 54px; letter-spacing: -0.04em; line-height: 1; margin-top: 22px; color: var(--c-amber);">39,28%</span>
+        <span style="display: block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #FFFFFF;">Taxa de Degree Escalation</span>
+      </div>
+      <div data-reveal="1" style="padding: 26px 26px 24px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);">04 • Risco</span>
+        <span id="kpiVagasAltoRisco" data-count="1" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 54px; letter-spacing: -0.04em; line-height: 1; margin-top: 22px; color: #F0457A;">15,2%</span>
+        <span style="display: block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #FFFFFF;">Vagas em alto risco</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px;">
+      <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,0.03); font-size: 13px; color: var(--text-2);"><span style="width: 7px; height: 7px; border-radius: 50%; background: var(--c-gold);"></span>Inteligência Artificial • Co-Piloto de Produtividade</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,0.03); font-size: 13px; color: var(--text-2);"><span style="width: 7px; height: 7px; border-radius: 50%; background: var(--c-amber);"></span>3.755 Salários Reais • 3.200 Postos Modelados</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,0.03); font-size: 13px; color: var(--text-2);"><span style="width: 7px; height: 7px; border-radius: 50%; background: var(--c-magenta);"></span>Efeito Amplificação vs. Substituição</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<div style="position: sticky; top: calc(var(--header-h, 64px) + 10px); z-index: 60; max-width: 1280px; margin: 24px auto 0; padding: 0 24px;">
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; padding: 14px 18px; border-radius: 18px; background: rgba(47,31,34,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--line-2); box-shadow: 0 16px 40px rgba(0,0,0,0.45);">
+    <div style="display: flex; align-items: center; gap: 8px; padding: 0 14px 9px 2px; border-right: 1px solid var(--line); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); align-self: stretch;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="align-self: flex-end;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+      <span style="align-self: flex-end;">Filtros dinâmicos</span>
+    </div>
+    <label style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;">Setor Econômico
+      <select id="slicerSector" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 10px; padding: 9px 12px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; outline: none; cursor: pointer;">
+        <option value="Todos">Todos os Setores</option>
+      </select>
+    </label>
+    <label style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;">Perfil de Risco
+      <select id="slicerRisk" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 10px; padding: 9px 12px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; outline: none; cursor: pointer;">
+        <option value="Todos">Todas as Categorias</option>
+      </select>
+    </label>
+    <label style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;">Escolaridade
+      <select id="slicerEdu" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 10px; padding: 9px 12px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; outline: none; cursor: pointer;">
+        <option value="Todos">Todos os Níveis</option>
+      </select>
+    </label>
+    <label style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;">Modelo de Trabalho
+      <select id="slicerWorkModel" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 10px; padding: 9px 12px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; outline: none; cursor: pointer;">
+        <option value="Todos">Todos os Modelos</option>
+      </select>
+    </label>
+    <button class="hv9" id="btnResetFilters" data-action="resetFilters" style="height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--line-2); background: transparent; color: #FFFFFF; font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer;">↺ Limpar</button>
+  </div>
+</div>
+
+<!-- DIAGNÓSTICO -->
+<div data-reveal="1" style="max-width: 1280px; margin: 36px auto 0; padding: 0 24px;">
+  <div style="position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 32px; padding: 28px 32px; border-radius: 22px; background: linear-gradient(100deg, rgba(247,175,32,0.10) 0%, rgba(203,29,78,0.08) 60%, rgba(149,17,101,0.06) 100%); border: 1px solid rgba(247,175,32,0.22); overflow: hidden;">
+    
+    <p style="flex: 1 1 480px; font-family: var(--font-display); font-weight: 300; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.3; color: #FFFFFF; text-wrap: pretty;">A IA não está simplesmente <span style="color: #F0457A;">“destruindo todos os empregos”</span>. Ela provoca uma <span style="font-weight: 500; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;">bifurcação severa</span> no mercado.</p>
+  </div>
+</div>
+
+<!-- PAINEL SALDO -->
+<section id="painel-saldo" data-screen-label="02 Painel Saldo" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <svg viewBox="0 0 1280 200" preserveAspectRatio="none" style="position: absolute; top: 20px; left: -10%; width: 120%; height: 160px; pointer-events: none; opacity: 0.55;"><defs><linearGradient id="ln1" x1="0" x2="1"><stop offset="0" stop-color="#E07618" stop-opacity="0"></stop><stop offset=".5" stop-color="#E07618"></stop><stop offset="1" stop-color="#CB1D4E" stop-opacity="0"></stop></linearGradient></defs><path d="M0 160 C 320 160, 420 30, 760 50 S 1180 150, 1280 40" fill="none" stroke="url(#ln1)" stroke-width="1.2"></path></svg>
+  <div data-reveal="1" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 40px; margin-bottom: 40px;">
+    <div style="max-width: 760px;">
+      
+      <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance;">O mercado não encolhe. <span style="color: var(--text-3);">Ele se divide.</span></h2>
+    </div>
+    <p style="max-width: 420px; font-size: 16px; color: var(--text-2); line-height: 1.6; text-wrap: pretty;">Tecnologia e Saúde criam vagas e pagam mais. Varejo, Mídia e as rotinas de escritório perdem espaço para a automação.</p>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 18px;">
+    <div data-reveal="1" style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+        <div>
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; letter-spacing: -0.01em;">Saldo Líquido de Vagas por Indústria</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Variação absoluta projetada até 2030 (em milhares de postos)</span>
+        </div>
+        <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2);">Tornado • DAX</span>
+      </div>
+      <div style="position: relative; height: 340px;"><canvas id="chartNetJobs"></canvas></div>
+      <div style="margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: rgba(247,175,32,0.06); border: 1px solid rgba(247,175,32,0.16); display: flex; gap: 12px; align-items: flex-start;">
+        <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); padding-top: 3px;">Keynote</span>
+        <p style="font-size: 14px; color: var(--text-2); line-height: 1.55;"><strong style="color: #FFFFFF;">Polarização setorial:</strong> só Tecnologia (<span style="color: var(--c-gold); font-weight: 700;">+12,91 mil</span>), Saúde (<span style="color: var(--c-gold); font-weight: 700;">+2,82 mil</span>) e Educação (<span style="color: var(--c-amber); font-weight: 700;">+2,45 mil</span>) sustentam o saldo positivo, compensando o encolhimento de tarefas operacionais em Varejo, Mídia, Jurídico e Finanças.</p>
+      </div>
+    </div>
+
+    <div data-reveal="1" style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+        <div>
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; letter-spacing: -0.01em;">Distribuição de Risco</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Volume de postos monitorados</span>
+        </div>
+        <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2);">3 categorias</span>
+      </div>
+      <div style="position: relative; height: 340px;">
+        <canvas id="chartRiskDonut"></canvas>
+        <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
+          <span id="donutCenterNum" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; line-height: 1;">3,2 Mil</span>
+          <span style="font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em;">Postos mapeados</span>
+        </div>
+      </div>
+      <div style="margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: rgba(247,175,32,0.06); border: 1px solid rgba(247,175,32,0.16); display: flex; gap: 12px; align-items: flex-start;">
+        <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); padding-top: 3px;">Keynote</span>
+        <p style="font-size: 14px; color: var(--text-2); line-height: 1.55;"><strong style="color: #FFFFFF;">A amplificação predomina:</strong> <span style="color: var(--c-gold); font-weight: 700;">51,5%</span> das ocupações estão na zona de Amplificação Humana, contra <span style="color: #F0457A; font-weight: 700;">25,4%</span> em Alto Risco.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 18px;">
+    <div data-reveal="1" style="padding: 26px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); border-top: 2px solid var(--c-gold);">
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold);">Maior ganho salarial projetado</span>
+      <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; margin-top: 14px;">Machine Learning Engineer</h4>
+      <span id="kpiMaiorGanho" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 48px; letter-spacing: -0.035em; line-height: 1.1; color: var(--c-gold); margin-top: 6px;">+45,5%</span>
+      <p style="font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.55;">De $132.000 para $192.000 anuais, com foco em MLOps &amp; LLM Orchestration.</p>
+    </div>
+    <div data-reveal="1" style="padding: 26px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); border-top: 2px solid var(--c-crimson);">
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #F0457A;">Quartil 4 de exposição à IA</span>
+      <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; margin-top: 14px;">Quartil de maior exposição</h4>
+      <span id="kpiCardQ4" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 34px; letter-spacing: -0.03em; line-height: 1.25; color: #FFFFFF; margin-top: 10px;">$169.220 • Vagas ↓5,1%</span>
+      <p style="font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.55;">Os salários mais altos do mercado, mas com risco agudo de retração nas vagas rotineiras.</p>
+    </div>
+    <div data-reveal="1" style="padding: 26px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); border-top: 2px solid var(--c-amber);">
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-amber);">Resiliência em funções físicas</span>
+      <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; margin-top: 14px;">Atendimento &amp; Assistência Física</h4>
+      <span id="kpiAutomacaoPresencial" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 48px; letter-spacing: -0.035em; line-height: 1.1; color: var(--c-amber); margin-top: 6px;">40,4%</span>
+      <p style="font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.55;">Baixa automação de tarefas manuais diretas e alta estabilidade de postos de trabalho.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MATRIZ BI -->
+<section id="analise-bi" data-screen-label="03 Matriz BI" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <svg viewBox="0 0 1280 200" preserveAspectRatio="none" style="position: absolute; top: 10px; left: -10%; width: 120%; height: 180px; pointer-events: none; opacity: 0.5;"><defs><linearGradient id="ln2" x1="0" x2="1"><stop offset="0" stop-color="#CB1D4E" stop-opacity="0"></stop><stop offset=".45" stop-color="#E07618"></stop><stop offset="1" stop-color="#F7AF20" stop-opacity="0"></stop></linearGradient></defs><path d="M0 30 C 260 40, 380 170, 700 150 S 1100 20, 1280 120" fill="none" stroke="url(#ln2)" stroke-width="1.2"></path></svg>
+  <div data-reveal="1" style="max-width: 860px; margin-bottom: 40px;">
+    
+    <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance;">Quem usa a IA ganha. <span style="color: var(--text-3);">Quem faz tarefa repetitiva perde.</span></h2>
+    <p style="font-size: 17px; color: var(--text-2); line-height: 1.65; margin-top: 18px; text-wrap: pretty;">A matriz cruza o risco de automação até 2030 com a variação dos salários. A IA não afeta todas as profissões igual: valoriza decisões complexas e pressiona funções operacionais repetitivas.</p>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div data-reveal="1" style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 28px; border-radius: 18px; background: linear-gradient(90deg, #F7AF20 0%, #E07618 38%, rgba(224,118,24,0.18) 72%, rgba(47,31,34,1) 100%); border: 1px solid rgba(247,175,32,0.3);">
+      <div style="flex: 1 1 320px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+          <h4 style="font-family: var(--font-display); font-weight: 500; font-size: 26px; color: #1A0B06; letter-spacing: -0.02em;">Amplificação</h4>
+          <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: #1A0B06; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,0.35);">Risco &lt; 30%</span>
+        </div>
+        <p style="font-size: 14.5px; color: #2A1206; margin-top: 6px; font-weight: 500;">Usam a IA como aliada para produtividade e conquistam os maiores aumentos.</p>
+      </div>
+      <div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #FFFFFF;">
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.14);"><strong style="font-weight: 600;">Gestores de Portfólio</strong><span style="color: var(--c-gold); font-weight: 700; white-space: nowrap;">+35% sal. | +26% vagas</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.14);"><strong style="font-weight: 600;">ML Engineers</strong><span style="color: var(--c-gold); font-weight: 700; white-space: nowrap;">+31% sal. | +45% vagas</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px;"><strong style="font-weight: 600;">Pesquisa Biomédica</strong><span style="color: var(--c-gold); font-weight: 700; white-space: nowrap;">+29% sal. | +32% vagas</span></div>
+      </div>
+    </div>
+    <div data-reveal="1" style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 28px; border-radius: 18px; background: linear-gradient(90deg, #E07618 0%, #D83C15 38%, rgba(216,60,21,0.16) 72%, rgba(47,31,34,1) 100%); border: 1px solid rgba(224,118,24,0.3);">
+      <div style="flex: 1 1 320px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+          <h4 style="font-family: var(--font-display); font-weight: 500; font-size: 26px; color: #FFFFFF; letter-spacing: -0.02em;">Supervisão</h4>
+          <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: #FFFFFF; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.22);">Risco 40–60%</span>
+        </div>
+        <p style="font-size: 14.5px; color: #FFFFFF; margin-top: 6px; font-weight: 500;">O papel humano vira validação e auditoria dos sistemas autônomos.</p>
+      </div>
+      <div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #FFFFFF;">
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.14);"><strong style="font-weight: 600;">Auditoria de Riscos</strong><span style="color: var(--text-2); font-weight: 500;">Ganhos focados em governança.</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px;"><strong style="font-weight: 600;">Compliance</strong><span style="color: var(--c-gold); font-weight: 700; white-space: nowrap;">Aumentos entre +10% e +25%</span></div>
+      </div>
+    </div>
+    <div data-reveal="1" style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 28px; border-radius: 18px; background: linear-gradient(90deg, #CB1D4E 0%, #951165 38%, rgba(149,17,101,0.18) 72%, rgba(47,31,34,1) 100%); border: 1px solid rgba(203,29,78,0.32);">
+      <div style="flex: 1 1 320px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+          <h4 style="font-family: var(--font-display); font-weight: 500; font-size: 26px; color: #FFFFFF; letter-spacing: -0.02em;">Compressão</h4>
+          <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: #FFFFFF; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.22);">Risco &gt; 70%</span>
+        </div>
+        <p style="font-size: 14.5px; color: #FFFFFF; margin-top: 6px; font-weight: 500;">Funções operacionais substituídas diretamente pela tecnologia.</p>
+      </div>
+      <div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #FFFFFF;">
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.14);"><strong style="font-weight: 600;">Caixas Bancários</strong><span style="color: #FF6B96; font-weight: 700; white-space: nowrap;">-16% sal. | -53% vagas</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.14);"><strong style="font-weight: 600;">Copywriters</strong><span style="color: #FF6B96; font-weight: 700; white-space: nowrap;">-15% sal. | -38% vagas</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px;"><strong style="font-weight: 600;">Codificadores Médicos</strong><span style="color: #FF6B96; font-weight: 700; white-space: nowrap;">-14% sal. | -48% vagas</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-reveal="1" style="margin-top: 18px; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+      <div>
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Matriz de Disrupção Salarial</h3>
+        <span style="font-size: 13px; color: var(--text-3);">Eixo X: probabilidade de automação (%) • Eixo Y: variação salarial (%) • Bolha: headcount projetado 2030</span>
+      </div>
+      <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2);">Scatter 2×2 • 4 quadrantes</span>
+    </div>
+    <div style="position: relative; height: 480px;"><canvas id="chartScatter"></canvas></div>
+  </div>
+
+  <div data-reveal="1" style="margin-top: 18px; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+    
+    <h3 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.03em; line-height: 1.1;">Os 5 que mais ganham. <span style="color: var(--text-3);">Os 5 que mais perdem.</span></h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); gap: 18px; margin-top: 26px;">
+      <div style="padding: 22px; border-radius: 16px; background: linear-gradient(180deg, rgba(247,175,32,0.08), rgba(247,175,32,0.02)); border: 1px solid rgba(247,175,32,0.2); min-width: 0;">
+        <div style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline;"><span style="font-size: 13px; font-weight: 700; color: var(--c-gold); text-transform: uppercase; letter-spacing: 0.06em;">↑ Top 5 Vencedores • Amplificação</span><span style="font-size: 12px; color: var(--text-3);">Prêmio salarial</span></div>
+        <p style="font-size: 13.5px; color: var(--text-2); line-height: 1.5; margin: 8px 0 14px;">Funções em que a IA multiplica a produtividade e exige orquestração técnica, pensamento crítico ou decisão estratégica.</p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 440px;">
+            <thead><tr><th style="text-align: left; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Posição / Cargo</th><th style="text-align: left; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Setor</th><th style="text-align: right; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Ganho salarial</th><th style="text-align: right; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Vagas 2030</th></tr></thead>
+            <tbody>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">1. Quantitative Portfolio Manager</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Financial Services</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-gold); font-weight: 700;">+35,16%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-amber);">+26,89%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">2. Machine Learning Engineer</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Technology</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-gold); font-weight: 700;">+31,91%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-amber);">+45,45%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">3. Biomedical Research Scientist</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Healthcare</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-gold); font-weight: 700;">+29,63%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-amber);">+32,84%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">4. Cybersecurity Threat Hunter (AI)</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Technology</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-gold); font-weight: 700;">+29,29%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: var(--c-amber);">+43,75%</td></tr>
+              <tr><td style="padding: 11px 8px; font-weight: 600;">5. Data Platform Engineer</td><td style="padding: 11px 8px; color: var(--text-2);">Technology</td><td style="padding: 11px 8px; text-align: right; color: var(--c-gold); font-weight: 700;">+28,24%</td><td style="padding: 11px 8px; text-align: right; color: var(--c-amber);">+38,10%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="padding: 22px; border-radius: 16px; background: linear-gradient(180deg, rgba(203,29,78,0.09), rgba(203,29,78,0.02)); border: 1px solid rgba(203,29,78,0.24); min-width: 0;">
+        <div style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline;"><span style="font-size: 13px; font-weight: 700; color: #F0457A; text-transform: uppercase; letter-spacing: 0.06em;">↓ Top 5 Vulneráveis • Deslocamento</span><span style="font-size: 12px; color: var(--text-3);">Compressão de renda</span></div>
+        <p style="font-size: 13.5px; color: var(--text-2); line-height: 1.5; margin: 8px 0 14px;">Funções com tarefas rotineiras, analíticas básicas ou operacionais: perdem salário real e vagas ao mesmo tempo.</p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 440px;">
+            <thead><tr><th style="text-align: left; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Posição / Cargo</th><th style="text-align: left; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Setor</th><th style="text-align: right; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Retração salarial</th><th style="text-align: right; padding: 9px 8px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-2);">Vagas 2030</th></tr></thead>
+            <tbody>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">1. Bank Branch Teller</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Financial Services</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #F0457A; font-weight: 700;">-16,28%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #E86FB0;">-53,49%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">2. Copywriter &amp; Content Creator</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Media &amp; Comm.</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #F0457A; font-weight: 700;">-15,25%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #E86FB0;">-38,71%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">3. Medical Records Coder</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Healthcare</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #F0457A; font-weight: 700;">-14,09%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #E86FB0;">-48,28%</td></tr>
+              <tr><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); font-weight: 600;">4. Paralegal Document Reviewer</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); color: var(--text-2);">Legal</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #F0457A; font-weight: 700;">-13,71%</td><td style="padding: 11px 8px; border-bottom: 1px solid var(--line); text-align: right; color: #E86FB0;">-40,63%</td></tr>
+              <tr><td style="padding: 11px 8px; font-weight: 600;">5. Data Entry Clerk</td><td style="padding: 11px 8px; color: var(--text-2);">Financial Services</td><td style="padding: 11px 8px; text-align: right; color: #F0457A; font-weight: 700;">-13,33%</td><td style="padding: 11px 8px; text-align: right; color: #E86FB0;">-54,55%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 15px; color: var(--text-2); line-height: 1.6;"><span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); margin-right: 10px;">Diagnóstico</span>O topo do mercado captura até <strong style="color: var(--c-gold);">+35,16%</strong> de bônus salarial supervisionando sistemas multiagentes, enquanto funções repetitivas perdem mais de <strong style="color: #F0457A;">50%</strong> dos seus postos.</p>
+  </div>
+</section>
+
+<!-- DEGREE ESCALATION -->
+<section id="painel-degree-escalation" data-screen-label="04 Mais Estudo" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <div data-reveal="1" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 40px; margin-bottom: 40px;">
+    <div style="max-width: 760px;">
+      
+      <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance;">Mais estudo exigido. <span style="color: var(--text-3);">Diploma ou microcredencial?</span></h2>
+    </div>
+    <p style="max-width: 420px; font-size: 16px; color: var(--text-2); line-height: 1.6; text-wrap: pretty;">O que os dados dizem: setores muito regulados inflacionam diplomas, enquanto habilidades aplicadas (MLOps, Prompt Engineering) dão razão ao CDO.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 18px;">
+    <div data-reveal="1" style="padding: 24px 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+      <span style="font-size: 13px; color: var(--text-3);">Taxa de elevação de escolaridade</span>
+      <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 52px; letter-spacing: -0.04em; line-height: 1.1; margin-top: 8px;">39,28%</span>
+      <span style="font-size: 13.5px; color: var(--c-gold); font-weight: 600;">dos postos exigem diploma superior</span>
+    </div>
+    <div data-reveal="1" style="padding: 24px 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+      <span style="font-size: 13px; color: var(--text-3);">Setor líder</span>
+      <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 36px; letter-spacing: -0.03em; line-height: 1.15; margin-top: 14px;">Financial Services</span>
+      <span style="font-size: 13.5px; color: var(--c-amber); font-weight: 600;">73,5% de elevação formal</span>
+    </div>
+    <div data-reveal="1" style="padding: 24px 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+      <span style="font-size: 13px; color: var(--text-3);">Setores acima de 45%</span>
+      <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 52px; letter-spacing: -0.04em; line-height: 1.1; margin-top: 8px;">4</span>
+      <span style="font-size: 13.5px; color: #F27DBD; font-weight: 600;">Finanças, Jurídico, Educação, Varejo</span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 18px;">
+    <div data-reveal="1" style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); min-width: 0;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Taxa de elevação de escolaridade por indústria</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Linha tracejada: meta de 45%</span>
+      <div style="position: relative; height: 320px; margin-top: 18px;"><canvas id="chartTaxaElevacaoSetor"></canvas></div>
+      <p style="margin-top: 16px; font-size: 14px; color: var(--text-2); line-height: 1.55;"><strong style="color: #FFFFFF;">Polarização de titulação:</strong> Finanças (&gt;70%), Jurídico e Educação exigem mais titulação para auditar a IA; Tecnologia (&lt;20%) prioriza skills práticas.</p>
+    </div>
+    <div data-reveal="1" style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); min-width: 0;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Vagas por nível — 2030 vs Pré-IA</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Participação de cada nível de escolaridade (100% empilhado)</span>
+      <div style="position: relative; height: 320px; margin-top: 18px;"><canvas id="chartVagasPorNivelPeriodo"></canvas></div>
+      <p style="margin-top: 16px; font-size: 14px; color: var(--text-2); line-height: 1.55;"><strong style="color: #FFFFFF;">Salto na pós-graduação:</strong> Mestrado sobe de <strong style="color: var(--c-gold);">9,66%</strong> para <strong style="color: var(--c-gold);">25,91%</strong>; Ensino Médio cai de <strong style="color: #F0457A;">50,06%</strong> para <strong style="color: #F0457A;">37,41%</strong>.</p>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px;">
+    <div data-reveal="1" style="flex: 2 1 560px; min-width: 0; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+        <div>
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Habilidades técnicas mais valorizadas</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Vagas em 2030 por habilidade emergente (em milhares)</span>
+        </div>
+        <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2);">Treemap</span>
+      </div>
+      <div id="containerHabilidadesTecnicas" style="margin-top: 18px; min-height: 240px;"></div>
+    </div>
+    <div data-reveal="1" style="flex: 1 1 320px; min-width: 0; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column;">
+      <div style="padding: 28px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-amber);">Prática em laboratório</span>
+        <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; margin-top: 8px;">Upskilling &amp; Automação Avançada</h4>
+        <p style="font-size: 14px; color: var(--text-2); line-height: 1.55; margin-top: 8px;">Treino prático em Visão Computacional, Engenharia de Prompt e Sistemas Autônomos, preparando os profissionais para o salto de titulação e protegendo contra o deslocamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador-carreira" data-screen-label="05 Simulador" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <div data-reveal="1" style="position: relative; border-radius: 32px; padding: clamp(28px, 4vw, 52px); background: radial-gradient(120% 80% at 100% 0%, rgba(203,29,78,0.22) 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, rgba(247,175,32,0.14) 0%, transparent 55%), #2A1B1E; border: 1px solid var(--line-2); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.5);">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--grad);"></div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: end; gap: 16px 48px; padding-bottom: 30px; border-bottom: 1px solid var(--line);">
+      <div style="min-width: 0;">
+        
+        <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance;">Onde investir os <span style="background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 400;">R$ 15 milhões</span></h2>
+      </div>
+      <p style="max-width: 460px; font-size: 16px; color: var(--text-2); line-height: 1.6; justify-self: end;">Simule ao vivo o retorno (ROI) e o payback de requalificar ocupações vulneráveis para trilhas de alto valor.</p>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 16px 36px; padding: 24px 28px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);">
+      <div style="flex: 0 1 280px;">
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-amber);">Resolução do debate estratégico</span>
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1.2; margin-top: 8px;">O caminho factual para o fundo de R$ 15M</h3>
+      </div>
+      <p style="flex: 1 1 420px; font-size: 15px; color: var(--text-2); line-height: 1.65;">Subsidiar pós-graduações genéricas de 2 anos (defesa do RH) expõe a empresa ao risco imediato. A requalificação ágil em microcredenciais (defesa do CDO) converte profissionais de alto risco em “Co-Pilotos IA” com <strong style="color: #FFFFFF;">payback inferior a 3 meses</strong> e mitigação de até 60% do risco de automação, garantindo a sobrevivência estrutural.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 18px; margin-top: 18px;">
+      <div style="padding: 28px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 18px;">
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Parâmetros da transição</h3>
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">Setor do cargo de origem
+          <select id="simSector" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; outline: none; cursor: pointer;">
+            
+          </select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">Cargo de origem
+          <select id="simCurrentJob" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; outline: none; cursor: pointer;">
+            
+          </select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">Trilha alvo recomendada
+          <select id="simTargetTrack" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; outline: none; cursor: pointer;">
+            
+          </select>
+          <span style="font-size: 12px; font-weight: 500; color: var(--text-3);">★ = recomendada: menor risco, mesmo setor e salto salarial realista.</span>
+        </label>
+        <div style="padding-top: 18px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px;">
+          <span style="font-size: 13px; font-weight: 700; color: #FFFFFF;">Premissas do fundo</span>
+          <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">
+            <span style="display: flex; justify-content: space-between; gap: 10px;"><span>Colaboradores nesta trilha</span><strong style="color: var(--c-gold); font-family: var(--font-mono);" id="simPeopleLabel">500</strong></span>
+            <input type="range" min="50" max="5000" step="50" id="simPeople" value="500" style="width: 100%; accent-color: #E07618; cursor: pointer;">
+          </label>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">Custo por pessoa (R$)
+              <input type="number" min="0" step="500" id="simCost" value="6000" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 12px; padding: 11px 14px; font-family: var(--font-mono); font-size: 14px; outline: none; min-width: 0;">
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-2);">Câmbio (R$/US$)
+              <input type="number" min="1" step="0.1" id="simFx" value="5.2" style="background: var(--bg-card-2); color: #FFFFFF; border: 1px solid var(--line-2); border-radius: 12px; padding: 11px 14px; font-family: var(--font-mono); font-size: 14px; outline: none; min-width: 0;">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 28px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Projeção de retorno &amp; mitigação</h3>
+          <span id="simTrackTitle" style="font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: rgba(247,175,32,0.1); border: 1px solid rgba(247,175,32,0.3); color: var(--c-gold);">—</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <div style="padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3);">Salário atual (origem)</span><span id="simOrigSalary" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 30px; letter-spacing: -0.02em; margin-top: 6px; color: var(--text-2);">—</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3);">Novo salário projetado</span><span id="simNewSalary" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 30px; letter-spacing: -0.02em; margin-top: 6px; color: var(--c-gold);">—</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3);">Ganho anual líquido</span><span id="simGainUsd" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 26px; letter-spacing: -0.02em; margin-top: 6px; color: #E07618;">—</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3);">Redução no risco de automação</span><span id="simRiskMitigation" style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 30px; letter-spacing: -0.02em; margin-top: 6px; color: var(--c-gold);">—</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);">
+          <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3);">Risco de automação até 2030</span>
+          <div style="display: grid; grid-template-columns: 70px minmax(0, 1fr) 44px; align-items: center; gap: 10px; font-size: 13px;"><span style="color: var(--text-2);">Origem</span><div style="height: 8px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden;"><div id="simOrigAutoBar" style="height: 100%; width: 0%; background: var(--grad-loss); border-radius: 99px; transition: width .5s;"></div></div><strong style="text-align: right; color: #F0457A; font-family: var(--font-mono);" id="simOrigAuto">—</strong></div>
+          <div style="display: grid; grid-template-columns: 70px minmax(0, 1fr) 44px; align-items: center; gap: 10px; font-size: 13px;"><span style="color: var(--text-2);">Alvo</span><div style="height: 8px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden;"><div id="simTgtAutoBar" style="height: 100%; width: 0%; background: var(--grad-gain); border-radius: 99px; transition: width .5s;"></div></div><strong style="text-align: right; color: var(--c-gold); font-family: var(--font-mono);" id="simTgtAuto">—</strong></div>
+        </div>
+        <div style="position: relative; height: 190px;"><canvas id="simChart"></canvas></div>
+        <div style="padding: 14px 18px; border-radius: 14px; border: 1px dashed var(--line-2);">
+          <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-amber);">Competências críticas desenvolvidas</span>
+          <div id="simSkillsList" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 18px;">
+      <div style="padding: 20px 22px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 12px; color: var(--text-3);">Investimento nesta trilha</span><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 32px; letter-spacing: -0.02em; margin-top: 4px;" id="simInvest">—</span></div>
+      <div style="padding: 20px 22px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 12px; color: var(--text-3);">Uso do fundo de R$ 15M</span><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 32px; letter-spacing: -0.02em; margin-top: 4px; color: #FFFFFF;" id="simFundPct">—</span><div style="height: 4px; border-radius: 99px; background: rgba(255,255,255,0.06); margin-top: 8px; overflow: hidden;"><div id="simFundBar" style="height: 100%; width: 0%; background: var(--grad);"></div></div></div>
+      <div style="padding: 20px 22px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 12px; color: var(--text-3);">Payback por colaborador</span><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 32px; letter-spacing: -0.02em; margin-top: 4px; color: var(--c-gold);" id="simPayback">—</span></div>
+      <div style="padding: 20px 22px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 12px; color: var(--text-3);">Ganho salarial agregado / ano</span><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 32px; letter-spacing: -0.02em; margin-top: 4px;" id="simAggGain">—</span></div>
+    </div>
+
+    <a class="hv10" href="bussola.html" style="margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px 32px; padding: 28px 32px; border-radius: 22px; background: linear-gradient(110deg, rgba(247,175,32,0.12) 0%, rgba(203,29,78,0.18) 55%, rgba(230,34,140,0.18) 100%); border: 1px solid rgba(230,34,140,0.32); color: #FFFFFF;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; flex: 1 1 520px;">
+        <img src="assets/logos/bussola-2030_horizontal_branco.svg" alt="Bússola 2030" style="height: 46px; width: auto;">
+        <div style="flex: 1 1 300px;">
+          <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em;">E você, onde está?</h4>
+          <p style="font-size: 15px; color: var(--text-2); margin-top: 4px;">Envie seu currículo e descubra seu risco até 2030.</p>
+        </div>
+      </div>
+      <span style="display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 999px; background: #FFFFFF; color: #1A0B06; font-size: 14px; font-weight: 700;">Abrir a Bússola 2030 <span>→</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- PLANO 15M -->
+<section id="plano-orcamento-15m" data-screen-label="06 Plano R$ 15M" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <div data-reveal="1" style="text-align: center; max-width: 860px; margin: 0 auto 40px;">
+    
+    <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance;">Quatro fases para transformar risco em vantagem</h2>
+    <p style="font-size: 17px; color: var(--text-2); line-height: 1.65; margin-top: 18px;">Roadmap estratégico e alocação do orçamento corporativo de <strong style="color: #FFFFFF;">R$ 15 milhões</strong>.</p>
+  </div>
+
+  <div data-reveal="1" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 18px 40px; padding: 28px 32px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); margin-bottom: 30px;">
+    <p style="font-size: 16px; line-height: 1.7; color: #FFFFFF;">A <strong>alocação estratégica do orçamento de R$ 15 milhões</strong> prepara a organização para a disrupção da IA, convertendo um risco de obsolescência em <strong style="color: var(--c-gold);">vantagem competitiva sustentável</strong>.</p>
+    <p style="font-size: 15px; line-height: 1.7; color: var(--text-2);">Em vez de pagar os altos custos de demissões em massa e recontratações, o plano estrutura a <strong style="color: #FFFFFF;">retenção e o desenvolvimento de capital humano em quatro fases integradas</strong>:</p>
+  </div>
+
+  <div style="position: relative;">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 80px; pointer-events: none;"><defs><linearGradient id="lnTl" x1="0" x2="1"><stop offset="0" stop-color="#F7AF20"></stop><stop offset=".35" stop-color="#E07618"></stop><stop offset=".7" stop-color="#CB1D4E"></stop><stop offset="1" stop-color="#951165"></stop></linearGradient></defs><path d="M0 40 C 120 10, 200 10, 300 40 S 480 70, 600 40 S 780 10, 900 40 S 1080 70, 1200 40" fill="none" stroke="url(#lnTl)" stroke-width="2"></path></svg>
+    <div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; padding-top: 28px;">
+      <div data-reveal="1" style="display: flex; flex-direction: column;">
+        <span style="width: 22px; height: 22px; border-radius: 50%; background: #241719; border: 2px solid var(--c-gold); box-shadow: 0 0 18px rgba(247,175,32,0.6); margin: 0 0 22px 26px;"></span>
+        <div style="flex: 1; padding: 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+          <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--c-gold);">FASE 01</span>
+          <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.2; margin-top: 8px;">Diagnóstico &amp; Mapeamento</h4>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; margin-top: 14px; color: var(--c-gold);">R$ 1,5M</span>
+          <span style="font-size: 13px; color: var(--text-3);">10% do orçamento • Meses 1-2 • Eficiência decisória</span>
+          <p style="font-size: 14px; color: var(--text-2); line-height: 1.55; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);"><strong style="color: #FFFFFF;">Censo de competências</strong> com 35 mil colaboradores e segmentação de riscos no Power BI, eliminando investimentos redundantes.</p>
+        </div>
+      </div>
+      <div data-reveal="1" style="display: flex; flex-direction: column;">
+        <span style="width: 22px; height: 22px; border-radius: 50%; background: #241719; border: 2px solid var(--c-amber); box-shadow: 0 0 18px rgba(224,118,24,0.6); margin: 0 0 22px 26px;"></span>
+        <div style="flex: 1; padding: 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+          <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--c-amber);">FASE 02 • FAST-TRACK</span>
+          <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.2; margin-top: 8px;">Trilhas de curta duração</h4>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; margin-top: 14px; color: var(--c-amber);">R$ 8,0M</span>
+          <span style="font-size: 13px; color: var(--text-3);">53% do orçamento • 4 semanas a 4 meses • Mitigação</span>
+          <p style="font-size: 14px; color: var(--text-2); line-height: 1.55; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);"><strong style="color: #FFFFFF;">Blindagem operacional (Grupo A)</strong> e aceleração de devs/analistas (Grupo B): Reskilling, Supervisão de IA e Liderança Ágil.</p>
+        </div>
+      </div>
+      <div data-reveal="1" style="display: flex; flex-direction: column;">
+        <span style="width: 22px; height: 22px; border-radius: 50%; background: #241719; border: 2px solid var(--c-crimson); box-shadow: 0 0 18px rgba(203,29,78,0.6); margin: 0 0 22px 26px;"></span>
+        <div style="flex: 1; padding: 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+          <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: #F0457A;">FASE 03 • DEEP-TECH</span>
+          <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.2; margin-top: 8px;">Trilhas de média/longa duração</h4>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; margin-top: 14px; color: #F0457A;">R$ 4,5M</span>
+          <span style="font-size: 13px; color: var(--text-3);">30% do orçamento • 6 a 14 meses • Inovação</span>
+          <p style="font-size: 14px; color: var(--text-2); line-height: 1.55; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);"><strong style="color: #FFFFFF;">Formação interna de ponta</strong>: especializações robustas em MLOps, Cibersegurança, Gêmeos Digitais e Modelagem Avançada.</p>
+        </div>
+      </div>
+      <div data-reveal="1" style="display: flex; flex-direction: column;">
+        <span style="width: 22px; height: 22px; border-radius: 50%; background: #241719; border: 2px solid var(--c-magenta); box-shadow: 0 0 18px rgba(230,34,140,0.6); margin: 0 0 22px 26px;"></span>
+        <div style="flex: 1; padding: 26px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--line);">
+          <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: #F27DBD;">FASE 04 • MOBILIDADE</span>
+          <h4 style="font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.2; margin-top: 8px;">Governança, Talent &amp; ROI</h4>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.03em; margin-top: 14px; color: #F27DBD;">R$ 1,0M</span>
+          <span style="font-size: 13px; color: var(--text-3);">7% do orçamento • Contínuo (Mês 3-18) • Governança</span>
+          <p style="font-size: 14px; color: var(--text-2); line-height: 1.55; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);"><strong style="color: #FFFFFF;">Internal Talent Marketplace</strong> e governança contínua via Power BI para reduzir atrito e sustentar o longo prazo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-reveal="1" style="margin-top: 30px; padding: 30px 32px; border-radius: 22px; background: linear-gradient(180deg, #33222A, #2A1B1E); border: 1px solid var(--line-2);">
+    <span style="display: block; text-align: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 22px;">ROI estimado • Retorno do investimento</span>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; text-align: center;">
+      <div><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 56px; letter-spacing: -0.04em; line-height: 1; background: var(--grad-gain); -webkit-background-clip: text; background-clip: text; color: transparent;">&gt;85%</span><span style="display: block; margin-top: 8px; font-size: 14px; color: var(--text-2); font-weight: 500;">Engajamento dos colaboradores</span></div>
+      <div><span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 56px; letter-spacing: -0.04em; line-height: 1; background: var(--grad-gain); -webkit-background-clip: text; background-clip: text; color: transparent;">-30%</span><span style="display: block; margin-top: 8px; font-size: 14px; color: var(--text-2); font-weight: 500;">Turnover voluntário</span></div>
+      <div><span style="display: block; font-family: var(--font-display); font-weight: 400; font-size: 26px; letter-spacing: -0.02em; line-height: 1.15; padding-top: 10px; color: var(--c-gold);">Redução direta de custos</span><span style="display: block; margin-top: 8px; font-size: 14px; color: var(--text-2); font-weight: 500;">com contratação externa e rescisões</span></div>
+    </div>
+  </div>
+
+  <div data-reveal="1" style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px 28px; padding: 24px 28px; border-radius: 20px; border: 1px solid rgba(247,175,32,0.25); background: rgba(247,175,32,0.05);">
+    <h4 style="flex: 0 0 auto; font-family: var(--font-display); font-weight: 400; font-size: 20px; color: var(--c-gold);">Próximos passos recomendados</h4>
+    <p style="flex: 1 1 480px; font-size: 15px; color: var(--text-2); line-height: 1.65;">Recomendamos a <strong style="color: #FFFFFF;">aprovação formal do cronograma orçamentário</strong> para começar já o <strong style="color: #FFFFFF;">Censo de Competências (Mês 1)</strong>, garantindo que a empresa esteja pronta para liderar a transição tecnológica com sustentabilidade financeira e excelência operacional.</p>
+  </div>
+</section>
+
+<!-- POWER BI -->
+<section id="painel-powerbi" data-screen-label="07 Power BI" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 20px;">
+  <div data-reveal="1" style="text-align: center; max-width: 820px; margin: 0 auto 40px;">
+    
+    <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.035em;">O que o dashboard <span style="font-weight: 400; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;">revela?</span></h2>
+    <p style="font-size: 17px; color: var(--text-2); line-height: 1.65; margin-top: 18px;">Panorama executivo, disrupção de carreiras, elevação de escolaridade (<em>Degree Escalation</em>) e simulação de impacto orçamentário, modelados no Power BI.</p>
+  </div>
+
+  <div data-reveal="1" style="position: relative; border-radius: 26px; padding: 1px; background: linear-gradient(160deg, rgba(247,175,32,0.5), rgba(255,255,255,0.06) 40%, rgba(230,34,140,0.45));">
+    <div id="pbiFrame" style="border-radius: 25px; background: #2A1B1E; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line);">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <svg width="22" height="22" viewBox="0 0 32 32"><rect x="4" y="16" width="6" height="12" rx="1.5" fill="#F7AF20"></rect><rect x="13" y="10" width="6" height="18" rx="1.5" fill="#E07618"></rect><rect x="22" y="4" width="6" height="24" rx="1.5" fill="#CB1D4E"></rect></svg>
+          <span style="font-size: 14px; font-weight: 600;">Power BI • Relatório Executivo Impacto da IA no Trabalho 2030</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: rgba(247,175,32,0.12); color: var(--c-gold); border: 1px solid rgba(247,175,32,0.3);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--c-gold); animation: pulseDot 1.6s ease-in-out infinite;"></span>Interativo</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="hv11" data-action="maximizePbi" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 10px; border: none; background: var(--c-amber); color: #FFFFFF; font-family: var(--font-sans); font-size: 12.5px; font-weight: 700; cursor: pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>Maximizar</button>
+          <a class="hv12" href="downloads/BI_Final_v2.pbix" download="" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line-2); color: #FFFFFF; font-size: 12.5px; font-weight: 600;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Baixar .PBIX</a>
+        </div>
+      </div>
+      <div style="position: relative; width: 100%; aspect-ratio: 16 / 9.6; min-height: 420px; flex: 1; background: #1C1113;">
+        <div id="pbiTabs" class="pbi-tabs"><button type="button" class="pbi-tab active" data-pbi="01-visao-geral">Visão geral</button><button type="button" class="pbi-tab" data-pbi="02-escolaridade">Escolaridade</button><button type="button" class="pbi-tab" data-pbi="03-matriz">Matriz de disrupção</button><button type="button" class="pbi-tab" data-pbi="04-exposicao">Exposição à IA</button><button type="button" class="pbi-tab" data-pbi="05-presencial-remoto">Presencial x remoto</button><button type="button" class="pbi-tab" data-pbi="06-simulador">Simulador</button><button type="button" class="pbi-tab pbi-live" data-action="pbiLive">● Abrir relatório interativo</button></div><img id="pbiShot" src="assets/pbi/01-visao-geral.png" alt="Print do dashboard Power BI" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#1C1113;padding:52px 8px 8px;"><iframe id="pbiIframe" title="Relatório Power BI — Impacto da IA no Trabalho 2030" data-src="https://app.powerbi.com/reportEmbed?reportId=799c9a93-bc89-4f5b-9754-1f4e22e6c983&amp;autoAuth=true&amp;ctid=6f9e3b1e-1809-444a-81d3-82d40a928812" allowfullscreen="true" style="display:none;position:absolute;inset:0;width:100%;height:100%;border:0;background:#FFFFFF;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px;">
+    <button class="hv13" data-action="maximizePbi" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 999px; border: none; background: var(--grad); color: #FFFFFF; font-family: var(--font-sans); font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 34px rgba(224,118,24,0.3);">Maximizar dashboard Power BI ↗</button>
+    <a class="hv14" href="downloads/BI_Final_v2.pbix" download="" style="display: inline-flex; align-items: center; gap: 8px; padding: 15px 26px; border-radius: 999px; border: 1px solid var(--line-2); color: #FFFFFF; font-size: 14px; font-weight: 600;">Baixar .PBIX</a>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe" data-screen-label="09 Equipe" style="position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 24px 100px;">
+  <div data-reveal="1" style="text-align: center; max-width: 760px; margin: 0 auto 40px;">
+    
+    <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.035em;">Quem fez a pesquisa</h2>
+    <p style="font-size: 17px; color: var(--text-2); line-height: 1.65; margin-top: 18px;">Responsáveis pelo estudo empírico, engenharia de dados, pipelines analíticos e modelagem no Power BI.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px;">
+    
+      <div class="hv15" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Lucas Costa" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDzS_pfo4Qtlzov9wh_r_X0lY_fY-_NhaRudJJT3rrmSes-W5kWuUnb5iODDAFupctRM5CSJ9kxMcbA69MvaAV0fu97vY9TIfsyGWZQEu64qok4T93dyfS3dlJRmlei7pNqCc0e7902QiDjdAoMJmEtVgrJDUjx2kd0nFxSiMd72KPMZAhBMkvjnGz6IhzBohtIJemowO_ZMFFtQf2oMcR1lVJ4V36lDlY2SnZkbq-6-JqyiQRpY98&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Lucas Costa</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv16" href="https://www.linkedin.com/in/lucascostafe/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv17" href="https://github.com/costasantafe-lgtm" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="hv18" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Laura Coelho" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDtrhlynNKW8DGplZoeL5KSO8YSXLuPClHfpc5ebgzrcrIrMP2Dlhz81lBKwr9qA21ceTdgiaOXaZaB-rGN1XN_0OTVlXayzM9sE6fnaSUpzwhuyCJmRSgfR_4NHhMjnqLeJ7i_piAHzzgGpBXrUnqNhAN2HYK6Ert-KWBuMvw7pA5aqoiciDwGYGNXKJsUNOxuvrt6Fg3JapesAevY-Hys6ob1JFlHBm1uZt3bBkYnVDxpJbOX9P4&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Laura Coelho</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv19" href="https://www.linkedin.com/in/coelhoaura/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv20" href="https://github.com/coelhoaura" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="hv21" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Eduardo Barreto" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCAaBkRyb-vzH4Al3OFtHrScs8DDr-Q6i1NwAbaDcfdztqKg5R9aVGgSHN78zu2SWnfTyfq26kInNz_dYYfxw7uolRFVP0KpmEKaUMM9Vg1otvc0kCDToLh9WtvEB69IhxVI8cQ9FO8EegIMk8oYHPI3mDrmZuAm48i7qUZPLjtRliH-dDWprEo_KI_6Q7xN37u_dsAfnJjqQNZjt0Sxy6xgUBy4tE27auABsMx_sc8tV6Jd48JJEU&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Eduardo Barreto</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv22" href="https://www.linkedin.com/in/eduardo-bbbarreto/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv23" href="https://github.com/VieiraEduardo" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="hv24" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Anderson Torres" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCDtIcZ_3LncKrtVzvSVMEUzDszmoyIGNu_8Qw8fkAuyzS-Bs2WcDeitFR8KeNnffLLHR8tasVaF0LuHgQkW5ByRuRS3pV4MpNp7tFRG_Q-rgmGXgrFghPanXK1-Q7CFOwIoR7FpkaQWxhXGvAhGbna0DbbrV8YgoZeHn6G1xu5xdArSaFRCEp8aldurBGgpUTbT-Sq_Gx7lR3LMypIbs3jscW6hkzFUeI0U5_OB8Gn_qe30KT4ziY&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Anderson Torres</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv25" href="https://www.linkedin.com/in/anderson-torres-s/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv26" href="https://github.com/torres970823-cyber" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="hv27" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Victor Rosa" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBsE2iwIw-IotGe7tdmgCTSIrx2wffcYRyaOCv0DhFZyAE630yNWpkIeyVJryym2o9B_RoUeYtkcYydJDpwomTv2sP3sFGlPdfOx1Rsdgw4i-aebYavSqWEcmk0EsXt6sWVAAs7NrR3AjBL9eshSp7jaaUbP6cUpl7VanGKMtA-FoWpd9CubrWIsNRW5MvzP_X_vdv-XccQEgVctJjigJwE4H5DWvIhy3Fgep8tvqzfGgirNr2eG_Y&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Victor Rosa</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv28" href="https://www.linkedin.com/in/victor-rosa-ribeiro-ab6306172/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv29" href="https://github.com/PaiRosa" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="hv30" data-reveal="1" style="display: flex; align-items: center; gap: 18px; padding: 22px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+        <div style="flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%; padding: 2px; background: var(--grad);">
+          <div role="img" aria-label="Lucas Artoni" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #2F1F22; background-color: #3A272B; background-size: cover; background-position: center; background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuACFN97x9Bo4EZniK193oTDE7MSwXv2u8LeZkbe4Sbx1i6jIbav37FMGg_nb1seFozJ1ZtMACj1xWQdZmhDY3Cs8D6jaKxFTg0VzMj2OEV51wxmLf8IfwsDqhkeTv8-jbhQ9ioisBTOb5FW8rausImn6r5PHPFhB5-KkUxjAQNGNGxCggqLMj_opXoPmq74P9CrcQJ_5oAxMBBW78Y4imimrF0VO55z0my-ED8wm-HeWWKd4otwna4&quot;);"></div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Lucas Artoni</h3>
+          <span style="font-size: 13px; color: var(--text-3);">Data &amp; Analytics Specialist</span>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <a class="hv31" href="https://www.linkedin.com/in/lucas-artoni-alves-a843bb222/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>LinkedIn</a>
+            <a class="hv32" href="https://github.com/LucasArtoni1983" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; font-weight: 600; color: #FFFFFF;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer data-screen-label="10 Footer" style="position: relative; border-top: 1px solid var(--line); background: #1E1315; overflow: hidden;">
+  <div style="position: absolute; left: 50%; top: -1px; transform: translateX(-50%); width: 60%; height: 1px; background: var(--grad);"></div>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 56px 24px 36px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px 60px;">
+    <div style="flex: 1 1 320px; max-width: 420px;">
+      <img src="assets/logos/prisma-insights_horizontal_branco.svg" alt="Prisma Insights" style="height: 44px; width: auto;">
+      <p style="font-family: var(--font-display); font-weight: 300; font-size: 22px; margin-top: 18px;">Uma pesquisa Prisma Insights</p>
+      <p style="font-size: 14px; color: var(--text-3); margin-top: 8px; line-height: 1.6;">Disrupção de carreiras, elevação de escolaridade e IA aplicada ao mercado de trabalho até 2030.</p>
+    </div>
+    <nav style="display: grid; grid-template-columns: repeat(2, minmax(140px, auto)); gap: 10px 40px; font-size: 14px; align-content: start;">
+      <a class="hv33" href="#visao-geral" style="color: var(--text-2);">Visão Geral</a>
+      <a class="hv34" href="#simulador-carreira" style="color: var(--text-2);">Simulador</a>
+      <a class="hv35" href="#analise-bi" style="color: var(--text-2);">Matriz BI</a>
+      <a class="hv36" href="#plano-orcamento-15m" style="color: var(--text-2);">Plano R$ 15M</a>
+      <a class="hv37" href="#painel-degree-escalation" style="color: var(--text-2);">Mais Estudo</a>
+      <a class="hv38" href="bussola.html" style="color: var(--text-2);">Bússola 2030</a>
+      <a class="hv39" href="#painel-powerbi" style="color: var(--text-2);">Painel Power BI</a>
+      <a class="hv40" href="#equipe" style="color: var(--text-2);">Equipe</a>
+    </nav>
+  </div>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 20px 24px 30px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text-3);">© 2026 Prisma Insights • Impacto da IA no Trabalho 2030 • Relatório Executivo &amp; Power BI</div>
+</footer>
+
+<!-- MODAL ENGENHARIA & SQL -->
+<div id="codeModal" data-action="codeBackdrop" style="display: none; position: fixed; inset: 0; z-index: 450; background: rgba(8,4,4,0.86); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 24px;">
+  <div style="position: relative; width: 100%; max-width: 1160px; max-height: 90vh; overflow-y: auto; border-radius: 26px; background: #2A1B1E; border: 1px solid var(--line-2); padding: clamp(24px, 4vw, 40px);">
+    <button data-action="closeCode" aria-label="Fechar" style="position: absolute; top: 16px; right: 18px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: #FFFFFF; font-size: 18px; cursor: pointer;">×</button>
+    <section id="engenharia-sql">
+      
+      <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(30px, 4vw, 44px); letter-spacing: -0.03em; line-height: 1.1;">Arquitetura de Dados: SQL &amp; Métricas DAX</h2>
+      <p style="font-size: 15px; color: var(--text-2); line-height: 1.6; margin-top: 10px; max-width: 820px;">Documentação técnica da ingestão, tratamento (Star Schema) e funções analíticas exigidas na rubrica de avaliação da Prisma Insights.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 16px; margin-top: 26px;">
+        <div style="border-radius: 18px; background: #1C1113; border: 1px solid var(--line); overflow: hidden; min-width: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+            <div><h3 style="font-size: 15px; font-weight: 600;">Consultas analíticas avançadas (SQL)</h3><span style="font-size: 12px; color: var(--text-3);">Window Functions, CTEs e NTILE • SQLite/PostgreSQL</span></div>
+            <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: rgba(247,175,32,0.12); color: var(--c-gold);">Query Engine</span>
+          </div>
+          <div style="height: 380px; overflow: auto; padding: 16px 20px;"><pre style="margin:0;font-family:var(--font-mono);font-size:12.5px;line-height:1.65;color:#E8DCD8;white-space:pre"><span style="color:#B59D97;font-style:italic">-- Desafio 1: Diagnostico de Elevacao de Escolaridade</span>
+<span style="color:#F7AF20">WITH</span> Vagas_Escaladas <span style="color:#F7AF20">AS</span> (
+  <span style="color:#F7AF20">SELECT</span>
+    s.industry,
+    <span style="color:#F08A3C">COUNT</span>(f.job_record_id) <span style="color:#F7AF20">AS</span> total_vagas_escaladas
+  <span style="color:#F7AF20">FROM</span> fato_ai_job_impact f
+  <span style="color:#F7AF20">JOIN</span> dim_setor s <span style="color:#F7AF20">ON</span> f.setor_id = s.setor_id
+  <span style="color:#F7AF20">WHERE</span> f.education_shift_type = <span style="color:#F27DBD">&#x27;Exigencia Elevada (Upgraded)&#x27;</span>
+  <span style="color:#F7AF20">GROUP BY</span> s.industry
+)
+<span style="color:#F7AF20">SELECT</span>
+  v.industry,
+  v.total_vagas_escaladas,
+  <span style="color:#F08A3C">SUM</span>(v.total_vagas_escaladas) <span style="color:#F7AF20">OVER</span> () <span style="color:#F7AF20">AS</span> total_geral,
+  <span style="color:#F08A3C">ROUND</span>(v.total_vagas_escaladas * 100.0 / <span style="color:#F08A3C">SUM</span>(v.total_vagas_escaladas) <span style="color:#F7AF20">OVER</span> (), 2) <span style="color:#F7AF20">AS</span> pct_representatividade
+<span style="color:#F7AF20">FROM</span> Vagas_Escaladas v
+<span style="color:#F7AF20">ORDER BY</span> pct_representatividade <span style="color:#F7AF20">DESC</span>;
+
+<span style="color:#B59D97;font-style:italic">-- Desafio 2 &amp; 3: Ranking e Quartis (NTILE) de Exposicao IA</span>
+<span style="color:#F7AF20">SELECT</span>
+  c.job_title,
+  f.salary_growth_pct,
+  <span style="color:#F08A3C">NTILE</span>(4) <span style="color:#F7AF20">OVER</span> (<span style="color:#F7AF20">ORDER BY</span> f.ai_exposure_index <span style="color:#F7AF20">DESC</span>) <span style="color:#F7AF20">AS</span> exposure_quartile,
+  <span style="color:#F08A3C">ROW_NUMBER</span>() <span style="color:#F7AF20">OVER</span> (<span style="color:#F7AF20">ORDER BY</span> f.salary_growth_pct <span style="color:#F7AF20">DESC</span>) <span style="color:#F7AF20">AS</span> rank_vencedores
+<span style="color:#F7AF20">FROM</span> fato_ai_job_impact f
+<span style="color:#F7AF20">JOIN</span> dim_cargo c <span style="color:#F7AF20">ON</span> f.cargo_id = c.cargo_id;</pre></div>
+        </div>
+        <div style="border-radius: 18px; background: #1C1113; border: 1px solid var(--line); overflow: hidden; min-width: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--line);">
+            <div><h3 style="font-size: 15px; font-weight: 600;">Modelagem semântica &amp; DAX (Power BI)</h3><span style="font-size: 12px; color: var(--text-3);">Measure branching e formatação condicional dinâmica</span></div>
+            <span style="flex-shrink: 0; font-family: var(--font-mono); font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: rgba(230,34,140,0.14); color: #F27DBD;">DAX Measures</span>
+          </div>
+          <div style="height: 380px; overflow: auto; padding: 16px 20px;"><pre style="margin:0;font-family:var(--font-mono);font-size:12.5px;line-height:1.65;color:#E8DCD8;white-space:pre"><span style="color:#B59D97;font-style:italic">// Medida 1: Saldo Liquido de Vagas (Volume)</span>
+<span style="color:#FFFFFF;font-weight:600">Saldo_Vagas_Liquido_k =</span>
+<span style="color:#F08A3C">SUM</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Job_Volume_2030_k]) -
+<span style="color:#F08A3C">SUM</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Job_Volume_Pre_AI_k])
+
+<span style="color:#B59D97;font-style:italic">// Medida 2: Variacao Salarial Percentual</span>
+<span style="color:#FFFFFF;font-weight:600">Variacao_Salarial_% =</span>
+<span style="color:#F08A3C">DIVIDE</span>(
+    <span style="color:#F08A3C">AVERAGE</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Salary_Post_AI_USD]) -
+    <span style="color:#F08A3C">AVERAGE</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Salary_Pre_AI_USD]),
+    <span style="color:#F08A3C">AVERAGE</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Salary_Pre_AI_USD]),
+    0
+)
+
+<span style="color:#B59D97;font-style:italic">// Medida 3: Taxa de Elevacao de Escolaridade (Degree Escalation)</span>
+<span style="color:#FFFFFF;font-weight:600">Taxa_Elevacao_Escolaridade =</span>
+<span style="color:#F08A3C">DIVIDE</span>(
+    <span style="color:#F08A3C">CALCULATE</span>(
+        <span style="color:#F08A3C">COUNTROWS</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>),
+        <span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>[Education_Shift_Type] = <span style="color:#F27DBD">&quot;Exigencia Elevada (Upgraded)&quot;</span>
+    ),
+    <span style="color:#F08A3C">COUNTROWS</span>(<span style="color:#F27DBD">&#x27;fato_ai_job_impact&#x27;</span>),
+    0
+)
+
+<span style="color:#B59D97;font-style:italic">// Medida 4: Formatacao Condicional Dinamica (Cores)</span>
+<span style="color:#FFFFFF;font-weight:600">Cor_Variacao_Salarial =</span>
+<span style="color:#F08A3C">SWITCH</span>(
+    <span style="color:#F7AF20">TRUE</span>(),
+    [Variacao_Salarial_%] &gt; 0.15, <span style="color:#F27DBD">&quot;#10B981&quot;</span>,
+    [Variacao_Salarial_%] &gt;= 0, <span style="color:#F27DBD">&quot;#0EA5E9&quot;</span>,
+    <span style="color:#F27DBD">&quot;#EF4444&quot;</span>
+)</pre></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!-- MODO APRESENTAÇÃO (deck com roteiro da banca) -->
+<div id="presentationModal" class="presentation-modal" aria-hidden="true">
+  <div class="modal-deck-header">
+    <div class="deck-head-left">
+      <img src="assets/logos/prisma-insights_icone_branco.svg" alt="" class="deck-logo">
+      <div>
+        <span id="slideCategoryPill" class="deck-category-pill">01 / 09</span>
+        <h4 id="slideHeaderTitle" class="deck-head-title">Impacto da IA no Trabalho 2030</h4>
+        <span id="slideHeaderSub" class="deck-head-sub"></span>
+      </div>
+    </div>
+    <div id="deckStepDots" class="deck-step-dots"></div>
+    <div class="deck-head-right">
+      <button id="btnToggleFullscreen" class="btn-ghost-nav" title="Tela cheia (F)">⛶ Tela cheia</button>
+      <span id="slideCounter" class="deck-counter">1 / 9</span>
+      <button id="btnClosePresentation" class="btn-ghost-nav" title="Fechar (Esc)">✕ Fechar</button>
+    </div>
+  </div>
+  <div class="deck-progress-line"><div id="slideProgressFill" class="deck-progress-fill" style="width: 11.1%;"></div></div>
+  <div class="modal-deck-body"><div id="presentationContent" class="deck-slide-card"></div></div>
+  <div class="speaker-notes-bar">
+    <div class="speaker-notes-text">
+      <span class="speaker-notes-label">Roteiro da banca</span>
+      <p id="speakerNoteText"></p>
+    </div>
+    <div class="speaker-notes-nav">
+      <button id="btnPrevSlide" class="btn-ghost-nav">&larr; Anterior</button>
+      <button id="btnNextSlide" class="btn-glow-primary">Próximo &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts originais do projeto (dados, gráficos, simulador, apresentação) -->
+<script src="vendor/chart.umd.js"></script>
+<script src="js/data.js?v=2"></script>
+<script src="js/sql-engine.js?v=2"></script>
+<script src="js/charts.js?v=2"></script>
+<script src="js/simulator.js?v=2"></script>
+<script src="js/presentation.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
+<script src="js/site.js?v=2"></script>
+</body>
+</html>

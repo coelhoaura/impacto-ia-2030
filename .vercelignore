@@ -1,0 +1,5 @@
+backend/**/__pycache__
+*.pyc
+servidor_local.py
+INICIAR_LOCAL.bat
+COMO_PUBLICAR_NA_VERCEL.md

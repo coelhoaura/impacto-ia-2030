@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/logos/bussola-2030_icone_colorido.svg">
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="vendor/support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<title>Bússola 2030 • Prisma Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<script src="vendor/chart.umd.js"></script>
+<style>
+:root{
+  --c-gold:#F7AF20;--c-amber:#E07618;--c-terracotta:#D83C15;--c-crimson:#CB1D4E;--c-magenta:#E6228C;--c-wine:#951165;--c-maroon:#780D34;--c-espresso:#580704;--c-white:#FFFFFF;
+  --bg:#241719;--bg-2:#2A1B1E;--bg-card:#2F1F22;--bg-card-2:#3A272B;--line:rgba(255,255,255,0.12);--line-2:rgba(255,255,255,0.2);
+  --text:#FFFFFF;--text-2:#E8DCD8;--text-3:#C3B1AC;
+  --grad:linear-gradient(90deg,#F7AF20 0%,#E07618 35%,#CB1D4E 70%,#E6228C 100%);
+  --grad-gain:linear-gradient(90deg,#F7AF20,#E07618);--grad-loss:linear-gradient(90deg,#CB1D4E,#951165);
+  --font-display:'Outfit',system-ui,sans-serif;--font-sans:'Plus Jakarta Sans',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h, 64px) + 96px)}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--c-gold);text-decoration:none}a:hover{color:#FFFFFF}
+select option{background:#3A272B;color:#FFFFFF}
+textarea::placeholder,input::placeholder{color:#A6938E}
+@keyframes spin{to{transform:rotate(360deg)}}
+::selection{background:rgba(230,34,140,.35)}
+@keyframes glowBreath{0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.04)}}
+@keyframes auroraDrift{0%,100%{transform:translate(-50%,0) rotate(0deg)}50%{transform:translate(-48%,-14px) rotate(4deg)}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+</helmet>
+
+<header id="siteHeader" data-screen-label="00 Header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(36,23,25,0.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line);">
+  <div style="max-width: 1400px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px;">
+    <a href="index.html#visao-geral" style="display: flex; align-items: center; flex-shrink: 0; order: 1;"><img src="assets/logos/prisma-insights_horizontal_branco.svg" alt="Prisma Insights" style="height: 34px; width: auto; display: block;"></a>
+    <nav style="flex: 1 1 {{ navBasis }}; min-width: 0; order: {{ navOrder }}; overflow-x: auto; scrollbar-width: none;">
+      <ul style="list-style: none; display: flex; align-items: center; gap: 0; justify-content: center; white-space: nowrap; min-width: max-content; margin: 0 auto;">
+        <li><a href="index.html#visao-geral" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Visão Geral</a></li>
+        <li><a href="index.html#analise-bi" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Matriz BI</a></li>
+        <li><a href="index.html#painel-degree-escalation" title="Degree Escalation" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Mais Estudo</a></li>
+        <li><a href="index.html#painel-powerbi" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Painel Power BI</a></li>
+        
+        <li><a href="index.html#simulador-carreira" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Simulador</a></li>
+        <li><a href="index.html#plano-orcamento-15m" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Plano R$ 15M</a></li>
+        <li><a href="index.html#equipe" style="display: block; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--text-2);" style-hover="color: #FFFFFF; background: rgba(255,255,255,0.06);">Equipe</a></li>
+      </ul>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap; order: 3;">
+      
+      <a href="#bussola" style="display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 10px; border-radius: 999px; background: linear-gradient(100deg,#E07618 0%,#CB1D4E 60%,#E6228C 100%); color: #FFFFFF; font-size: 13px; font-weight: 700; box-shadow: 0 6px 24px rgba(203,29,78,0.35);" style-hover="color: #FFFFFF; filter: brightness(1.1);">
+        <img src="assets/logos/bussola-2030_icone_branco.svg" alt="" style="width: 22px; height: 22px;">
+        <span>Bússola 2030</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main style="position: relative; overflow-x: clip;">
+<!-- BÚSSOLA 2030 -->
+<div id="bussola" data-screen-label="08 Bússola 2030" style="position: relative;">
+<section data-screen-label="08a Bússola Hero" style="position: relative; padding: 160px 24px 60px; text-align: center; isolation: isolate;">
+  <div aria-hidden="true" style="position: absolute; left: 50%; top: 40px; transform: translateX(-50%); width: 1000px; max-width: 140vw; height: 620px; border-radius: 50%; background: radial-gradient(closest-side, rgba(230,34,140,0.22), rgba(224,118,24,0.14) 50%, transparent 78%); filter: blur(30px); z-index: -1; animation: glowBreath 10s ease-in-out infinite;"></div>
+  <div style="max-width: 960px; margin: 0 auto;">
+    <img src="assets/logos/bussola-2030_horizontal_branco.svg" alt="Bússola 2030" style="height: 64px; width: auto; display: block; margin: 0 auto;">
+    <span style="display: block; margin-top: 14px; font-size: 13px; color: var(--text-3);">Um produto Prisma Insights</span>
+    <h1 style="font-family: var(--font-display); font-weight: 200; font-size: clamp(42px, 6.4vw, 84px); line-height: 1.02; letter-spacing: -0.045em; margin-top: 30px; text-wrap: balance;">Descubra como a IA vai afetar a sua <span style="font-weight: 400; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;">carreira até 2030.</span></h1>
+    <p style="font-size: 18px; color: var(--text-2); max-width: 620px; margin: 22px auto 0; line-height: 1.6; text-wrap: pretty;">Envie seu currículo e receba, em segundos, seu risco de automação, um plano de estudo e os próximos passos.</p>
+  </div>
+</section>
+
+<section data-screen-label="08b Entrada" style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 18px;">
+    <div style="padding: 28px; border-radius: 24px; background: var(--bg-card); border: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+      <div style="display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); align-self: flex-start;">
+        <button onClick="{{ tabUpload }}" style="padding: 9px 16px; border-radius: 10px; border: none; background: {{ ui.tabUpBg }}; color: {{ ui.tabUpColor }}; font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer;">Enviar arquivo</button>
+        <button onClick="{{ tabText }}" style="padding: 9px 16px; border-radius: 10px; border: none; background: {{ ui.tabTxBg }}; color: {{ ui.tabTxColor }}; font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer;">Colar texto</button>
+      </div>
+
+      <sc-if value="{{ ui.isUpload }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ pickFile }}" onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 210px; padding: 28px; border-radius: 18px; border: 1.5px dashed {{ ui.dropBorder }}; background: {{ ui.dropBg }}; text-align: center; transition: all .2s;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F7AF20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 12 15 15"></polyline></svg>
+          <span style="font-family: var(--font-display); font-size: 20px; font-weight: 400;">{{ ui.dropTitle }}</span>
+          <span style="font-size: 13.5px; color: var(--text-3);">PDF, DOCX ou TXT • ou clique para escolher</span>
+          <input ref="{{ fileRef }}" type="file" accept=".pdf,.docx,.txt" onChange="{{ onFileInput }}" style="display: none;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ ui.isText }}" hint-placeholder-val="{{ false }}">
+        <textarea value="{{ form.text }}" onChange="{{ onText }}" placeholder="Cole aqui o texto do seu currículo: experiências, cargos, ferramentas e responsabilidades…" style="min-height: 210px; resize: vertical; padding: 16px 18px; border-radius: 18px; border: 1px solid var(--line-2); background: var(--bg-card-2); color: #FFFFFF; font-family: var(--font-sans); font-size: 14.5px; line-height: 1.6; outline: none;"></textarea>
+      </sc-if>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 13px; font-weight: 600; color: var(--text-2);">Cargo <span style="font-weight: 400; color: var(--text-3); font-size: 12px; margin-top: -6px;">opcional</span>
+          <input type="text" value="{{ form.cargo }}" onChange="{{ onCargo }}" placeholder="Ex.: Analista Financeiro" style="padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--bg-card-2); color: #FFFFFF; font-family: var(--font-sans); font-size: 14px; outline: none; min-width: 0;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 13px; font-weight: 600; color: var(--text-2);">Anos de experiência <span style="font-weight: 400; color: var(--text-3); font-size: 12px; margin-top: -6px;">opcional</span>
+          <input type="number" min="0" max="50" value="{{ form.anos }}" onChange="{{ onAnos }}" placeholder="Ex.: 5" style="padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--bg-card-2); color: #FFFFFF; font-family: var(--font-sans); font-size: 14px; outline: none; min-width: 0;">
+        </label>
+      </div>
+
+      <div>
+        <span style="font-size: 13px; font-weight: 600; color: var(--text-2);">Ou teste com um perfil pronto</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+          <sc-for list="{{ presets }}" as="p" hint-placeholder-count="8">
+            <button onClick="{{ p.onClick }}" style="padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,0.03); color: #FFFFFF; font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; cursor: pointer;" style-hover="border-color: rgba(247,175,32,0.55); background: rgba(247,175,32,0.08);">{{ p.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding-top: 18px; border-top: 1px solid var(--line);">
+        <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text-2);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F7AF20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+          Seus dados pessoais são mascarados antes da análise (LGPD)
+        </span>
+        <button onClick="{{ analyze }}" disabled="{{ ui.busy }}" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px; border: none; background: var(--grad); color: #FFFFFF; font-family: var(--font-sans); font-size: 14.5px; font-weight: 700; cursor: pointer; opacity: {{ ui.btnOpacity }}; box-shadow: 0 10px 30px rgba(203,29,78,0.3);">{{ ui.btnLabel }} <span>→</span></button>
+      </div>
+      <sc-if value="{{ ui.error }}" hint-placeholder-val="{{ false }}">
+        <p style="font-size: 13.5px; color: #F0457A; padding: 12px 14px; border-radius: 12px; background: rgba(203,29,78,0.1); border: 1px solid rgba(203,29,78,0.3);">{{ ui.error }}</p>
+      </sc-if>
+    </div>
+
+    <div style="padding: 28px; border-radius: 24px; background: linear-gradient(180deg, #2F1F22, #2A1B1E); border: 1px solid var(--line); min-width: 0;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px;">
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 22px;">Como a análise funciona</h3>
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--c-gold);">{{ ui.stepLabel }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; margin-top: 22px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+          <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; opacity: {{ st.opacity }}; transition: opacity .4s;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <span style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; font-weight: 500; background: {{ st.bg }}; border: 1.5px solid {{ st.border }}; color: {{ st.color }}; transition: all .4s;">{{ st.mark }}</span>
+              <span style="flex: 1; width: 1.5px; min-height: 18px; background: {{ st.line }};"></span>
+            </div>
+            <div style="padding: 8px 0 22px;">
+              <span style="font-size: 15px; font-weight: 600; color: #FFFFFF;">{{ st.title }}</span>
+              <p style="font-size: 13.5px; color: var(--text-3); line-height: 1.5; margin-top: 2px;">{{ st.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="resultado" data-screen-label="08c Resultado" style="max-width: 1280px; margin: 0 auto; padding: 110px 24px 40px;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: 30px;">
+    <div>
+      <sc-if value="{{ ui.isSample }}" hint-placeholder-val="{{ true }}">
+        <span style="display: inline-block; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: rgba(247,175,32,0.12); border: 1px solid rgba(247,175,32,0.3); color: var(--c-gold); margin-bottom: 14px;">Exemplo de resultado</span>
+      </sc-if>
+      <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.035em;">Seu diagnóstico 2030</h2>
+    </div>
+    <button onClick="{{ download }}" style="display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,0.03); color: #FFFFFF; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: rgba(255,255,255,0.08);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Baixar dossiê</button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px;">
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <span style="align-self: flex-start; font-size: 13px; color: var(--text-3);">Score de prontidão 2030</span>
+      <div style="position: relative; width: 200px; height: 200px; margin-top: 14px;">
+        <svg viewBox="0 0 200 200" width="200" height="200" style="transform: rotate(-90deg);">
+          <defs><linearGradient id="gaugeG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7AF20"></stop><stop offset=".5" stop-color="#E07618"></stop><stop offset="1" stop-color="#E6228C"></stop></linearGradient></defs>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"></circle>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="url(#gaugeG)" stroke-width="14" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="{{ r.gaugeOffset }}" style="transition: stroke-dashoffset 1.2s cubic-bezier(.16,1,.3,1);"></circle>
+        </svg>
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-family: var(--font-display); font-weight: 300; font-size: 64px; letter-spacing: -0.04em; line-height: 1;">{{ r.score }}</span>
+          <span style="font-size: 12px; color: var(--text-3);">de 100</span>
+        </div>
+      </div>
+      <span style="margin-top: 16px; font-family: var(--font-display); font-weight: 400; font-size: 24px; color: {{ r.classColor }};">{{ r.classificacao }}</span>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; width: 100%; margin-top: 16px;">
+        <sc-for list="{{ r.scale }}" as="sc" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="height: 5px; border-radius: 99px; background: {{ sc.bg }};"></span>
+            <span style="font-size: 10.5px; line-height: 1.25; color: {{ sc.color }};">{{ sc.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px;">
+      <span style="font-size: 13px; color: var(--text-3);">Perfil</span>
+      <div>
+        <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em;">{{ r.profissao }}</h3>
+        <span style="font-size: 14px; color: var(--text-2);">{{ r.area }}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+        <div style="padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11.5px; color: var(--text-3);">Senioridade</span><span style="display: block; font-size: 16px; font-weight: 600;">{{ r.senioridade }}</span></div>
+        <div style="padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);"><span style="font-size: 11.5px; color: var(--text-3);">Experiência</span><span style="display: block; font-size: 16px; font-weight: 600;">{{ r.anosLabel }}</span></div>
+      </div>
+      <div style="margin-top: auto;">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span style="color: #F0457A; font-weight: 600;">{{ r.rotinaLabel }}</span><span style="color: var(--c-gold); font-weight: 600;">{{ r.estrategicaLabel }}</span></div>
+        <div style="display: flex; height: 10px; border-radius: 99px; overflow: hidden; gap: 3px;">
+          <span style="width: {{ r.rotinaW }}; background: var(--grad-loss); transition: width .8s;"></span>
+          <span style="flex: 1; background: var(--grad-gain);"></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px;">
+      <span style="font-size: 13px; color: var(--text-3);">Projeção até 2030</span>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; flex: 1;">
+        <div style="padding: 18px; border-radius: 16px; background: linear-gradient(160deg, rgba(203,29,78,0.22), rgba(149,17,101,0.08)); border: 1px solid rgba(203,29,78,0.3);">
+          <span style="font-size: 12px; color: var(--text-2);">Risco de automação</span>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 46px; letter-spacing: -0.03em; line-height: 1.1; margin-top: 6px;">{{ r.riscoLabel }}</span>
+          <span style="display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.25); color: #FF8AAE;">{{ r.nivel_risco }}</span>
+        </div>
+        <div style="padding: 18px; border-radius: 16px; background: linear-gradient(160deg, rgba(247,175,32,0.18), rgba(224,118,24,0.06)); border: 1px solid rgba(247,175,32,0.3);">
+          <span style="font-size: 12px; color: var(--text-2);">Ganho com IA</span>
+          <span style="display: block; font-family: var(--font-display); font-weight: 300; font-size: 46px; letter-spacing: -0.03em; line-height: 1.1; margin-top: 6px; color: var(--c-gold);">{{ r.ganhoLabel }}</span>
+          <span style="display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.25); color: var(--c-gold);">{{ r.multLabel }} produtividade</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 18px; margin-top: 18px;">
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); min-width: 0;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Radar de competências 2030</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Seu nível atual vs. o exigido em 2030</span>
+      <div style="position: relative; height: 360px; margin-top: 10px;"><canvas id="chartRadar"></canvas></div>
+    </div>
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line); min-width: 0; display: flex; flex-direction: column;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Maiores lacunas</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Distância até o nível exigido em 2030</span>
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 22px;">
+        <sc-for list="{{ r.gaps }}" as="g" hint-placeholder-count="6">
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; margin-bottom: 6px;"><span style="font-weight: 600;">{{ g.label }}</span><span style="font-family: var(--font-mono); color: {{ g.color }};">{{ g.text }}</span></div>
+            <div style="position: relative; height: 8px; border-radius: 99px; background: rgba(255,255,255,0.06);">
+              <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ g.needW }}; border-radius: 99px; background: rgba(247,175,32,0.18); border: 1px dashed rgba(247,175,32,0.5);"></span>
+              <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ g.nowW }}; border-radius: 99px; background: var(--grad);"></span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 18px; margin-top: 18px;">
+    <div style="padding: 28px; border-radius: 22px; background: linear-gradient(180deg, rgba(203,29,78,0.08), rgba(47,31,34,1) 40%); border: 1px solid rgba(203,29,78,0.22); min-width: 0;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 24px;">O que desaprender</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Tarefas que a IA vai absorver</span>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
+        <sc-for list="{{ r.desaprender }}" as="d" hint-placeholder-count="3">
+          <div style="padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;"><span style="font-size: 15px; font-weight: 600;">{{ d.item }}</span><span style="flex-shrink: 0; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: {{ d.urgBg }}; color: {{ d.urgColor }};">{{ d.urgencia }}</span></div>
+            <p style="font-size: 13.5px; color: var(--text-2); line-height: 1.5; margin-top: 4px;">{{ d.motivo }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="padding: 28px; border-radius: 22px; background: linear-gradient(180deg, rgba(247,175,32,0.08), rgba(47,31,34,1) 40%); border: 1px solid rgba(247,175,32,0.22); min-width: 0;">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 24px;">O que aprender agora</h3>
+      <span style="font-size: 13px; color: var(--text-3);">Competências que aumentam seu valor</span>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
+        <sc-for list="{{ r.aprender }}" as="a" hint-placeholder-count="3">
+          <div style="padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line);">
+            <span style="font-size: 15px; font-weight: 600; color: var(--c-gold);">{{ a.competencia }}</span>
+            <p style="font-size: 13.5px; color: var(--text-2); line-height: 1.5; margin-top: 4px;">{{ a.aplicacao }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font-size: 12.5px; color: var(--text-3);"><span><strong style="color: #FFFFFF; font-weight: 600;">Ferramentas:</strong> {{ a.ferramentas }}</span><span><strong style="color: #FFFFFF; font-weight: 600;">Certificações:</strong> {{ a.certificacoes }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 18px; padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+    <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 24px;">Seu roadmap até 2030</h3>
+    <div style="position: relative; margin-top: 22px;">
+      <div style="position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: var(--grad); opacity: 0.8;"></div>
+      <div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+        <sc-for list="{{ r.roadmap }}" as="m" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column;">
+            <span style="width: 22px; height: 22px; border-radius: 50%; background: #241719; border: 2px solid {{ m.color }}; box-shadow: 0 0 16px {{ m.color }};"></span>
+            <span style="font-family: var(--font-display); font-weight: 300; font-size: 34px; letter-spacing: -0.03em; margin-top: 14px; color: {{ m.color }};">{{ m.periodo }}</span>
+            <span style="font-size: 17px; font-weight: 600; margin-top: 2px;">{{ m.tema }}</span>
+            <div style="margin-top: 12px; padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; line-height: 1.5; flex: 1;">
+              <span><strong style="color: #FFFFFF;">Meta:</strong> <span style="color: var(--text-2);">{{ m.meta }}</span></span>
+              <span><strong style="color: #FFFFFF;">Plano de ação:</strong> <span style="color: var(--text-2);">{{ m.acao }}</span></span>
+              <span><strong style="color: #FFFFFF;">Ferramentas:</strong> <span style="color: var(--text-2);">{{ m.ferramentas }}</span></span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 18px; margin-top: 18px;">
+    <div style="padding: 28px; border-radius: 22px; background: var(--bg-card); border: 1px solid var(--line);">
+      <h3 style="font-family: var(--font-display); font-weight: 400; font-size: 21px;">Transições de carreira possíveis</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;">
+        <sc-for list="{{ r.transicoes }}" as="t" hint-placeholder-count="4">
+          <span style="font-size: 13.5px; font-weight: 600; padding: 8px 14px; border-radius: 999px; background: rgba(247,175,32,0.08); border: 1px solid rgba(247,175,32,0.3); color: #FFFFFF;">{{ t }} →</span>
+        </sc-for>
+      </div>
+    </div>
+    <div style="position: relative; padding: 28px; border-radius: 22px; background: linear-gradient(130deg, rgba(247,175,32,0.12), rgba(203,29,78,0.16) 60%, rgba(230,34,140,0.14)); border: 1px solid rgba(230,34,140,0.3); display: flex; flex-direction: column; gap: 16px;">
+      <span style="font-size: 13px; color: var(--text-2);">Mensagem executiva</span>
+      <p style="font-family: var(--font-display); font-weight: 300; font-size: 22px; line-height: 1.35; text-wrap: pretty;">{{ r.mensagem }}</p>
+      <button onClick="{{ download }}" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px; border-radius: 999px; border: none; background: #FFFFFF; color: #1A0B06; font-family: var(--font-sans); font-size: 14px; font-weight: 700; cursor: pointer;">Baixar dossiê ↓</button>
+    </div>
+  </div>
+</section>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer data-screen-label="10 Footer" style="position: relative; border-top: 1px solid var(--line); background: #1E1315; overflow: hidden;">
+  <div style="position: absolute; left: 50%; top: -1px; transform: translateX(-50%); width: 60%; height: 1px; background: var(--grad);"></div>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 56px 24px 36px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px 60px;">
+    <div style="flex: 1 1 320px; max-width: 420px;">
+      <img src="assets/logos/prisma-insights_horizontal_branco.svg" alt="Prisma Insights" style="height: 44px; width: auto;">
+      <p style="font-family: var(--font-display); font-weight: 300; font-size: 22px; margin-top: 18px;">Uma pesquisa Prisma Insights</p>
+      <p style="font-size: 14px; color: var(--text-3); margin-top: 8px; line-height: 1.6;">Disrupção de carreiras, elevação de escolaridade e IA aplicada ao mercado de trabalho até 2030.</p>
+    </div>
+    <nav style="display: grid; grid-template-columns: repeat(2, minmax(140px, auto)); gap: 10px 40px; font-size: 14px; align-content: start;">
+      <a href="index.html#visao-geral" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Visão Geral</a>
+      <a href="index.html#simulador-carreira" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Simulador</a>
+      <a href="index.html#analise-bi" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Matriz BI</a>
+      <a href="index.html#plano-orcamento-15m" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Plano R$ 15M</a>
+      <a href="index.html#painel-degree-escalation" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Mais Estudo</a>
+      <a href="#bussola" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Bússola 2030</a>
+      <a href="index.html#painel-powerbi" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Painel Power BI</a>
+      <a href="index.html#equipe" style="color: var(--text-2);" style-hover="color: #FFFFFF;">Equipe</a>
+    </nav>
+  </div>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 20px 24px 30px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text-3);">© 2026 Prisma Insights • Impacto da IA no Trabalho 2030 • Relatório Executivo &amp; Power BI</div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const DIMS = ['Pensamento Analítico', 'Orquestração de IA', 'Criatividade', 'Liderança', 'Resiliência', 'Especialização Estratégica'];
+
+const STEPS = [
+  ['Esconde dados pessoais', 'Nome, e-mail, telefone, CPF e endereço são mascarados (LGPD).'],
+  ['Lê o currículo', 'Identifica cargo, senioridade, ferramentas e tarefas do dia a dia.'],
+  ['Compara com 50+ profissões', 'Cruza seu perfil com tendências do WEF, McKinsey e O*NET.'],
+  ['Calcula o risco', 'Estima automação, ganho de produtividade e lacunas de competência.'],
+  ['Monta o plano', 'Gera o que desaprender, o que aprender e o roadmap até 2030.']
+];
+
+const PRESETS = [
+  ['Desenvolvedor Júnior', 'Desenvolvedor Júnior', 1, 'Desenvolvedor Front-end Júnior há 1 ano. Crio telas em React e JavaScript a partir de layouts do Figma, corrijo bugs reportados pelo QA, escrevo testes unitários simples e faço integrações com APIs REST. Uso Git, VS Code e GitHub Copilot ocasionalmente. Graduando em Ciência da Computação.'],
+  ['Tech Lead Sênior', 'Tech Lead', 12, 'Tech Lead com 12 anos de experiência. Lidero squad de 8 engenheiros, defino arquitetura de microsserviços em AWS, conduzo code reviews, mentoria e planejamento técnico com produto. Implantei pipeline de CI/CD e observabilidade. Experiência com Kubernetes, Go, Python e adoção de assistentes de código com IA no time.'],
+  ['Assistente Administrativo', 'Assistente Administrativo', 6, 'Assistente Administrativo há 6 anos. Controlo agenda da diretoria, lanço notas fiscais no ERP, organizo planilhas de contas a pagar, arquivo documentos, atendo telefone e e-mails, emito relatórios mensais de despesas e faço cotações com fornecedores. Pacote Office intermediário.'],
+  ['Analista Financeiro', 'Analista Financeiro', 5, 'Analista Financeiro Pleno com 5 anos de experiência. Faço conciliações bancárias, fechamento contábil mensal, relatórios gerenciais em Excel, acompanhamento de orçamento vs. realizado e projeções de fluxo de caixa. Uso SAP, Excel avançado e Power BI básico. Apresento resultados ao gerente financeiro.'],
+  ['Advogado', 'Advogado', 8, 'Advogado empresarial com 8 anos de atuação. Reviso e redijo contratos comerciais, faço due diligence, pesquisa de jurisprudência, pareceres e acompanho processos. Negocio cláusulas com clientes e oriento a diretoria em riscos regulatórios. OAB ativa, pós em Direito Contratual.'],
+  ['Designer Gráfico', 'Designer Gráfico', 4, 'Designer Gráfico há 4 anos em agência. Crio peças para redes sociais, banners, apresentações e identidades visuais. Uso Photoshop, Illustrator, Figma e já testei Midjourney. Faço adaptações de formatos, tratamento de imagens e participo de brainstorms de campanha.'],
+  ['Atendente de SAC', 'Atendente de SAC', 3, 'Atendente de SAC há 3 anos em e-commerce. Respondo chamados por chat, e-mail e telefone, sigo scripts de atendimento, registro ocorrências no CRM, faço trocas e devoluções e escalo casos complexos para a supervisão. Meta de TMA e NPS.'],
+  ['Gerente de Projetos', 'Gerente de Projetos', 10, 'Gerente de Projetos com 10 anos em TI. Conduzo projetos de implantação de ERP, gerencio cronograma, orçamento e riscos, faço status reports, coordeno fornecedores e equipes multidisciplinares. Certificação PMP, uso Jira, MS Project e metodologias ágeis.']
+];
+
+const SAMPLE = {"profissao": "Analista Financeiro", "area": "Finanças Corporativas, Controladoria & FP&A", "senioridade": "Sênior / Liderança", "anos_experiencia": 5, "rotina_pct": 35, "estrategica_pct": 65, "score": 80, "risco_automacao": 46, "nivel_risco": "Moderado", "ganho_produtividade": 94, "multiplicador": 2.7, "radar_atual": [90, 40, 60, 80, 80, 90], "radar_2030": [90, 90, 70, 70, 80, 90], "desaprender": [{"item": "Consolidação manual de extratos e conciliação de contas em planilhas estáticas", "motivo": "Com IA: Modelagem financeira preditiva com simulações de Monte Carlo aceleradas por IA", "urgencia": "Alta"}, {"item": "Confecção repetitiva de apresentações de slides de fechamento mensal", "motivo": "Com IA: Análise preditiva de fluxo de caixa e detecção de anomalias contábeis em tempo real", "urgencia": "Média"}, {"item": "Cálculos manuais de variações orçamentárias descritivas", "motivo": "Com IA: Dashboards dinâmicos conectados a copilotos de consulta em linguagem natural", "urgencia": "Média"}], "aprender": [{"competencia": "Modelagem Financeira Preditiva", "aplicacao": "Tomada de decisão estratégica sobre alocação de capital e investimentos de risco", "ferramentas": "Copilotos Financeiros (BloombergGPT, FinChat), PowerBI / Tableau com IA", "certificacoes": "Financial Modeling & Valuation (FMVA)"}, {"competencia": "Business Intelligence com IA (Python/PowerBI)", "aplicacao": "Negociação de termos de crédito com instituições financeiras e parceiros", "ferramentas": "PowerBI / Tableau com IA, Python (Pandas, Statsmodels)", "certificacoes": "Data Analytics for Finance (Wharton)"}, {"competencia": "Gestão Estratégica de Riscos", "aplicacao": "Storytelling executivo traduzindo dados complexos para a tomada de decisão da diretoria", "ferramentas": "Python (Pandas, Statsmodels)", "certificacoes": "PowerBI & FP&A Estratégico"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Economia, Finanças & Investimentos", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Analista Financeiro.", "ferramentas": "Copilotos Financeiros (BloombergGPT, FinChat), Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Economia, Finanças & Investimentos", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Analista Financeiro.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Economia, Finanças & Investimentos.", "ferramentas": "PowerBI / Tableau com IA, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Economia, Finanças & Investimentos", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Economia, Finanças & Investimentos, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Python (Pandas, Statsmodels), Governança & Estratégia"}], "transicoes": ["Especialista em FP&A Preditivo & BI", "Gerente de Controladoria Estratégica", "Consultor(a) de Fusões e Aquisições (M&A)"], "mensagem": "No setor de Economia, Finanças & Investimentos, a IA não vai substituir o Analista Financeiro; porém, o Analista Financeiro que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Analista Financeiro"};
+
+const SYSTEM = `Você é a Bússola 2030, ferramenta de inteligência de carreira da Prisma Insights. Analise o currículo (dados pessoais já mascarados) com base nas tendências do WEF Future of Jobs 2025/2030, McKinsey Global Institute e O*NET. Responda SOMENTE com um objeto JSON válido, em português do Brasil, sem texto fora do JSON, neste formato:
+{"profissao":string,"area":string,"senioridade":"Júnior"|"Pleno"|"Sênior"|"Liderança","anos_experiencia":number,"rotina_pct":number(0-100),"estrategica_pct":number(0-100, soma 100 com rotina),"score":number(0-100, prontidão para 2030),"risco_automacao":number(0-100),"nivel_risco":"Baixo"|"Moderado"|"Alto"|"Crítico","ganho_produtividade":number(0-100),"multiplicador":number(1.0-4.0),"radar_atual":[6 números 0-100],"radar_2030":[6 números 0-100],"desaprender":[3 itens {"item","motivo","urgencia":"Alta"|"Média"|"Baixa"}],"aprender":[3 itens {"competencia","aplicacao","ferramentas","certificacoes"}],"roadmap":[3 itens {"periodo":"2026"|"2027-2028"|"2029-2030","tema","meta","acao","ferramentas"}],"transicoes":[3 a 5 cargos],"mensagem":string (2 frases, direta e motivadora)}
+As 6 dimensões do radar, nesta ordem: ${DIMS.join(', ')}. Frases curtas e linguagem simples.`;
+
+
+// ===== Integração com a API Python (FastAPI) da Bússola 2030 =====
+// Na Vercel (ou no servidor_local.py) a API fica no mesmo endereço do site: /api/v1/bussola/...
+// Abrindo o arquivo direto (file://), procura o servidor local em http://127.0.0.1:8000
+const API_BASE = (new URLSearchParams(location.search).get('api') || window.BUSSOLA_API ||
+  (location.protocol.indexOf('http') === 0 ? '' : 'http://127.0.0.1:8000')).replace(/\/$/, '');
+// Respostas da API pré-calculadas para os perfis de teste (usadas se o servidor estiver desligado)
+const PRESET_RESULTS = {"Desenvolvedor Júnior": {"profissao": "Desenvolvedor Júnior", "area": "Tecnologia e Engenharia de Software", "senioridade": "Júnior / Iniciante", "anos_experiencia": 1, "rotina_pct": 45, "estrategica_pct": 55, "score": 60, "risco_automacao": 68, "nivel_risco": "Alto", "ganho_produtividade": 92, "multiplicador": 2.7, "radar_atual": [80, 100, 70, 50, 80, 60], "radar_2030": [80, 90, 70, 50, 90, 70], "desaprender": [{"item": "Escrita manual de telas simples e conversão de layouts do Figma para HTML/CSS básico", "motivo": "Com IA: Uso de copilotos para gerar 80% do código repetitivo e componentes de interface", "urgencia": "Alta"}, {"item": "Correção de bugs simples de formulários e sintaxe de componentes", "motivo": "Com IA: Prototipagem rápida de aplicações completas com auxílio de IA generativa", "urgencia": "Alta"}, {"item": "Criação manual de testes unitários triviais e documentação básica", "motivo": "Com IA: Refatoração acelerada de código e depuração interativa com agentes", "urgencia": "Média"}], "aprender": [{"competencia": "Engenharia de Prompt e Orquestração Agêntica", "aplicacao": "Entendimento das regras de negócio do cliente e da experiência do usuário (UX)", "ferramentas": "GitHub Copilot / Cursor / Gemini Code Assist, Next.js / TypeScript / TailwindCSS", "certificacoes": "Full Stack Open (Univ. of Helsinki)"}, {"competencia": "Fundamentos de Arquitetura e TypeScript", "aplicacao": "Validação crítica de acessibilidade, segurança e comportamento em casos de borda", "ferramentas": "Next.js / TypeScript / TailwindCSS, Docker e Playwright", "certificacoes": "AI-Assisted Software Engineering"}, {"competencia": "Desenvolvimento Full-Stack com APIs de IA", "aplicacao": "Comunicação com a equipe e integração contínua com a visão do produto", "ferramentas": "Docker e Playwright", "certificacoes": "AWS Cloud Practitioner"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Tecnologia, Dados & Inteligência Artificial", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Desenvolvedor Júnior.", "ferramentas": "GitHub Copilot / Cursor / Gemini Code Assist, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Tecnologia, Dados & Inteligência Artificial", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Desenvolvedor Júnior.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Tecnologia, Dados & Inteligência Artificial.", "ferramentas": "Next.js / TypeScript / TailwindCSS, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Tecnologia, Dados & Inteligência Artificial", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Tecnologia, Dados & Inteligência Artificial, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Docker e Playwright, Governança & Estratégia"}], "transicoes": ["Desenvolvedor(a) Full-Stack Aumentado por IA", "Engenheiro(a) de Interfaces Conversacionais e Agentes", "UX Engineer de Prototipagem Rápida"], "mensagem": "No setor de Tecnologia, Dados & Inteligência Artificial, a IA não vai substituir o Desenvolvedor Júnior; porém, o Desenvolvedor Júnior que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Desenvolvedor Júnior"}, "Tech Lead Sênior": {"profissao": "Tech Lead", "area": "Tecnologia, Arquitetura de Software & Liderança Técnica", "senioridade": "Sênior / Liderança", "anos_experiencia": 12, "rotina_pct": 0, "estrategica_pct": 100, "score": 98, "risco_automacao": 10, "nivel_risco": "Baixo", "ganho_produtividade": 99, "multiplicador": 2.8, "radar_atual": [100, 100, 90, 100, 90, 100], "radar_2030": [100, 100, 90, 90, 90, 100], "desaprender": [{"item": "Escrita manual de código repetitivo de boilerplate e CRUDs básicos", "motivo": "Com IA: Orquestração de agentes de código autônomos (Claude Code, Gemini, Copilot Workspace)", "urgencia": "Média"}, {"item": "Code review focado apenas em estilo e sintaxe (já automatizado por linters de IA)", "motivo": "Com IA: Geração automatizada de diagramas de arquitetura e análise de conformidade de segurança", "urgencia": "Média"}, {"item": "Configuração manual de scripts básicos de deploy e testes unitários padronizados", "motivo": "Com IA: Refatoração de grandes codebases legados e migrações de stack com auxílio de IA", "urgencia": "Baixa"}], "aprender": [{"competencia": "Engenharia de Sistemas Agênticos", "aplicacao": "Decisões fundamentais de trade-off de arquitetura (consistência vs. disponibilidade, custo vs. escala)", "ferramentas": "Claude Code / Cursor / Antigravity, Kubernetes / Terraform / Cloud Native", "certificacoes": "AWS Certified Solutions Architect — Professional"}, {"competencia": "Arquitetura Resiliente e AI Safety", "aplicacao": "Mentoria técnica, formação de novos engenheiros e desenvolvimento de lideranças", "ferramentas": "Kubernetes / Terraform / Cloud Native, LangSmith / OpenTelemetry", "certificacoes": "Building AI Agents (Stanford / DeepLearning.AI)"}, {"competencia": "Liderança de Equipes Híbridas (Humanos + IAs)", "aplicacao": "Alinhamento estratégico entre a capacidade técnica de engenharia e os objetivos de negócio", "ferramentas": "LangSmith / OpenTelemetry", "certificacoes": "Liderança Executiva de Engenharia"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Tecnologia, Dados & Inteligência Artificial", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Tech Lead.", "ferramentas": "Claude Code / Cursor / Antigravity, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Tecnologia, Dados & Inteligência Artificial", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Tech Lead.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Tecnologia, Dados & Inteligência Artificial.", "ferramentas": "Kubernetes / Terraform / Cloud Native, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Tecnologia, Dados & Inteligência Artificial", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Tecnologia, Dados & Inteligência Artificial, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "LangSmith / OpenTelemetry, Governança & Estratégia"}], "transicoes": ["Chief Technology Officer (CTO)", "Principal AI Architect", "Especialista em Resiliência e Cibersegurança"], "mensagem": "No setor de Tecnologia, Dados & Inteligência Artificial, a IA não vai substituir o Tech Lead; porém, o Tech Lead que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Tech Lead"}, "Assistente Administrativo": {"profissao": "Assistente Administrativo", "area": "Administração, Rotinas de Escritório & Suporte", "senioridade": "Júnior / Iniciante", "anos_experiencia": 6, "rotina_pct": 100, "estrategica_pct": 0, "score": 15, "risco_automacao": 98, "nivel_risco": "Crítico", "ganho_produtividade": 48, "multiplicador": 1.9, "radar_atual": [60, 30, 50, 60, 60, 50], "radar_2030": [70, 80, 60, 60, 80, 60], "desaprender": [{"item": "Digitação manual de dados e preenchimento repetitivo de planilhas de controle", "motivo": "Com IA: Orquestração de agentes de automação de escritório (Power Automate, Zapier, copilotos)", "urgencia": "Alta"}, {"item": "Agendamento manual de reuniões, arquivo físico de notas e triagem básica de e-mails", "motivo": "Com IA: Triagem automatizada de documentos e notas fiscais por visão computacional", "urgencia": "Alta"}, {"item": "Lançamento de notas fiscais em ERP sem automação de OCR inteligente", "motivo": "Com IA: Geração de atas de reunião e sínteses executivas instantâneas com IA", "urgencia": "Média"}], "aprender": [{"competencia": "Automação Low-Code / No-Code", "aplicacao": "Gestão de clima organizacional e relacionamento interpessoal no ambiente de trabalho", "ferramentas": "Microsoft 365 Copilot / Gemini Workspace, Power Automate / Zapier", "certificacoes": "Microsoft Certified: Power Platform"}, {"competencia": "Copilotos de Produtividade", "aplicacao": "Resolução de problemas operacionais imprevistos que exigem bom senso e tato", "ferramentas": "Power Automate / Zapier, Notion AI / ClickUp", "certificacoes": "AI Productivity & Workflow Automation"}, {"competencia": "Gestão Inteligente de Documentos", "aplicacao": "Mediação de prioridades com lideranças e atendimento com empatia", "ferramentas": "Notion AI / ClickUp", "certificacoes": "Gestão de Processos (BPM)"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Administração, Suporte & Atendimento Operacional", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Assistente Administrativo.", "ferramentas": "Microsoft 365 Copilot / Gemini Workspace, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Administração, Suporte & Atendimento Operacional", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Assistente Administrativo.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Administração, Suporte & Atendimento Operacional.", "ferramentas": "Power Automate / Zapier, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Administração, Suporte & Atendimento Operacional", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Administração, Suporte & Atendimento Operacional, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Notion AI / ClickUp, Governança & Estratégia"}], "transicoes": ["Analista de Automação de Processos (BizOps)", "Especialista em People Experience", "Assistente Executivo Aumentado por IA"], "mensagem": "No setor de Administração, Suporte & Atendimento Operacional, a IA não vai substituir o Assistente Administrativo; porém, o Assistente Administrativo que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Assistente Administrativo"}, "Analista Financeiro": {"profissao": "Analista Financeiro", "area": "Finanças Corporativas, Controladoria & FP&A", "senioridade": "Sênior / Liderança", "anos_experiencia": 5, "rotina_pct": 35, "estrategica_pct": 65, "score": 80, "risco_automacao": 46, "nivel_risco": "Moderado", "ganho_produtividade": 94, "multiplicador": 2.7, "radar_atual": [90, 40, 60, 80, 80, 90], "radar_2030": [90, 90, 70, 70, 80, 90], "desaprender": [{"item": "Consolidação manual de extratos e conciliação de contas em planilhas estáticas", "motivo": "Com IA: Modelagem financeira preditiva com simulações de Monte Carlo aceleradas por IA", "urgencia": "Alta"}, {"item": "Confecção repetitiva de apresentações de slides de fechamento mensal", "motivo": "Com IA: Análise preditiva de fluxo de caixa e detecção de anomalias contábeis em tempo real", "urgencia": "Média"}, {"item": "Cálculos manuais de variações orçamentárias descritivas", "motivo": "Com IA: Dashboards dinâmicos conectados a copilotos de consulta em linguagem natural", "urgencia": "Média"}], "aprender": [{"competencia": "Modelagem Financeira Preditiva", "aplicacao": "Tomada de decisão estratégica sobre alocação de capital e investimentos de risco", "ferramentas": "Copilotos Financeiros (BloombergGPT, FinChat), PowerBI / Tableau com IA", "certificacoes": "Financial Modeling & Valuation (FMVA)"}, {"competencia": "Business Intelligence com IA (Python/PowerBI)", "aplicacao": "Negociação de termos de crédito com instituições financeiras e parceiros", "ferramentas": "PowerBI / Tableau com IA, Python (Pandas, Statsmodels)", "certificacoes": "Data Analytics for Finance (Wharton)"}, {"competencia": "Gestão Estratégica de Riscos", "aplicacao": "Storytelling executivo traduzindo dados complexos para a tomada de decisão da diretoria", "ferramentas": "Python (Pandas, Statsmodels)", "certificacoes": "PowerBI & FP&A Estratégico"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Economia, Finanças & Investimentos", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Analista Financeiro.", "ferramentas": "Copilotos Financeiros (BloombergGPT, FinChat), Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Economia, Finanças & Investimentos", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Analista Financeiro.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Economia, Finanças & Investimentos.", "ferramentas": "PowerBI / Tableau com IA, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Economia, Finanças & Investimentos", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Economia, Finanças & Investimentos, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Python (Pandas, Statsmodels), Governança & Estratégia"}], "transicoes": ["Especialista em FP&A Preditivo & BI", "Gerente de Controladoria Estratégica", "Consultor(a) de Fusões e Aquisições (M&A)"], "mensagem": "No setor de Economia, Finanças & Investimentos, a IA não vai substituir o Analista Financeiro; porém, o Analista Financeiro que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Analista Financeiro"}, "Advogado": {"profissao": "Advogado", "area": "Direito, Regulação & Conformidade Empresarial", "senioridade": "Pleno", "anos_experiencia": 8, "rotina_pct": 35, "estrategica_pct": 65, "score": 65, "risco_automacao": 40, "nivel_risco": "Moderado", "ganho_produtividade": 91, "multiplicador": 2.7, "radar_atual": [100, 40, 80, 90, 70, 100], "radar_2030": [100, 80, 70, 80, 80, 100], "desaprender": [{"item": "Revisão manual exaustiva de contratos padrão de prestação de serviços e NDAs", "motivo": "Com IA: Análise preditiva de riscos contratuais com LLMs jurídicos especializados", "urgencia": "Alta"}, {"item": "Busca jurisprudencial tradicional em diários oficiais e compilação mecânica de julgados", "motivo": "Com IA: Due diligence automatizada cruzando centenas de documentos em minutos", "urgencia": "Média"}, {"item": "Redação de petições iniciais padronizadas de cobrança e requerimentos simples", "motivo": "Com IA: Pesquisa jurisprudencial semântica identificando tendências de julgamento de magistrados", "urgencia": "Média"}], "aprender": [{"competencia": "Legal Tech & LLMs Jurídicos (Harvey AI, CoCounsel)", "aplicacao": "Estratégia processual, sustentação oral e persuasão em audiências e tribunais", "ferramentas": "Harvey AI / Lexis+ AI / Jusbrasil IA, Ironclad / Juro (CLM Inteligente)", "certificacoes": "Legal Tech & AI for Lawyers (Harvard Law School)"}, {"competencia": "Compliance Digital e Proteção de Dados (LGPD/GDPR)", "aplicacao": "Aconselhamento ético em zonas cinzentas da legislação e negociações de alto valor", "ferramentas": "Ironclad / Juro (CLM Inteligente), Jurimetria Preditiva", "certificacoes": "CIPP/E — Privacidade de Dados (IAPP)"}, {"competencia": "Negociação Estratégica e Mediação Complexa", "aplicacao": "Construção de teses jurídicas inéditas para novas tecnologias e modelos de negócio", "ferramentas": "Jurimetria Preditiva", "certificacoes": "Compliance Empresarial (FGV)"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Jurídico, Contratos & Compliance", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Advogado.", "ferramentas": "Harvey AI / Lexis+ AI / Jusbrasil IA, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Jurídico, Contratos & Compliance", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Advogado.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Jurídico, Contratos & Compliance.", "ferramentas": "Ironclad / Juro (CLM Inteligente), Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Jurídico, Contratos & Compliance", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Jurídico, Contratos & Compliance, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Jurimetria Preditiva, Governança & Estratégia"}], "transicoes": ["Especialista em Direito Digital e Regulação de IA", "Diretor(a) de Compliance e Riscos Corporativos", "Consultor(a) Jurídico Estratégico em M&A"], "mensagem": "No setor de Jurídico, Contratos & Compliance, a IA não vai substituir o Advogado; porém, o Advogado que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Advogado"}, "Designer Gráfico": {"profissao": "Designer Gráfico", "area": "Design, Comunicação Visual & Criação", "senioridade": "Pleno", "anos_experiencia": 4, "rotina_pct": 30, "estrategica_pct": 70, "score": 65, "risco_automacao": 62, "nivel_risco": "Alto", "ganho_produtividade": 80, "multiplicador": 2.5, "radar_atual": [70, 60, 100, 70, 80, 70], "radar_2030": [70, 100, 100, 70, 90, 80], "desaprender": [{"item": "Recorte manual de fotos de produtos e remoção repetitiva de fundos", "motivo": "Com IA: Geração de conceitos visuais e moodboards hiper-realistas com Midjourney e Firefly", "urgencia": "Alta"}, {"item": "Adaptação mecânica de formatos de banners para diferentes redes sociais", "motivo": "Com IA: Criação de animações e vídeos promocionais com ferramentas de IA generativa", "urgencia": "Alta"}, {"item": "Criação de variações de posts estáticos padronizados sem conceito autoral", "motivo": "Com IA: Direção de arte multimodal combinando 3D, IA e identidade de marca em tempo recorde", "urgencia": "Média"}], "aprender": [{"competencia": "Direção de Arte Generativa e Prompt Visual", "aplicacao": "Conceituação de identidade de marca e storytelling emocional com o público", "ferramentas": "Midjourney / Adobe Firefly / Stable Diffusion, Figma com IA", "certificacoes": "Generative AI for Visual Designers (Adobe / Parsons)"}, {"competencia": "Design de Experiência (UI/UX) e Produto Digital", "aplicacao": "Direção de arte estratégica garantindo coerência visual e sensibilidade estética", "ferramentas": "Figma com IA, Runway Gen-3 / Sora", "certificacoes": "UX Design Professional Certificate (Google)"}, {"competencia": "Motion Design e Vídeo com IA (Runway, Sora)", "aplicacao": "Julgamento crítico sobre adequação cultural, ética e impacto emocional da campanha", "ferramentas": "Runway Gen-3 / Sora", "certificacoes": "Branding Estratégico (Miami Ad School)"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Design, Mídia & Comunicação", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Designer Gráfico.", "ferramentas": "Midjourney / Adobe Firefly / Stable Diffusion, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Design, Mídia & Comunicação", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Designer Gráfico.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Design, Mídia & Comunicação.", "ferramentas": "Figma com IA, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Design, Mídia & Comunicação", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Design, Mídia & Comunicação, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Runway Gen-3 / Sora, Governança & Estratégia"}], "transicoes": ["Diretor(a) de Criação e Arte Generativa", "Product Designer (UI/UX) de Produtos Digitais", "Especialista em Identidade de Marca e Storytelling"], "mensagem": "No setor de Design, Mídia & Comunicação, a IA não vai substituir o Designer Gráfico; porém, o Designer Gráfico que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Designer Gráfico"}, "Atendente de SAC": {"profissao": "Atendente de SAC", "area": "Atendimento, Suporte ao Cliente & Operações", "senioridade": "Pleno", "anos_experiencia": 3, "rotina_pct": 80, "estrategica_pct": 20, "score": 25, "risco_automacao": 98, "nivel_risco": "Crítico", "ganho_produtividade": 46, "multiplicador": 1.8, "radar_atual": [50, 30, 40, 50, 60, 40], "radar_2030": [60, 70, 50, 80, 80, 60], "desaprender": [{"item": "Resolução de dúvidas frequentes (FAQ) seguindo scripts padronizados", "motivo": "Com IA: Copiloto de atendimento sugerindo respostas e resumos do cliente em tempo real", "urgencia": "Alta"}, {"item": "Emissão de 2ª via de faturas e consultas mecânicas de status de pedidos", "motivo": "Com IA: Análise em tempo real do tom de voz e sentimento do cliente durante a chamada", "urgencia": "Alta"}, {"item": "Triagem manual de chamados e abertura repetitiva de tickets", "motivo": "Com IA: Automação de registros pós-atendimento e atualização automática de CRM", "urgencia": "Média"}], "aprender": [{"competencia": "Customer Success Avançado", "aplicacao": "Gestão de crises e atendimento a clientes altamente frustrados com empatia genuína", "ferramentas": "Salesforce Agentforce / Zendesk AI, Intercom Copilot", "certificacoes": "Customer Success Specialist (Gainsight)"}, {"competencia": "Gestão de Experiência do Cliente (CX)", "aplicacao": "Mediação de exceções e casos atípicos não previstos pelas regras automáticas", "ferramentas": "Intercom Copilot, Plataformas de Análise de Sentimento", "certificacoes": "Gestão de CX & NPS"}, {"competencia": "Inteligência Emocional e Desescalada de Conflitos", "aplicacao": "Construção de conexão humana e retenção de contas críticas", "ferramentas": "Plataformas de Análise de Sentimento", "certificacoes": "Comunicação Assertiva e Resolução de Conflitos"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Administração, Suporte & Atendimento Operacional", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Atendente de SAC.", "ferramentas": "Salesforce Agentforce / Zendesk AI, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Administração, Suporte & Atendimento Operacional", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Atendente de SAC.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Administração, Suporte & Atendimento Operacional.", "ferramentas": "Intercom Copilot, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Administração, Suporte & Atendimento Operacional", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Administração, Suporte & Atendimento Operacional, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Plataformas de Análise de Sentimento, Governança & Estratégia"}], "transicoes": ["Analista de Customer Success (CS)", "Curador(a) e Treinador(a) de IA de Atendimento", "Especialista em Experiência do Cliente"], "mensagem": "No setor de Administração, Suporte & Atendimento Operacional, a IA não vai substituir o Atendente de SAC; porém, o Atendente de SAC que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Atendente de SAC"}, "Gerente de Projetos": {"profissao": "Gerente de Projetos", "area": "Gestão, Métodos Ágeis & Liderança de Entregas", "senioridade": "Sênior / Liderança", "anos_experiencia": 10, "rotina_pct": 15, "estrategica_pct": 85, "score": 90, "risco_automacao": 17, "nivel_risco": "Baixo", "ganho_produtividade": 99, "multiplicador": 2.8, "radar_atual": [80, 60, 100, 90, 90, 90], "radar_2030": [90, 90, 80, 100, 90, 90], "desaprender": [{"item": "Atualização manual de status de tarefas em quadros Kanban / Jira", "motivo": "Com IA: Previsão de riscos de prazo e gargalos de entrega com algoritmos preditivos", "urgencia": "Média"}, {"item": "Cálculo manual de métricas de velocidade e geração de relatórios de sprint", "motivo": "Com IA: Alocação otimizada de recursos da equipe com base em dados de capacidade gerados por IA", "urgencia": "Média"}, {"item": "Agendamento de reuniões de alinhamento e compilação de atas", "motivo": "Com IA: Resumos automáticos de status de múltiplos squads em tempo real", "urgencia": "Baixa"}], "aprender": [{"competencia": "Gestão Ágil Aumentada por IA e Análise Preditiva", "aplicacao": "Liderança servidora, motivação de equipe e resolução de conflitos humanos", "ferramentas": "Jira com IA integrada / Monday.com AI, ClickUp Brain / Linear", "certificacoes": "PMP / PMI-ACP"}, {"competencia": "Liderança de Times Multidisciplinares e Remotos", "aplicacao": "Negociação de expectativas e prioridades com stakeholders e executivos C-Level", "ferramentas": "ClickUp Brain / Linear, Miro / Mural com IA", "certificacoes": "Professional Scrum Master (PSM II)"}, {"competencia": "Gestão de Mudanças Organizacionais (Change Management)", "aplicacao": "Julgamento sobre trade-offs estratégicos de escopo, qualidade e tempo", "ferramentas": "Miro / Mural com IA", "certificacoes": "AI-Driven Project Management (PMI)"}], "roadmap": [{"periodo": "2026", "tema": "Automação de Rotinas & Adoção de Copilotos em Design, Mídia & Comunicação", "meta": "Eliminar tarefas manuais e burocráticas no dia a dia.", "acao": "Adotar ferramentas de IA generativa para redação, síntese de dados e triagem de documentos da rotina de Gerente de Projetos.", "ferramentas": "Jira com IA integrada / Monday.com AI, Assistentes de IA Aplicados à Área"}, {"periodo": "2027-2028", "tema": "Especialização Analítica & Supervisão Crítica em Design, Mídia & Comunicação", "meta": "Posicionar-se como o profissional que valida e audita soluções assistidas por IA em Gerente de Projetos.", "acao": "Desenvolver raciocínio analítico para checar consistência de dados, mitigar riscos éticos/regulatórios e integrar ferramentas especializadas de Design, Mídia & Comunicação.", "ferramentas": "ClickUp Brain / Linear, Frameworks de Qualidade & Ética"}, {"periodo": "2029-2030", "tema": "Liderança Estratégica & Diferencial Humano em Design, Mídia & Comunicação", "meta": "Consolidar autoridade profissional insubstituível em julgamento, ética e negociação.", "acao": "Liderar a estratégia da área de Design, Mídia & Comunicação, focando em decisões sob alta incerteza, empatia e construção de confiança com stakeholders.", "ferramentas": "Miro / Mural com IA, Governança & Estratégia"}], "transicoes": ["Product Manager (PM) / Head de Produto", "Diretor(a) de Transformação Ágil e Eficiência", "Agile Coach e Consultor(a) de Liderança"], "mensagem": "No setor de Design, Mídia & Comunicação, a IA não vai substituir o Gerente de Projetos; porém, o Gerente de Projetos que dominar e supervisionar a IA com pensamento crítico substituirá aquele que permanecer apenas na execução manual.", "lgpd": {"cpf": 0, "emails": 0, "telefones": 0}, "benchmark": "Gerente de Projetos"}};
+
+async function callApi(path, options) {
+  const res = await fetch(API_BASE + path, options);
+  let data = null;
+  try { data = await res.json(); } catch (e) {}
+  if (!res.ok) throw Object.assign(new Error((data && data.detail) || ('Erro ' + res.status)), { http: true });
+  return data;
+}
+
+function maskPII(t) {
+  let n = 0;
+  const rep = (re, tag) => { t = t.replace(re, () => { n++; return tag; }); };
+  rep(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[EMAIL]');
+  rep(/\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b/g, '[CPF]');
+  rep(/(\+?55\s?)?\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}/g, '[TELEFONE]');
+  rep(/\b\d{5}-?\d{3}\b/g, '[CEP]');
+  rep(/https?:\/\/\S+|(linkedin|github)\.com\/\S+/gi, '[LINK]');
+  rep(/\b(rua|av\.?|avenida|travessa|alameda)\s[^\n,]+/gi, '[ENDEREÇO]');
+  return { text: t, count: n };
+}
+
+function loadScript(src) {
+  return new Promise((res, rej) => { if (document.querySelector('script[src="' + src + '"]')) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+}
+
+const classify = (s) => s >= 80 ? 'Super-Trabalhador' : s >= 60 ? 'Pronto para 2030' : s >= 40 ? 'Em Transição' : 'Vulnerável';
+const CLASS_COLORS = { 'Vulnerável': '#F0457A', 'Em Transição': '#E07618', 'Pronto para 2030': '#F7AF20', 'Super-Trabalhador': '#F27DBD' };
+
+class Component extends DCLogic {
+  state = { narrow: false, tab: 'upload', text: '', fileName: '', preset: '', cargo: '', anos: '', drag: false, step: -1, busy: false, error: '', result: SAMPLE, isSample: true };
+  fileRef = React.createRef();
+
+  componentDidMount() {
+    const hdr = document.getElementById('siteHeader');
+    if (hdr && 'ResizeObserver' in window) {
+      this._ro = new ResizeObserver(() => {
+        document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+        const narrow = window.innerWidth < 1200;
+        if (narrow !== this.state.narrow) this.setState({ narrow });
+      });
+      this._ro.observe(hdr);
+    }
+    this._lastResult = this.state.result;
+    this.drawRadar();
+  }
+  componentWillUnmount() { if (this._ro) this._ro.disconnect(); clearInterval(this._tick); }
+  componentDidUpdate() { if (this._lastResult !== this.state.result) { this._lastResult = this.state.result; this.drawRadar(); } }
+
+  drawRadar() {
+    const C = window.Chart, el = document.getElementById('chartRadar');
+    if (!C || !el) { this._rt = setTimeout(() => this.drawRadar(), 150); return; }
+    const r = this.state.result;
+    let ch = C.getChart(el);
+    const ds = [
+      { label: 'Atual', data: r.radar_atual, borderColor: '#E6228C', backgroundColor: 'rgba(230,34,140,0.22)', pointBackgroundColor: '#E6228C', borderWidth: 2 },
+      { label: 'Exigido em 2030', data: r.radar_2030, borderColor: '#F7AF20', backgroundColor: 'rgba(247,175,32,0.10)', pointBackgroundColor: '#F7AF20', borderWidth: 2, borderDash: [5, 4] }
+    ];
+    if (ch) { ch.data.datasets = ds; ch.update(); return; }
+    C.defaults.color = '#D6C6C1'; C.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+    new C(el, { type: 'radar', data: { labels: DIMS, datasets: ds }, options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } }, scales: { r: { min: 0, max: 100, ticks: { display: false, stepSize: 25 }, grid: { color: 'rgba(255,255,255,0.08)' }, angleLines: { color: 'rgba(255,255,255,0.08)' }, pointLabels: { color: '#E8DAD6', font: { size: 12, weight: 600 } } } } } });
+  }
+
+  async handleFile(file) {
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    if (!/\.(pdf|docx|doc|txt|md)$/.test(name)) { this.setState({ error: 'Formato não suportado. Use PDF, DOCX ou TXT.' }); return; }
+    this._file = file;
+    this.setState({ fileName: file.name, error: '', preset: '' });
+  }
+
+  async analyze(override) {
+    const s = Object.assign({}, this.state, override || {});
+    if (s.busy) return;
+    const useFile = s.tab === 'upload' && this._file && s.fileName;
+    if (!useFile && (!s.text || s.text.trim().length < 40)) {
+      this.setState({ error: s.tab === 'upload' ? 'Escolha um arquivo de currículo (PDF, DOCX ou TXT) ou use a aba "Colar texto".' : 'Cole pelo menos algumas linhas sobre a sua experiência.' });
+      return;
+    }
+    this.setState({ busy: true, error: '', step: 0 });
+    clearInterval(this._tick);
+    this._tick = setInterval(() => this.setState(st => ({ step: st.busy ? Math.min(3, st.step + 1) : st.step })), 900);
+    const anos = s.anos !== '' && !isNaN(+s.anos) ? parseInt(s.anos, 10) : null;
+    const t0 = Date.now();
+    let json = null, errMsg = '';
+    try {
+      if (useFile) {
+        const fd = new FormData();
+        fd.append('file', this._file);
+        if (s.cargo) fd.append('cargo', s.cargo);
+        if (anos !== null) fd.append('anos', String(anos));
+        json = await callApi('/api/v1/bussola/analisar-arquivo', { method: 'POST', body: fd });
+      } else {
+        json = await callApi('/api/v1/bussola/analisar', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texto: maskPII(s.text).text, cargo: s.cargo || null, anos }) });
+      }
+    } catch (e) {
+      if (!e.http && s.preset && PRESET_RESULTS[s.preset]) json = PRESET_RESULTS[s.preset];
+      else errMsg = e.http ? e.message : (API_BASE ? 'Não consegui falar com o servidor da Bússola (' + API_BASE + '). Abra o site pelo "INICIAR_LOCAL.bat" e tente de novo.' : 'O servidor da Bússola não respondeu. Tente de novo em alguns segundos.');
+    }
+    // deixa a animação dos 5 passos aparecer mesmo quando a resposta é instantânea
+    const wait = Math.max(0, 3600 - (Date.now() - t0));
+    await new Promise(r => setTimeout(r, wait));
+    clearInterval(this._tick);
+    if (!json) { this.setState({ busy: false, step: -1, error: errMsg }); return; }
+    this.setState({ step: 4 });
+    await new Promise(r => setTimeout(r, 700));
+    this.setState({ result: Object.assign({}, SAMPLE, json), isSample: false, step: 5, busy: false });
+    const el = document.getElementById('resultado');
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+  }
+
+  download() {
+    const r = this.state.result;
+    const lines = [
+      '# Dossiê Bússola 2030 — Prisma Insights', '',
+      '**Profissão:** ' + r.profissao + ' • ' + r.area + ' • ' + r.senioridade + ' • ' + r.anos_experiencia + ' anos', '',
+      '## Score de prontidão 2030: ' + r.score + '/100 (' + classify(r.score) + ')',
+      '- Risco de automação: ' + r.risco_automacao + '% (' + r.nivel_risco + ')',
+      '- Ganho de produtividade com IA: ' + r.ganho_produtividade + '% (' + r.multiplicador + 'x)',
+      '- Rotina operacional: ' + r.rotina_pct + '% • Estratégica: ' + r.estrategica_pct + '%', '',
+      '## Radar de competências (atual → 2030)', ...DIMS.map((d, i) => '- ' + d + ': ' + r.radar_atual[i] + ' → ' + r.radar_2030[i]), '',
+      '## O que desaprender', ...r.desaprender.map(d => '- **' + d.item + '** (' + d.urgencia + '): ' + d.motivo), '',
+      '## O que aprender agora', ...r.aprender.map(a => '- **' + a.competencia + '**: ' + a.aplicacao + ' | Ferramentas: ' + a.ferramentas + ' | Certificações: ' + a.certificacoes), '',
+      '## Roadmap', ...r.roadmap.map(m => '### ' + m.periodo + ' — ' + m.tema + '\n- Meta: ' + m.meta + '\n- Plano de ação: ' + m.acao + '\n- Ferramentas: ' + m.ferramentas), '',
+      '## Transições de carreira possíveis', ...r.transicoes.map(t => '- ' + t), '',
+      '## Mensagem executiva', r.mensagem, '', '---', 'Gerado pela Bússola 2030 • Uma pesquisa Prisma Insights'
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'dossie-bussola-2030.md'; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+
+  renderVals() { return Object.assign({ navOrder: this.state.narrow ? 4 : 2, navBasis: this.state.narrow ? '100%' : '0px' }, this.bussolaVals()); }
+
+  bussolaVals() {
+    const s = this.state, r = s.result;
+    const cls = classify(r.score);
+    const levels = ['Vulnerável', 'Em Transição', 'Pronto para 2030', 'Super-Trabalhador'];
+    const urg = { 'Alta': ['rgba(203,29,78,0.2)', '#FF8AAE'], 'Média': ['rgba(224,118,24,0.2)', '#F7AF20'], 'Baixa': ['rgba(255,255,255,0.08)', '#E8DCD8'] };
+    const rmColors = ['#F7AF20', '#E07618', '#E6228C'];
+    const stepState = (i) => s.step > i || s.step === 5 ? 'done' : s.step === i ? 'active' : 'idle';
+    return {
+      navOrder: s.narrow ? 4 : 2,
+      navBasis: s.narrow ? '100%' : '0px',
+      fileRef: this.fileRef,
+      ui: {
+        isUpload: s.tab === 'upload', isText: s.tab === 'text',
+        tabUpBg: s.tab === 'upload' ? '#FFFFFF' : 'transparent', tabUpColor: s.tab === 'upload' ? '#1A0B06' : '#E8DCD8',
+        tabTxBg: s.tab === 'text' ? '#FFFFFF' : 'transparent', tabTxColor: s.tab === 'text' ? '#1A0B06' : '#E8DCD8',
+        dropBorder: s.drag ? '#F7AF20' : s.fileName ? 'rgba(247,175,32,0.5)' : 'rgba(255,255,255,0.18)',
+        dropBg: s.drag ? 'rgba(247,175,32,0.08)' : 'rgba(255,255,255,0.02)',
+        dropTitle: s.fileName ? '✓ ' + s.fileName : 'Arraste seu currículo aqui',
+        busy: s.busy, btnOpacity: s.busy ? 0.6 : 1, btnLabel: s.busy ? 'Analisando…' : 'Analisar currículo',
+        error: s.error, isSample: s.isSample,
+        stepLabel: s.step === 5 ? 'Concluído' : s.step >= 0 ? 'Passo ' + (s.step + 1) + ' de 5' : '5 passos'
+      },
+      form: { text: s.text, cargo: s.cargo, anos: s.anos },
+      tabUpload: () => this.setState({ tab: 'upload' }),
+      tabText: () => this.setState({ tab: 'text' }),
+      pickFile: () => this.fileRef.current && this.fileRef.current.click(),
+      onFileInput: (e) => this.handleFile(e.target.files[0]),
+      onDragOver: (e) => { e.preventDefault(); if (!s.drag) this.setState({ drag: true }); },
+      onDragLeave: () => this.setState({ drag: false }),
+      onDrop: (e) => { e.preventDefault(); this.setState({ drag: false }); this.handleFile(e.dataTransfer.files[0]); },
+      onText: (e) => this.setState({ text: e.target.value, preset: '' }),
+      onCargo: (e) => this.setState({ cargo: e.target.value }),
+      onAnos: (e) => this.setState({ anos: e.target.value }),
+      analyze: () => this.analyze(),
+      download: () => this.download(),
+      presets: PRESETS.map(p => ({ label: p[0], onClick: () => { const o = { tab: 'text', cargo: p[1], anos: String(p[2]), text: p[3], fileName: '', preset: p[0] }; this.setState(o); this.analyze(o); } })),
+      steps: STEPS.map((st, i) => {
+        const k = stepState(i);
+        return { title: (i + 1) + '. ' + st[0], desc: st[1], mark: k === 'done' ? '✓' : String(i + 1).padStart(2, '0'),
+          bg: k === 'done' ? 'linear-gradient(135deg,#F7AF20,#E07618)' : k === 'active' ? 'rgba(230,34,140,0.18)' : 'rgba(255,255,255,0.03)',
+          border: k === 'done' ? '#F7AF20' : k === 'active' ? '#E6228C' : 'rgba(255,255,255,0.14)',
+          color: k === 'done' ? '#1A0B06' : k === 'active' ? '#FFFFFF' : '#C3B1AC',
+          line: i === 4 ? 'transparent' : k === 'done' ? 'rgba(247,175,32,0.6)' : 'rgba(255,255,255,0.1)',
+          opacity: s.step === -1 || k !== 'idle' ? 1 : 0.45 };
+      }),
+      r: {
+        score: Math.round(r.score), gaugeOffset: (527.8 * (1 - r.score / 100)).toFixed(1),
+        classificacao: cls, classColor: CLASS_COLORS[cls],
+        scale: levels.map(l => ({ label: l, bg: l === cls ? CLASS_COLORS[l] : 'rgba(255,255,255,0.1)', color: l === cls ? '#FFFFFF' : '#C3B1AC' })),
+        profissao: r.profissao, area: r.area, senioridade: r.senioridade,
+        anosLabel: r.anos_experiencia + (r.anos_experiencia === 1 ? ' ano' : ' anos'),
+        rotinaLabel: r.rotina_pct + '% rotina operacional', estrategicaLabel: r.estrategica_pct + '% estratégica', rotinaW: r.rotina_pct + '%',
+        riscoLabel: r.risco_automacao + '%', nivel_risco: 'Risco ' + r.nivel_risco,
+        ganhoLabel: '+' + r.ganho_produtividade + '%', multLabel: String(r.multiplicador).replace('.', ',') + 'x',
+        gaps: DIMS.map((d, i) => { const g = r.radar_2030[i] - r.radar_atual[i]; return { label: d, nowW: r.radar_atual[i] + '%', needW: r.radar_2030[i] + '%', text: g > 0 ? '−' + g + ' pts' : 'ok', color: g > 25 ? '#FF8AAE' : g > 10 ? '#F7AF20' : '#E8DCD8' }; }).sort((a, b) => parseInt(b.text.slice(1)) - parseInt(a.text.slice(1)) || 0),
+        desaprender: r.desaprender.map(d => Object.assign({}, d, { urgBg: (urg[d.urgencia] || urg['Média'])[0], urgColor: (urg[d.urgencia] || urg['Média'])[1] })),
+        aprender: r.aprender,
+        roadmap: r.roadmap.map((m, i) => Object.assign({}, m, { color: rmColors[i % 3] })),
+        transicoes: r.transicoes, mensagem: r.mensagem
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
