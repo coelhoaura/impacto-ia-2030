@@ -305,12 +305,15 @@
 
 @media (max-width: 759px) {
   .sim { border-radius: 24px; }
-  .sim__head p { justify-self: start; }
+
   .sim__debate, .cta-bussola { padding: 22px 20px; }
   .sim-panel { padding: 20px; }
   .sim-metric__value { font-size: 26px; }
   .sim-result__value { font-size: 28px; }
 }
+
+/* Cabeçalho do simulador em 1 coluna (tablet/mobile): texto alinhado à esquerda */
+@media (max-width: 899px) { .sim__head p { justify-self: start; } }
 
 /* ---------- 6. Plano R$ 15M ---------- */
 .plan-intro {
