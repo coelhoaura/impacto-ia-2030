@@ -9,7 +9,7 @@ Esta pasta tem tudo o que é preciso para publicar na Vercel.
 | --- | --- |
 | `index.html` | Landing page com os gráficos, filtros, simulador e o vídeo do dashboard |
 | `bussola.html` | Ferramenta Bússola 2030 (análise de currículo) |
-| `css/`, `js/`, `vendor/`, `assets/` | Estilo, scripts, bibliotecas, imagens e o vídeo demo (`assets/video/`) |
+| `css/`, `js/`, `vendor/`, `assets/` | Estilo, scripts, bibliotecas e imagens do site (o vídeo do dashboard fica no Vimeo) |
 | `downloads/BI_Final_v2.pbix` | Arquivo do Power BI (botão "Baixar .PBIX") |
 | `api/index.py` | API da Bússola (vira uma função Python na Vercel) |
 | `backend/` | Os 5 agentes e a base WEF/McKinsey usados pela API |

@@ -6,7 +6,6 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const root = document.documentElement;
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------- Modal Engenharia & SQL ---------------- */
   const modal = $('codeModal');
@@ -219,52 +218,7 @@
     ['simPeople', 'simCost', 'simFx'].forEach(id => { const el = $(id); if (el) el.addEventListener('input', run); });
   }
 
-  /* ---------------- Vídeo do dashboard ---------------- */
-  // Carrega só perto da tela, toca sem som em loop e pausa fora da tela.
-  function initVideo() {
-    const video = $('dashVideo'), btn = $('dashVideoToggle');
-    if (!video) return;
-    const start = +video.dataset.start || 0;
-    let userPaused = reduceMotion, loaded = false;
-
-    const label = () => {
-      if (!btn) return;
-      const paused = video.paused;
-      btn.textContent = paused ? '▶ Reproduzir' : '❚❚ Pausar';
-      btn.setAttribute('aria-pressed', String(paused));
-      btn.setAttribute('aria-label', paused ? 'Reproduzir vídeo' : 'Pausar vídeo');
-    };
-    const load = () => {
-      if (loaded) return;
-      loaded = true;
-      video.src = video.dataset.src;
-      video.preload = 'auto';
-      video.addEventListener('loadedmetadata', () => { if (start && start < video.duration) video.currentTime = start; }, { once: true });
-    };
-    const play = () => { load(); const p = video.play(); if (p && p.catch) p.catch(() => {}); };
-
-    video.addEventListener('ended', () => { video.currentTime = start; if (!userPaused) play(); });
-    video.addEventListener('play', label);
-    video.addEventListener('pause', label);
-    if (btn) btn.addEventListener('click', () => {
-      if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
-    });
-    label();
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        entries.forEach(en => {
-          if (en.isIntersecting) { load(); if (!userPaused) play(); }
-          else if (!video.paused) video.pause();
-        });
-      }, { rootMargin: '200px 0px' }).observe(video);
-    } else {
-      load();
-      if (!userPaused) play();
-    }
-  }
-
-  function init() { initSimulator(); initVideo(); }
+  function init() { initSimulator(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

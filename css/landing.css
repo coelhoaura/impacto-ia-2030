@@ -362,16 +362,8 @@
   position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; background: #1F0E14;
   box-shadow: 0 30px 80px rgba(0,0,0,0.35);
 }
-/* Recorte igual ao da animação do handoff: área 1561×878 a partir de (190,168) no vídeo 1920×1080 */
-.video-frame video {
-  position: absolute; max-width: none; width: 123.0%; height: 123.0%; left: -12.17%; top: -19.13%; object-fit: fill;
-}
-.video-frame__play {
-  position: absolute; right: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px;
-  border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); background: rgba(31,14,20,0.75); color: #FFFFFF;
-  font-size: 12.5px; font-weight: 600; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-}
-.video-frame__play:hover { background: rgba(31,14,20,0.9); }
+/* Player do Vimeo ocupando todo o quadro 16:9 (responsivo) */
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 .download-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 30px; text-align: center; }
 .download-cta span { font-size: 13px; color: var(--text-3); }
 @media (max-width: 559px) { .btn--grad { padding: 14px 22px; font-size: 13px; } }
