@@ -1,26 +1,72 @@
 /**
- * Data Visualizations & Charts matching Modern Clean SaaS Design
- * Impacto da IA no Trabalho 2030 • Prisma Insights (tema escuro)
- * Executive Light Theme & Custom 9-Color Palette
+ * Gráficos do dashboard (Chart.js) — Impacto da IA no Trabalho 2030 • Prisma Insights
+ * Tema v2: fundo grafite quente, dourado/âmbar = ganho, carmim/magenta/vinho = risco.
+ * Os dados e os tipos de gráfico são os mesmos da versão anterior; muda só o estilo.
  */
+
+const fmtBR = (v, d = 2) => Number(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+/* Rótulo de valor ao lado de cada barra horizontal */
+const valueLabelsPlugin = (format) => ({
+  id: 'valueLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    const meta = chart.getDatasetMeta(0);
+    const data = chart.data.datasets[0].data;
+    ctx.save();
+    ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#E8DAD6';
+    ctx.textBaseline = 'middle';
+    const area = chart.chartArea;
+    meta.data.forEach((bar, i) => {
+      const v = Number(data[i]);
+      const text = format(v);
+      const w = ctx.measureText(text).width;
+      if (v >= 0) {
+        // sem espaço à direita (telas estreitas): escreve dentro da barra
+        const fits = bar.x + 6 + w <= area.right + 4;
+        ctx.textAlign = fits ? 'left' : 'right';
+        ctx.fillStyle = fits ? '#E8DAD6' : '#1A0B06';
+        ctx.fillText(text, fits ? bar.x + 6 : bar.x - 6, bar.y);
+      } else {
+        // sem espaço à esquerda: escreve do outro lado da linha do zero
+        const fits = bar.x - 6 - w >= area.left;
+        ctx.textAlign = fits ? 'right' : 'left';
+        ctx.fillStyle = '#E8DAD6';
+        ctx.fillText(text, fits ? bar.x - 6 : bar.base + 6, bar.y);
+      }
+    });
+    ctx.restore();
+  }
+});
+
+/* Legenda à direita no desktop e embaixo em telas estreitas (zoom alto / mobile) */
+const responsiveLegend = (wide, narrow = 'bottom', breakpoint = 460) => (chart, size) => {
+  const pos = size.width < breakpoint ? narrow : wide;
+  const legend = chart.options.plugins.legend;
+  if (legend.position !== pos) { legend.position = pos; chart.update('none'); }
+};
 
 class DashboardCharts {
   constructor() {
     this.charts = {};
-    // Set global Chart.js defaults for Executive Light Theme
     if (typeof Chart !== 'undefined') {
       Chart.defaults.color = '#D6C6C1';
       Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
-      Chart.defaults.font.family = "'Plus Jakarta Sans', 'Outfit', sans-serif";
+      Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
       Chart.defaults.font.size = 12;
       Chart.defaults.plugins.tooltip.backgroundColor = '#3A272B';
       Chart.defaults.plugins.tooltip.titleColor = '#FFFFFF';
-      Chart.defaults.plugins.tooltip.bodyColor = '#E2E8F0';
-      Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.15)';
+      Chart.defaults.plugins.tooltip.bodyColor = '#E8DCD8';
+      Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.14)';
       Chart.defaults.plugins.tooltip.borderWidth = 1;
-      Chart.defaults.plugins.tooltip.padding = 12;
+      Chart.defaults.plugins.tooltip.padding = 10;
       Chart.defaults.plugins.tooltip.cornerRadius = 8;
       Chart.defaults.plugins.tooltip.boxPadding = 4;
+      Chart.defaults.plugins.legend.labels.boxWidth = 10;
+      Chart.defaults.plugins.legend.labels.boxHeight = 10;
+      Chart.defaults.plugins.legend.labels.usePointStyle = true;
+      if (window.PrismaLayout && window.PrismaLayout.reduceMotion) Chart.defaults.animation = false;
     }
   }
 
@@ -31,7 +77,7 @@ class DashboardCharts {
     }
   }
 
-  // 1. Saldo Líquido de Vagas por Indústria (Diverging Bar Chart)
+  // 1. Saldo Líquido de Vagas por Indústria (tornado)
   renderNetJobsDivergingChart(canvasId, filteredSectors, jobsData) {
     this.destroyChart(canvasId);
     const ctx = document.getElementById(canvasId);
@@ -41,36 +87,30 @@ class DashboardCharts {
     const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
 
     const sectorNet = {};
-    sectors.forEach(s => sectorNet[s.Setor_ID] = 0);
+    sectors.forEach(s => { sectorNet[s.Setor_ID] = 0; });
     jobs.forEach(j => {
-        if (sectorNet[j.Setor_ID] !== undefined) {
-            sectorNet[j.Setor_ID] += (j.Job_Volume_2030_k - j.Job_Volume_Pre_AI_k);
-        }
+      if (sectorNet[j.Setor_ID] !== undefined) sectorNet[j.Setor_ID] += (j.Job_Volume_2030_k - j.Job_Volume_Pre_AI_k);
     });
-    
-    const enrichedSectors = sectors.map(s => ({
-        ...s,
-        net_jobs_k: sectorNet[s.Setor_ID] || 0
-    }));
 
-    const sorted = enrichedSectors.sort((a, b) => b.net_jobs_k - a.net_jobs_k);
+    const sorted = sectors
+      .map(s => ({ ...s, net_jobs_k: sectorNet[s.Setor_ID] || 0 }))
+      .sort((a, b) => b.net_jobs_k - a.net_jobs_k);
 
     const labels = sorted.map(s => s.Industry);
     const data = sorted.map(s => s.net_jobs_k);
-    const backgroundColors = data.map(v => v >= 5000 ? '#F7AF20' : v >= 0 ? '#E07618' : v > -3000 ? '#CB1D4E' : '#951165');
-    const borderColors = backgroundColors;
+    const colors = data.map(v => v >= 5000 ? '#F7AF20' : v >= 0 ? '#E07618' : v > -3000 ? '#CB1D4E' : '#951165');
+    const maxAbs = Math.max(1, ...data.map(Math.abs));
 
     this.charts[canvasId] = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: labels,
+        labels,
         datasets: [{
           label: 'Saldo Líquido de Vagas (Mil)',
-          data: data,
-          backgroundColor: backgroundColors,
-          borderColor: borderColors,
-          borderWidth: 1.5,
-          borderRadius: 6
+          data,
+          backgroundColor: colors,
+          borderRadius: 6,
+          maxBarThickness: 22
         }]
       },
       options: {
@@ -81,59 +121,51 @@ class DashboardCharts {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => ` Saldo: ${ctx.parsed.x > 0 ? '+' : ''}${(ctx.parsed.x / 1000).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Mil vagas`
+              label: (c) => ` Saldo: ${c.parsed.x > 0 ? '+' : ''}${fmtBR(c.parsed.x / 1000)} Mil vagas`
             }
           }
         },
         scales: {
           x: {
+            // folga para os rótulos de valor ao lado das barras
+            suggestedMin: Math.min(0, ...data) - maxAbs * 0.28,
+            suggestedMax: Math.max(0, ...data) + maxAbs * 0.28,
             grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: {
-              color: '#C3B1AC',
-              callback: (v) => `${v > 0 ? '+' : ''}${(v / 1000).toLocaleString('pt-BR')} Mil`
-            }
+            ticks: { color: '#C3B1AC', maxTicksLimit: 7, callback: (v) => `${v > 0 ? '+' : ''}${(v / 1000).toLocaleString('pt-BR')} Mil` }
           },
           y: {
             grid: { display: false },
             ticks: { color: '#E8DAD6', font: { weight: '600' } }
           }
         }
-      }
+      },
+      plugins: [valueLabelsPlugin(v => `${v > 0 ? '+' : ''}${fmtBR(v / 1000)} Mil`)]
     });
   }
 
-  // 2. Donut Chart - Distribuição de Vagas por Categoria de Risco
+  // 2. Rosca — distribuição dos postos por categoria de risco
   renderRiskDonutChart(canvasId, jobsData) {
     this.destroyChart(canvasId);
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
-    
-    const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-    const totalVolume = jobs.length;
-    
-    let low = 0, med = 0, high = 0;
-    if (totalVolume > 0) {
-      low = (jobs.filter(j => j.Risk_Category && (j.Risk_Category.includes('Baixo') || j.Risk_Category.includes('Amplificação'))).length / totalVolume) * 100;
-      med = (jobs.filter(j => j.Risk_Category && (j.Risk_Category.includes('Médio') || j.Risk_Category.includes('Transição'))).length / totalVolume) * 100;
-      high = (jobs.filter(j => j.Risk_Category && j.Risk_Category.includes('Alto')).length / totalVolume) * 100;
-    }
 
-    const labels = [
-      'Baixo Risco (Amplificação)',
-      'Médio Risco (Transição Híbrida)',
-      'Alto Risco de Automação'
-    ];
-    const data = [low.toFixed(1), med.toFixed(1), high.toFixed(1)];
-    const colors = ['#F7AF20', '#E07618', '#CB1D4E'];
+    const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
+    const total = jobs.length;
+    let low = 0, med = 0, high = 0;
+    if (total > 0) {
+      low = jobs.filter(j => j.Risk_Category && (j.Risk_Category.includes('Baixo') || j.Risk_Category.includes('Amplificação'))).length / total * 100;
+      med = jobs.filter(j => j.Risk_Category && (j.Risk_Category.includes('Médio') || j.Risk_Category.includes('Transição'))).length / total * 100;
+      high = jobs.filter(j => j.Risk_Category && j.Risk_Category.includes('Alto')).length / total * 100;
+    }
 
     this.charts[canvasId] = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: labels,
+        labels: ['Baixo Risco (Amplificação)', 'Médio Risco (Transição Híbrida)', 'Alto Risco de Automação'],
         datasets: [{
-          data: data,
-          backgroundColor: colors,
-          borderWidth: 3,
+          data: [low.toFixed(1), med.toFixed(1), high.toFixed(1)],
+          backgroundColor: ['#F7AF20', '#E07618', '#CB1D4E'],
+          borderWidth: 4,
           borderColor: '#2F1F22',
           hoverOffset: 6
         }]
@@ -143,85 +175,82 @@ class DashboardCharts {
         maintainAspectRatio: false,
         cutout: '74%',
         plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { boxWidth: 10, padding: 12, font: { size: 11 }, color: '#D6C6C1' }
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ${ctx.label}: ${ctx.parsed}% dos postos monitorados`
-            }
-          }
+          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11 }, color: '#D6C6C1' } },
+          tooltip: { callbacks: { label: (c) => ` ${c.label}: ${fmtBR(c.parsed, 1)}% dos postos monitorados` } }
         }
       }
     });
   }
 
-  // 3. Matriz de Disrupção Salarial (2x2 Scatter Plot)
+  // 3. Matriz de Disrupção Salarial (bolhas 2×2)
   renderSalaryDisruptionScatter(canvasId, jobsData) {
     this.destroyChart(canvasId);
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
 
     const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-
     const sectorMap = {};
-    AI_WORKSHIFT_DATA.dim_setor.forEach(s => sectorMap[s.Setor_ID] = s);
+    AI_WORKSHIFT_DATA.dim_setor.forEach(s => { sectorMap[s.Setor_ID] = s; });
     const cargoMap = {};
-    AI_WORKSHIFT_DATA.dim_cargo.forEach(c => cargoMap[c.Cargo_ID] = c);
+    AI_WORKSHIFT_DATA.dim_cargo.forEach(c => { cargoMap[c.Cargo_ID] = c; });
+
+    // Cor pelo quadrante: ganho (dourado/âmbar) x perda (carmim/vinho)
+    const quadColor = (x, y) => y >= 0
+      ? (x < 50 ? 'rgba(247,175,32,0.8)' : 'rgba(224,118,24,0.8)')
+      : (x >= 70 ? 'rgba(203,29,78,0.8)' : 'rgba(149,17,101,0.8)');
 
     const datasets = [];
-    const secIds = [...new Set(jobs.map(j => j.Setor_ID))];
-
-    secIds.forEach(secId => {
+    [...new Set(jobs.map(j => j.Setor_ID))].forEach(secId => {
       const secObj = sectorMap[secId];
-      if(!secObj) return;
-      const secLabel = secObj.Industry.replace('\\xad', 'í');
-      const secColor = ({'#580704':'#FF8AAE','#780D34':'#F0457A'})[secObj.color] || secObj.color || '#C3B1AC';
-      const secJobs = jobs.filter(j => j.Setor_ID === secId);
-      
-      // AGGREGATE BY CARGO_ID
+      if (!secObj) return;
       const cargoAgg = {};
-      secJobs.forEach(j => {
-          if (!cargoAgg[j.Cargo_ID]) {
-              cargoAgg[j.Cargo_ID] = {
-                  probSum: 0,
-                  growthSum: 0,
-                  volSum: 0,
-                  salPostSum: 0,
-                  count: 0,
-                  workModel: j.Work_Model // Just pick one
-              };
-          }
-          cargoAgg[j.Cargo_ID].probSum += j.Automation_Probability_2030;
-          cargoAgg[j.Cargo_ID].growthSum += j.Salary_Growth_Pct;
-          cargoAgg[j.Cargo_ID].volSum += j.Job_Volume_2030_k;
-          cargoAgg[j.Cargo_ID].salPostSum += j.Salary_Post_AI_USD;
-          cargoAgg[j.Cargo_ID].count += 1;
+      jobs.filter(j => j.Setor_ID === secId).forEach(j => {
+        const a = cargoAgg[j.Cargo_ID] || (cargoAgg[j.Cargo_ID] = { probSum: 0, growthSum: 0, volSum: 0, salPostSum: 0, count: 0, workModel: j.Work_Model });
+        a.probSum += j.Automation_Probability_2030;
+        a.growthSum += j.Salary_Growth_Pct;
+        a.volSum += j.Job_Volume_2030_k;
+        a.salPostSum += j.Salary_Post_AI_USD;
+        a.count += 1;
       });
-
-      const aggregatedData = Object.keys(cargoAgg).map(cId => {
-          const agg = cargoAgg[cId];
-          const cObj = cargoMap[cId] || {};
-          return {
-            x: +((agg.probSum / agg.count) * 100).toFixed(1),
-            y: +(agg.growthSum / agg.count).toFixed(2),
-            r: Math.max(7, Math.min(24, Math.sqrt(agg.volSum) * 1.15)),
-            jobTitle: cObj.Job_Title || 'N/A',
-            volume: agg.volSum,
-            salPost: agg.salPostSum / agg.count,
-            workModel: agg.workModel
-          };
-      });
-      
       datasets.push({
-        label: secLabel,
-        data: aggregatedData,
-        backgroundColor: secColor + 'CC',
-        borderColor: secColor,
-        borderWidth: 1.5
+        label: secObj.Industry,
+        data: Object.keys(cargoAgg).map(cId => {
+          const a = cargoAgg[cId];
+          return {
+            x: +((a.probSum / a.count) * 100).toFixed(1),
+            y: +(a.growthSum / a.count).toFixed(2),
+            r: Math.max(7, Math.min(24, Math.sqrt(a.volSum) * 1.15)),
+            jobTitle: (cargoMap[cId] || {}).Job_Title || 'N/A',
+            volume: a.volSum,
+            salPost: a.salPostSum / a.count,
+            workModel: a.workModel
+          };
+        }),
+        backgroundColor: (c) => c.raw ? quadColor(c.raw.x, c.raw.y) : 'rgba(247,175,32,0.8)',
+        borderColor: 'rgba(14,8,8,0.8)',
+        borderWidth: 1
       });
     });
+
+    const quadrants = {
+      id: 'quadrants',
+      beforeDatasetsDraw(chart) {
+        const { ctx: g, chartArea: a, scales: { x, y } } = chart;
+        g.save();
+        g.setLineDash([5, 5]);
+        g.strokeStyle = 'rgba(247,175,32,0.45)';
+        g.lineWidth = 1;
+        g.beginPath(); g.moveTo(a.left, y.getPixelForValue(0)); g.lineTo(a.right, y.getPixelForValue(0)); g.stroke();
+        g.beginPath(); g.moveTo(x.getPixelForValue(50), a.top); g.lineTo(x.getPixelForValue(50), a.bottom); g.stroke();
+        g.setLineDash([]);
+        g.font = `600 ${a.width < 420 ? 9.5 : 11}px "JetBrains Mono", monospace`;
+        g.fillStyle = 'rgba(255,255,255,0.4)';
+        g.textAlign = 'left'; g.fillText('AMPLIFICAÇÃO', a.left + 10, a.top + 16);
+        g.textAlign = 'right'; g.fillText('SUPERVISÃO', a.right - 10, a.top + 16);
+        g.fillText('COMPRESSÃO', a.right - 10, a.bottom - 10);
+        g.restore();
+      }
+    };
 
     this.charts[canvasId] = new Chart(ctx, {
       type: 'bubble',
@@ -230,206 +259,40 @@ class DashboardCharts {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 }, color: '#D6C6C1' } },
+          legend: { display: false },
           tooltip: {
             callbacks: {
               title: (items) => items[0].raw.jobTitle,
-              label: (ctx) => [
-                `Setor: ${ctx.dataset.label} (${ctx.raw.workModel})`,
-                `Prob. Automação: ${ctx.raw.x}%`,
-                `Variação Salarial: ${ctx.raw.y > 0 ? '+' : ''}${ctx.raw.y}%`,
-                `Salário Projetado: $${ctx.raw.salPost.toLocaleString()}/ano`,
-                `Volume de Vagas: ${ctx.raw.volume}k postos`
+              label: (c) => [
+                `Setor: ${c.dataset.label} (${c.raw.workModel})`,
+                `Prob. Automação: ${fmtBR(c.raw.x, 1)}%`,
+                `Variação Salarial: ${c.raw.y > 0 ? '+' : ''}${fmtBR(c.raw.y)}%`,
+                `Salário Projetado: $${Math.round(c.raw.salPost).toLocaleString('pt-BR')}/ano`,
+                `Volume de Vagas: ${c.raw.volume.toLocaleString('pt-BR')}k postos`
               ]
             }
           }
         },
         scales: {
           x: {
-            title: { display: true, text: 'Probabilidade de Automação de Tarefas (%)', color: '#D6C6C1', font: { weight: '600' } },
-            min: 0,
-            max: 100,
+            min: 0, max: 100,
+            title: { display: true, text: 'Probabilidade de automação até 2030 (%)', color: '#D6C6C1', font: { weight: '600' } },
             grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#C3B1AC' }
+            ticks: { color: '#C3B1AC', callback: (v) => `${v}%` }
           },
           y: {
-            title: { display: true, text: 'Variação Salarial Projetada 2020-2030 (%)', color: '#D6C6C1', font: { weight: '600' } },
-            min: -25,
-            max: 50,
-            grid: { color: (ctx) => ctx.tick.value === 0 ? 'rgba(247,175,32,0.45)' : 'rgba(255,255,255,0.06)' },
+            min: -25, max: 50,
+            title: { display: true, text: 'Variação salarial projetada (%)', color: '#D6C6C1', font: { weight: '600' } },
+            grid: { color: 'rgba(255,255,255,0.06)' },
             ticks: { color: '#C3B1AC', callback: (v) => `${v > 0 ? '+' : ''}${v}%` }
           }
         }
-      }
-    });
-  }
-
-  // 4. Stacked Column Chart - Nível de Ensino vs Categoria de Risco
-  renderEducationRiskStackedChart(canvasId, jobsData) {
-    this.destroyChart(canvasId);
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
-    
-    const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-    
-    
-    
-        const levelMap = {
-        'ESC_01': 0,
-        'ESC_02': 1,
-        'ESC_03': 2,
-        'ESC_04': 3,
-        'ESC_05': 4
-    };
-    const labels = AI_WORKSHIFT_DATA.dim_escolaridade.map(e => e.Nivel_Escolaridade);
-    
-    const dataLowRisk = [0,0,0,0,0];
-    const dataMedRisk = [0,0,0,0,0];
-    const dataHighRisk = [0,0,0,0,0];
-    const totals = [0,0,0,0,0];
-    
-    jobs.forEach(j => {
-        let idx = -1;
-        for (let key in levelMap) {
-            if (j.Escolaridade_Pos_ID && j.Escolaridade_Pos_ID.includes(key)) idx = levelMap[key];
-        }
-        if (idx === -1) idx = 2; // default fallback
-        
-        let vol = 1; // Count rows!
-        totals[idx] += vol;
-        if (j.Risk_Category && (j.Risk_Category.includes('Baixo') || j.Risk_Category.includes('Amplificação'))) dataLowRisk[idx] += vol;
-        else if (j.Risk_Category && (j.Risk_Category.includes('Médio') || j.Risk_Category.includes('Transição'))) dataMedRisk[idx] += vol;
-        else if (j.Risk_Category && j.Risk_Category.includes('Alto')) dataHighRisk[idx] += vol;
-    });
-    
-    for (let i = 0; i < 5; i++) {
-        if (totals[i] > 0) {
-            dataLowRisk[i] = (dataLowRisk[i] / totals[i] * 100).toFixed(1);
-            dataMedRisk[i] = (dataMedRisk[i] / totals[i] * 100).toFixed(1);
-            dataHighRisk[i] = (dataHighRisk[i] / totals[i] * 100).toFixed(1);
-        }
-    }
-
-    this.charts[canvasId] = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          { label: 'Baixo Risco (Amplificação)', data: dataLowRisk, backgroundColor: '#F7AF20', borderRadius: 4 },
-          { label: 'Médio Risco (Transição)', data: dataMedRisk, backgroundColor: '#E07618', borderRadius: 4 },
-          { label: 'Alto Risco (Automação)', data: dataHighRisk, backgroundColor: '#CB1D4E', borderRadius: 4 }
-        ]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { stacked: true, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#D6C6C1' } },
-          y: { stacked: true, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#C3B1AC', callback: (v) => `${v}%` } }
-        },
-        plugins: {
-          legend: { position: 'top', labels: { color: '#D6C6C1', font: { size: 11 } } },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
-            }
-          }
-        }
-      }
+      plugins: [quadrants]
     });
   }
 
-  // 5. Quartiles Comparison Chart
-  renderQuartilesChart(canvasId, jobsData) {
-    this.destroyChart(canvasId);
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
-
-    const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-    const sorted = [...jobs].sort((a,b) => a.AI_Exposure_Index - b.AI_Exposure_Index);
-    const quartiles = [];
-    
-    if (sorted.length === 0) {
-      for(let i=0; i<4; i++) quartiles.push({ avg_salary_post_usd: 0, avg_salary_growth_pct: 0 });
-    } else {
-      const qSize = Math.max(1, Math.ceil(sorted.length / 4));
-      for(let i=0; i<4; i++) {
-          const slice = sorted.slice(i*qSize, (i+1)*qSize);
-          if(slice.length === 0) {
-              quartiles.push({ avg_salary_post_usd: 0, avg_salary_growth_pct: 0 });
-              continue;
-          }
-          const avg_sal = slice.reduce((sum, j) => sum + j.Salary_Post_AI_USD, 0) / slice.length;
-          const avg_pre = slice.reduce((sum, j) => sum + j.Salary_Pre_AI_USD, 0) / slice.length;
-          const avg_growth = avg_pre > 0 ? ((avg_sal - avg_pre)/avg_pre * 100) : 0;
-          quartiles.push({ avg_salary_post_usd: avg_sal, avg_salary_growth_pct: avg_growth.toFixed(2) });
-      }
-    }
-    const labels = ['Q1: Baixa Exp. (0-0.52)', 'Q2: Mod. Exp. (0.53-0.81)', 'Q3: Alta Exp. (0.82-0.89)', 'Q4: Altíssima (0.90-1.0)'];
-    const avgSalaries = quartiles.map(q => q.avg_salary_post_usd);
-    const growthPcts = quartiles.map(q => q.avg_salary_growth_pct);
-
-    this.charts[canvasId] = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            type: 'bar',
-            label: 'Salário Médio 2030 ($)',
-            data: avgSalaries,
-            backgroundColor: '#E07618',
-            borderColor: '#F7AF20',
-            borderWidth: 1.5,
-            borderRadius: 6,
-            yAxisID: 'y'
-          },
-          {
-            type: 'line',
-            label: 'Variação Salarial (%)',
-            data: growthPcts,
-            borderColor: '#E6228C',
-            backgroundColor: '#E6228C',
-            borderWidth: 3,
-            pointRadius: 5,
-            pointBackgroundColor: '#E6228C',
-            pointBorderColor: '#2F1F22',
-            pointBorderWidth: 1.5,
-            yAxisID: 'y1'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            type: 'linear',
-            position: 'left',
-            title: { display: true, text: 'Salário Médio Projetado (USD)', color: '#D6C6C1' },
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#C3B1AC', callback: (v) => `$${(v / 1000).toFixed(0)}k` }
-          },
-          y1: {
-            type: 'linear',
-            position: 'right',
-            title: { display: true, text: 'Variação Salarial (%)', color: '#D6C6C1' },
-            grid: { drawOnChartArea: false },
-            ticks: { color: '#E6228C', callback: (v) => `${v}%` }
-          },
-          x: {
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#D6C6C1' }
-          }
-        },
-        plugins: {
-          legend: { position: 'top', labels: { color: '#D6C6C1', font: { size: 11 } } }
-        }
-      }
-    });
-  }
-
-  // 6. Taxa de Elevação de Escolaridade por Industry (Power BI Reference)
+  // 4. Taxa de Elevação de Escolaridade por indústria (meta 45%)
   renderTaxaElevacaoPorSetorChart(canvasId, jobsData) {
     this.destroyChart(canvasId);
     const ctx = document.getElementById(canvasId);
@@ -437,73 +300,66 @@ class DashboardCharts {
 
     const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
     const sectorMap = {};
-    AI_WORKSHIFT_DATA.dim_setor.forEach(s => sectorMap[s.Setor_ID] = s);
-    const sectorStats = {};
+    AI_WORKSHIFT_DATA.dim_setor.forEach(s => { sectorMap[s.Setor_ID] = s; });
+    const stats = {};
     jobs.forEach(j => {
-        const secLabel = (sectorMap[j.Setor_ID] ? sectorMap[j.Setor_ID].Industry : 'Outros').replace('\xad', 'í');
-        if(!sectorStats[secLabel]) sectorStats[secLabel] = { total: 0, upgraded: 0 };
-        sectorStats[secLabel].total++;
-        if(j.Education_Shift_Type && j.Education_Shift_Type.includes('Elevada')) {
-            sectorStats[secLabel].upgraded++;
-        }
+      const label = sectorMap[j.Setor_ID] ? sectorMap[j.Setor_ID].Industry : 'Outros';
+      const s = stats[label] || (stats[label] = { total: 0, upgraded: 0 });
+      s.total++;
+      if (j.Education_Shift_Type && j.Education_Shift_Type.includes('Elevada')) s.upgraded++;
     });
-    
-    const dataObj = Object.keys(sectorStats).map(ind => ({
-        industry: ind,
-        ratePct: sectorStats[ind].total > 0 ? (sectorStats[ind].upgraded / sectorStats[ind].total) * 100 : 0
-    })).sort((a,b) => b.ratePct - a.ratePct);
-    const labels = dataObj.map(d => d.industry);
-    const dataVals = dataObj.map(d => d.ratePct);
+    const rows = Object.keys(stats)
+      .map(ind => ({ industry: ind, ratePct: stats[ind].total > 0 ? stats[ind].upgraded / stats[ind].total * 100 : 0 }))
+      .sort((a, b) => b.ratePct - a.ratePct);
 
-    // Custom dotted benchmark plugin for 45%
-    const benchmarkPlugin = {
-      id: 'benchmarkLine45',
-      afterDraw(chart) {
-        const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-        const xPos = x.getPixelForValue(45);
-        ctx.save();
-        ctx.strokeStyle = '#E6228C';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(xPos, top);
-        ctx.lineTo(xPos, bottom);
-        ctx.stroke();
-
-        ctx.fillStyle = '#F27DBD';
-        ctx.font = '600 11px JetBrains Mono, monospace';
-        ctx.fillText('META 45%', xPos + 6, top + 12);
-        ctx.restore();
+    const meta45 = {
+      id: 'meta45',
+      afterDatasetsDraw(chart) {
+        const { ctx: g, chartArea: { top, bottom }, scales: { x } } = chart;
+        const px = x.getPixelForValue(45);
+        g.save();
+        g.strokeStyle = '#E6228C';
+        g.lineWidth = 1.5;
+        g.setLineDash([4, 4]);
+        g.beginPath(); g.moveTo(px, top); g.lineTo(px, bottom); g.stroke();
+        g.setLineDash([]);
+        g.fillStyle = '#F27DBD';
+        g.font = '600 11px "JetBrains Mono", monospace';
+        g.textAlign = 'left';
+        g.textBaseline = 'bottom';
+        g.fillText('META 45%', px + 6, top - 2);
+        g.restore();
       }
     };
 
     this.charts[canvasId] = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: labels,
+        labels: rows.map(r => r.industry),
         datasets: [{
           label: 'Taxa de Elevação (%)',
-          data: dataVals,
-          backgroundColor: dataVals.map(v => v >= 45 ? '#F7AF20' : '#E07618'),
-          borderWidth: 0,
-          borderRadius: 6
+          data: rows.map(r => r.ratePct),
+          backgroundColor: rows.map(r => r.ratePct >= 45 ? '#F7AF20' : '#E07618'),
+          borderRadius: 6,
+          maxBarThickness: 20
         }]
       },
       options: {
         indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 18, right: 40 } },
         plugins: {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => ` Taxa de Elevação: ${ctx.parsed.x}% dos cargos`
+              label: (c) => ' Taxa de Elevação: ' + c.parsed.x.toFixed(1).replace('.', ',') + '% dos cargos'
             }
           }
         },
         scales: {
           x: {
-            max: 85,
+            min: 0, max: 80,
             grid: { color: 'rgba(255,255,255,0.06)' },
             ticks: { color: '#C3B1AC', callback: (v) => `${v}%` }
           },
@@ -513,190 +369,87 @@ class DashboardCharts {
           }
         }
       },
-      plugins: [benchmarkPlugin]
+      plugins: [meta45, valueLabelsPlugin(v => fmtBR(v, 1) + '%')]
     });
   }
 
-  // 7. Vagas por Nível por Período e Nível de Escolaridade (100% Stacked Column)
+  // 5. Vagas por nível de escolaridade — Pré-IA vs 2030 (100% empilhado)
   renderVagasPorNivelPeriodoChart(canvasId, jobsData) {
     this.destroyChart(canvasId);
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
 
     const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-    
     const levels = ['Ensino Médio', 'Tecnólogo', 'Bacharelado', 'Mestrado', 'Doutorado (PhD)'];
     const colors = ['#CB1D4E', '#951165', '#E07618', '#F7AF20', '#D83C15'];
-    const preCounts = [0,0,0,0,0];
-    const postCounts = [0,0,0,0,0];
-    let totalPre = 0, totalPost = 0;
-    
-        const levelMap = {
-        'ESC_01': 0,
-        'ESC_02': 1,
-        'ESC_03': 2,
-        'ESC_04': 3,
-        'ESC_05': 4
-    };
-    const labels = AI_WORKSHIFT_DATA.dim_escolaridade.map(e => e.Nivel_Escolaridade);
-    
+    const levelMap = { ESC_01: 0, ESC_02: 1, ESC_03: 2, ESC_04: 3, ESC_05: 4 };
+    const preCounts = [0, 0, 0, 0, 0];
+    const postCounts = [0, 0, 0, 0, 0];
+
     jobs.forEach(j => {
-        let preIdx = 2; // fallback
-        let postIdx = 2; // fallback
-        for (let key in levelMap) {
-            if (j.Escolaridade_Pre_ID && j.Escolaridade_Pre_ID.includes(key)) preIdx = levelMap[key];
-            if (j.Escolaridade_Pos_ID && j.Escolaridade_Pos_ID.includes(key)) postIdx = levelMap[key];
-        }
-        preCounts[preIdx] += 1; // Count rows!
-        postCounts[postIdx] += 1;
-        totalPre += 1;
-        totalPost += 1;
+      let preIdx = 2, postIdx = 2; // fallback
+      Object.keys(levelMap).forEach(key => {
+        if (j.Escolaridade_Pre_ID && j.Escolaridade_Pre_ID.includes(key)) preIdx = levelMap[key];
+        if (j.Escolaridade_Pos_ID && j.Escolaridade_Pos_ID.includes(key)) postIdx = levelMap[key];
+      });
+      preCounts[preIdx] += 1;
+      postCounts[postIdx] += 1;
     });
-
-    const periods = ["2030", "Pré-IA"];
-    const datasets = levels.map((lvl, idx) => ({
-      label: lvl,
-      data: [
-        totalPost > 0 ? +(postCounts[idx]/totalPost*100).toFixed(1) : 0, 
-        totalPre > 0 ? +(preCounts[idx]/totalPre*100).toFixed(1) : 0
-      ],
-      backgroundColor: colors[idx],
-      borderRadius: 2
-    }));
+    const total = jobs.length;
 
     this.charts[canvasId] = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: periods,
-        datasets: datasets
+        labels: ['Pré-IA', '2030'],
+        datasets: levels.map((lvl, i) => ({
+          label: lvl,
+          data: [
+            total > 0 ? +(preCounts[i] / total * 100).toFixed(1) : 0,
+            total > 0 ? +(postCounts[i] / total * 100).toFixed(1) : 0
+          ],
+          backgroundColor: colors[i],
+          borderColor: '#2F1F22',
+          borderWidth: 1,
+          barPercentage: 0.6
+        }))
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        onResize: responsiveLegend('right'),
         scales: {
-          x: {
-            stacked: true,
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#E8DAD6', font: { weight: '700', size: 12 } }
-          },
-          y: {
-            stacked: true,
-            max: 100,
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#C3B1AC', callback: (v) => `${v}%` }
-          }
+          x: { stacked: true, grid: { display: false }, ticks: { color: '#E8DAD6', font: { weight: '700', size: 13 } } },
+          y: { stacked: true, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#C3B1AC', callback: (v) => `${v}%` } }
         },
         plugins: {
-          legend: {
-            position: 'right',
-            labels: { boxWidth: 10, padding: 8, font: { size: 10 }, color: '#D6C6C1' }
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
-            }
-          }
+          legend: { position: ctx.parentElement && ctx.parentElement.clientWidth < 460 ? 'bottom' : 'right', labels: { padding: 12, font: { size: 11 }, color: '#D6C6C1' } },
+          tooltip: { callbacks: { label: (c) => ` ${c.dataset.label}: ${fmtBR(c.parsed.y, 1)}%` } }
         }
       }
     });
   }
 
-  // 8. Nível de Ensino vs Categoria de Risco (Single Stacked Column)
-  renderNivelEnsinoRiscoChart(canvasId) {
-    this.destroyChart(canvasId);
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) return;
-
-    const items = AI_WORKSHIFT_DATA.degreeEscalationAnalysis.nivelEnsinoVsRisco;
-    const datasets = items.map(it => ({
-      label: it.level,
-      data: [it.count],
-      backgroundColor: it.color,
-      borderRadius: 2
-    }));
-
-    this.charts[canvasId] = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Contagem'],
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-            display: false
-          },
-          y: {
-            stacked: true,
-            max: 100,
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            ticks: { color: '#C3B1AC', callback: (v) => `${v}%` }
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { boxWidth: 10, padding: 6, font: { size: 9 }, color: '#D6C6C1' }
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // 9. Habilidades Técnicas Mais Valorizadas (Interactive Treemap Grid)
+  // 6. Habilidades técnicas mais valorizadas (treemap proporcional)
   renderHabilidadesTecnicasGrid(containerId, jobsData) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container || typeof window.renderTreemapHabilidades !== 'function') return;
 
     const jobs = jobsData || AI_WORKSHIFT_DATA.fato_ai_job_impact;
-    
-    const skillMap = {};
     const cargoDict = {};
-    AI_WORKSHIFT_DATA.dim_cargo.forEach(c => cargoDict[c.Cargo_ID] = c);
-    const sectorColors = {};
-    AI_WORKSHIFT_DATA.dim_setor.forEach(s => sectorColors[s.Setor_ID] = s.color);
-
+    AI_WORKSHIFT_DATA.dim_cargo.forEach(c => { cargoDict[c.Cargo_ID] = c; });
+    const skillMap = {};
     jobs.forEach(j => {
-        const cargo = cargoDict[j.Cargo_ID];
-        if (cargo && cargo.Primary_Emerging_Skill) {
-            const s = cargo.Primary_Emerging_Skill.replace('\xad', 'í');
-            if(!skillMap[s]) skillMap[s] = { name: s, volume_k: 0, color: sectorColors[j.Setor_ID] || '#951165' };
-            skillMap[s].volume_k += j.Job_Volume_2030_k;
-        }
+      const cargo = cargoDict[j.Cargo_ID];
+      if (!cargo || !cargo.Primary_Emerging_Skill) return;
+      const name = cargo.Primary_Emerging_Skill;
+      skillMap[name] = (skillMap[name] || 0) + j.Job_Volume_2030_k;
     });
-    
-    let skills = Object.values(skillMap).sort((a,b) => b.volume_k - a.volume_k).slice(0, 10);
-    const totalVol = skills.reduce((acc, s) => acc + s.volume_k, 0);
-    
-    if (skills.length === 0) {
-        container.innerHTML = '<p style="color: #C3B1AC; padding: 20px;">Nenhuma habilidade emergente encontrada para os filtros selecionados.</p>';
-        return;
-    }
-
-    let html = `
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
-    `;
-
-    skills.forEach(skill => {
-      const pct = ((skill.volume_k / totalVol) * 100).toFixed(1);
-      html += `
-        <div style="background: ${skill.color}; color: #FFFFFF; border-radius: 10px; padding: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.35); transition: transform 0.2s;" title="${skill.name}: ${skill.volume_k}k vagas (${pct}%)">
-          <span style="display: block; font-weight: 700; font-size: 13px; line-height: 1.3; margin-bottom: 4px;">${skill.name}</span>
-          <span style="font-size: 11px; opacity: 0.9; font-weight: 600;">${skill.volume_k}k vagas (${pct}%)</span>
-        </div>
-      `;
-    });
-
-    html += `</div>`;
-    container.innerHTML = html;
+    const top = Object.keys(skillMap)
+      .map(label => ({ label, vagas_k: skillMap[label] }))
+      .sort((a, b) => b.vagas_k - a.vagas_k)
+      .slice(0, 10);
+    const total = top.reduce((s, d) => s + d.vagas_k, 0) || 1;
+    window.renderTreemapHabilidades(container, top.map(d => ({ ...d, pct: +(d.vagas_k / total * 100).toFixed(1) })));
   }
 }
 
