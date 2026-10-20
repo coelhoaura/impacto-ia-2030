@@ -1,116 +1,77 @@
 /**
- * Prisma Insights • Impacto da IA no Trabalho 2030
- * Interações do novo layout: header, modais, Power BI, animações e
- * o simulador "Onde investir os R$ 15 milhões" (com os dados reais do data.js).
+ * Prisma Insights • Impacto da IA no Trabalho 2030 — interações da landing page
+ * Modal Engenharia & SQL, barra de filtros (colapso no mobile), simulador dos R$ 15M e vídeo do dashboard.
  */
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
+  const root = document.documentElement;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------------- Header: altura (para o scroll) e link ativo ---------------- */
-  const header = $('siteHeader');
-  function syncHeader() {
-    if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  /* ---------------- Modal Engenharia & SQL ---------------- */
+  const modal = $('codeModal');
+  let lastFocus = null;
+  function openCode() {
+    if (!modal) return;
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    const card = modal.querySelector('.code-modal__card');
+    if (card) card.focus();
   }
-  syncHeader();
-  window.addEventListener('resize', syncHeader);
-  if (header && 'ResizeObserver' in window) new ResizeObserver(syncHeader).observe(header);
-
-  const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
-  const spySections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  function spy() {
-    const y = window.scrollY + window.innerHeight * 0.3;
-    let current = null;
-    spySections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
-    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  function closeCode() {
+    if (!modal || !modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
-  window.addEventListener('scroll', spy, { passive: true });
-  spy();
-
-  /* ---------------- Ações (botões do layout) ---------------- */
-  const codeModal = $('codeModal');
-  const actions = {
-    openCode: () => { if (codeModal) { codeModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } },
-    closeCode: () => { if (codeModal) { codeModal.style.display = 'none'; document.body.style.overflow = ''; } },
-    codeBackdrop: (e) => { if (e.target === e.currentTarget) actions.closeCode(); },
-    maximizePbi: () => {
-      const el = $('pbiFrame');
-      if (!el) return;
-      if (document.fullscreenElement) document.exitFullscreen();
-      else if (el.requestFullscreen) el.requestFullscreen();
-    },
-    pbiLive: (e) => showPbi('live', e.currentTarget),
-    resetFilters: () => {} // tratado pelo app.js (btnResetFilters)
-  };
-  document.querySelectorAll('[data-action]').forEach(el => {
-    const fn = actions[el.getAttribute('data-action')];
-    if (fn) el.addEventListener('click', fn);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && codeModal && codeModal.style.display !== 'none') actions.closeCode();
-  });
-
-  /* ---------------- Power BI: prints por página + relatório interativo ---------------- */
-  const pbiShot = $('pbiShot');
-  const pbiIframe = $('pbiIframe');
-  function showPbi(key, btn) {
-    document.querySelectorAll('.pbi-tab').forEach(b => b.classList.toggle('active', b === btn));
-    if (key === 'live') {
-      if (pbiIframe && !pbiIframe.src) pbiIframe.src = pbiIframe.getAttribute('data-src');
-      if (pbiIframe) pbiIframe.style.display = 'block';
-      if (pbiShot) pbiShot.style.display = 'none';
-    } else {
-      if (pbiIframe) pbiIframe.style.display = 'none';
-      if (pbiShot) { pbiShot.style.display = 'block'; pbiShot.src = 'assets/pbi/' + key + '.png'; }
-    }
-  }
-  document.querySelectorAll('.pbi-tab[data-pbi]').forEach(b => b.addEventListener('click', () => showPbi(b.getAttribute('data-pbi'), b)));
-
-  /* ---------------- Animações: fade-in ao rolar + contadores ---------------- */
-  function countUp(el) {
-    if (el._counted) return;
-    el._counted = true;
-    const final = el.textContent;
-    const m = final.match(/(\d{1,3}(?:\.\d{3})+|\d+)(,\d+)?/);
-    if (!m) return;
-    const dec = m[2] ? m[2].length - 1 : 0;
-    const target = parseFloat(m[0].replace(/\./g, '').replace(',', '.'));
-    const t0 = performance.now(), dur = 1400;
-    let last = final;
-    const step = (t) => {
-      if (el.textContent !== last) return; // um filtro mudou o valor: para a animação
-      const p = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - p, 3);
-      const v = (target * ease).toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
-      last = p < 1 ? final.replace(m[0], v) : final;
-      el.textContent = last;
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (!en.isIntersecting) return;
-        const el = en.target;
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        io.unobserve(el);
-        el.querySelectorAll('[data-count]').forEach(countUp);
-        if (el.hasAttribute('data-count')) countUp(el);
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(22px)';
-      el.style.transition = 'opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)';
-      io.observe(el);
+  document.querySelectorAll('[data-action="openCode"]').forEach(b => b.addEventListener('click', openCode));
+  document.querySelectorAll('[data-action="closeCode"]').forEach(b => b.addEventListener('click', closeCode));
+  if (modal) {
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeCode(); });
+    // Mantém o foco do teclado dentro do modal
+    modal.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = Array.from(modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
   }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCode(); });
+  if (location.hash === '#engenharia-sql') openCode();
 
-  /* ---------------- Simulador do fundo de R$ 15 milhões ---------------- */
-  // Mesmas fórmulas do simulador original: salário atual = média Salary_Pre_AI_USD do cargo de origem;
-  // novo salário = média Salary_Post_AI_USD do cargo-alvo; risco = média Automation_Probability_2030.
+  /* ---------------- Barra de filtros ---------------- */
+  const bar = $('filterBar');
+  const toggle = $('filtersToggle');
+  const badge = $('filtersBadge');
+  if (bar) {
+    const syncFiltersH = () => root.style.setProperty('--filters-h', bar.offsetHeight + 'px');
+    syncFiltersH();
+    if ('ResizeObserver' in window) new ResizeObserver(syncFiltersH).observe(bar);
+    else window.addEventListener('resize', syncFiltersH);
+  }
+  if (toggle && bar) {
+    toggle.addEventListener('click', () => {
+      const open = !bar.classList.contains('is-open');
+      bar.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+  document.addEventListener('filters:change', (e) => {
+    const n = e.detail ? e.detail.active : 0;
+    if (!badge) return;
+    badge.textContent = n ? String(n) : '';
+    badge.classList.toggle('is-on', n > 0);
+    badge.setAttribute('aria-label', n + (n === 1 ? ' filtro ativo' : ' filtros ativos'));
+  });
+
+  /* ---------------- Simulador "Onde investir os R$ 15 milhões" ---------------- */
+  // Base real do projeto (data.js): por cargo, média de Salary_Pre_AI_USD, Salary_Post_AI_USD (2030)
+  // e Automation_Probability_2030; habilidade = Primary_Emerging_Skill.
   function initSimulator() {
     const D = (typeof AI_WORKSHIFT_DATA !== 'undefined') ? AI_WORKSHIFT_DATA : null;
     const selSector = $('simSector'), selOrig = $('simCurrentJob'), selTarget = $('simTargetTrack');
@@ -123,122 +84,187 @@
     });
     const cargos = D.dim_cargo.filter(c => agg[c.Cargo_ID]).map(c => {
       const a = agg[c.Cargo_ID];
-      return { id: c.Cargo_ID, title: c.Job_Title, setor: (c.Industry || '').replace('\xad', 'í'), skill: c.Primary_Emerging_Skill,
-               pre: a.pre / a.n, post: a.post / a.n, risk: a.auto / a.n };
-    }).sort((x, y) => x.title.localeCompare(y.title, 'pt-BR'));
+      return {
+        id: c.Cargo_ID, cargo: c.Job_Title, setor: c.Industry, skill: c.Primary_Emerging_Skill,
+        salPre: a.pre / a.n, sal2030: a.post / a.n, auto: Math.round(a.auto / a.n * 100)
+      };
+    }).sort((x, y) => x.cargo.localeCompare(y.cargo, 'pt-BR'));
     const byId = Object.fromEntries(cargos.map(c => [c.id, c]));
 
+    // score = min(30, Δauto) + (mesmo setor ? 40 : 0) − |ln(sal2030_alvo / sal2030_origem)| × 20
     const recommend = (o) => cargos
-      .filter(t => t.id !== o.id && t.risk < o.risk)
-      .map(t => ({ t, score: Math.min(30, (o.risk - t.risk) * 100) + (t.setor === o.setor ? 40 : 0) - Math.abs(Math.log(t.post / o.post)) * 20 }))
-      .sort((a, b) => b.score - a.score).map(x => x.t);
+      .filter(t => t.id !== o.id && t.auto < o.auto)
+      .map(t => ({ t, score: Math.min(30, o.auto - t.auto) + (t.setor === o.setor ? 40 : 0) - Math.abs(Math.log(t.sal2030 / o.sal2030)) * 20 }))
+      .sort((a, b) => b.score - a.score)
+      .map(x => x.t);
 
-    const pct = (v) => Math.round(v * 100) + '%';
-    const usd = (v) => (v < 0 ? '-$' : '$') + Math.abs(Math.round(v)).toLocaleString();
+    const usd = (v) => (v < 0 ? '-$' : '$') + Math.abs(Math.round(v)).toLocaleString('pt-BR');
     const brl = (v) => 'R$ ' + (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + 'M' : Math.round(v).toLocaleString('pt-BR'));
-    const opt = (value, label, rec) => { const o = document.createElement('option'); o.value = value; o.textContent = label; if (rec) o.dataset.rec = '1'; return o; };
+    const opt = (value, label) => { const o = document.createElement('option'); o.value = value; o.textContent = label; return o; };
+    const set = (id, text) => { const el = $(id); if (el) el.textContent = text; };
 
-    // setores
-    const sectors = Array.from(new Set(cargos.map(c => c.setor))).sort((a, b) => a.localeCompare(b, 'pt-BR'));
     if (selSector) {
       selSector.innerHTML = '';
       selSector.appendChild(opt('Todos', 'Todos os setores'));
-      sectors.forEach(s => selSector.appendChild(opt(s, s)));
+      Array.from(new Set(cargos.map(c => c.setor))).sort((a, b) => a.localeCompare(b, 'pt-BR')).forEach(s => selSector.appendChild(opt(s, s)));
     }
 
-    function fillOrig(keepId) {
+    function fillOrig() {
       const sec = selSector ? selSector.value : 'Todos';
       selOrig.innerHTML = '';
-      cargos.filter(c => sec === 'Todos' || c.setor === sec)
-        .forEach(c => selOrig.appendChild(opt(c.id, c.title + ' • ' + pct(c.risk) + ' risco')));
-      if (keepId && Array.from(selOrig.options).some(o => o.value === keepId)) selOrig.value = keepId;
+      cargos.filter(c => sec === 'Todos' || c.setor === sec).forEach(c => selOrig.appendChild(opt(c.id, `${c.cargo} • ${c.auto}% risco`)));
     }
+    // Ao trocar a origem, seleciona automaticamente o 1º recomendado
     function fillTarget() {
       const o = byId[selOrig.value];
       selTarget.innerHTML = '';
       if (!o) return;
       const rec = recommend(o);
-      const top = new Set(rec.slice(0, 5).map(t => t.id));
-      rec.forEach(t => selTarget.appendChild(opt(t.id, (top.has(t.id) ? '★ ' : '') + t.title + ' • ' + pct(t.risk) + ' risco', top.has(t.id))));
+      rec.forEach((t, i) => selTarget.appendChild(opt(t.id, `${i < 5 ? '★ ' : ''}${t.cargo} • ${t.auto}% risco`)));
       if (!rec.length) selTarget.appendChild(opt('', 'Nenhum cargo com risco menor'));
+      selTarget.selectedIndex = 0;
     }
 
     let chart = null;
     function drawChart(o, t) {
       const el = $('simChart');
       if (!el || !window.Chart) return;
-      const d0 = [Math.round(o.pre), Math.round(o.post)], d1 = [Math.round(t.pre), Math.round(t.post)];
+      const d0 = [Math.round(o.salPre), Math.round(o.sal2030)], d1 = [Math.round(t.salPre), Math.round(t.sal2030)];
       if (chart) { chart.data.datasets[0].data = d0; chart.data.datasets[1].data = d1; chart.update(); return; }
       chart = new Chart(el, {
         type: 'bar',
-        data: { labels: ['Salário pré-IA', 'Salário 2030'], datasets: [
-          { label: 'Cargo atual', data: d0, backgroundColor: '#CB1D4E', borderRadius: 6, barPercentage: 0.7 },
-          { label: 'Cargo-alvo', data: d1, backgroundColor: '#F7AF20', borderRadius: 6, barPercentage: 0.7 }] },
-        options: { maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true } },
-                     tooltip: { callbacks: { label: c => c.dataset.label + ': $' + c.raw.toLocaleString('pt-BR') } } },
-          scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { callback: v => '$' + (v / 1000) + ' Mil' } } } }
+        data: {
+          labels: ['Salário pré-IA', 'Salário 2030'],
+          datasets: [
+            { label: 'Cargo atual', data: d0, backgroundColor: '#CB1D4E', borderRadius: 6, barPercentage: 0.7 },
+            { label: 'Cargo-alvo', data: d1, backgroundColor: '#F7AF20', borderRadius: 6, barPercentage: 0.7 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true } },
+            tooltip: { callbacks: { label: c => c.dataset.label + ': $' + c.raw.toLocaleString('pt-BR') } }
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, ticks: { maxTicksLimit: 5, callback: v => '$' + (v / 1000).toLocaleString('pt-BR') + ' Mil' } }
+          }
+        }
       });
     }
 
-    function set(id, text) { const el = $(id); if (el) el.textContent = text; }
     function run() {
       const o = byId[selOrig.value], t = byId[selTarget.value];
+      const people = Math.max(0, +($('simPeople') || {}).value || 0);
+      const cost = Math.max(0, +($('simCost') || {}).value || 0);
+      const fx = Math.max(0.1, +String(($('simFx') || {}).value || '5').replace(',', '.') || 0.1);
+      set('simPeopleLabel', people.toLocaleString('pt-BR'));
       if (!o || !t) return;
-      const diff = t.post - o.pre, diffPct = diff / o.pre * 100;
-      const riskDiff = (t.risk - o.risk) * 100;
 
-      set('simTrackTitle', t.title);
-      set('simOrigSalary', usd(o.pre));
-      set('simNewSalary', usd(t.post));
+      const diff = t.sal2030 - o.sal2030;
+      const diffPct = diff / o.sal2030 * 100;
+
+      set('simTrackTitle', t.skill || t.cargo);
+      set('simOrigSalary', usd(o.sal2030));
+      set('simNewSalary', usd(t.sal2030));
       const gain = $('simGainUsd');
       if (gain) {
-        gain.textContent = diff >= 0 ? `+${usd(diff)} (+${diffPct.toFixed(1)}%)` : `${usd(diff)} (${diffPct.toFixed(1)}%)`;
-        gain.className = diff >= 0 ? 'val amber' : 'val red';
+        gain.textContent = `${diff >= 0 ? '+' : ''}${usd(diff)} (${diffPct >= 0 ? '+' : ''}${diffPct.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%)`;
+        gain.style.color = diff >= 0 ? '#E07618' : '#F0457A';
       }
       const rm = $('simRiskMitigation');
       if (rm) {
-        rm.textContent = `${riskDiff <= 0 ? '' : '+'}${riskDiff.toFixed(1)}%`;
-        rm.title = `de ${pct(o.risk)} para ${pct(t.risk)}`;
-        rm.className = riskDiff <= 0 ? 'val green' : 'val red';
+        rm.textContent = '-' + (o.auto - t.auto) + '%';
+        rm.title = `de ${o.auto}% para ${t.auto}%`;
       }
-      set('simOrigAuto', pct(o.risk)); set('simTgtAuto', pct(t.risk));
+      set('simOrigAuto', o.auto + '%');
+      set('simTgtAuto', t.auto + '%');
       const ob = $('simOrigAutoBar'), tb = $('simTgtAutoBar');
-      if (ob) ob.style.width = pct(o.risk);
-      if (tb) tb.style.width = pct(t.risk);
+      if (ob) ob.style.width = o.auto + '%';
+      if (tb) tb.style.width = t.auto + '%';
 
-      const skills = [t.skill, 'Supervisão de IA', t.setor === o.setor ? 'Mobilidade interna' : 'Transição de setor: ' + t.setor].filter(Boolean);
       const sk = $('simSkillsList');
-      if (sk) sk.innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+      if (sk) {
+        sk.innerHTML = '';
+        [t.skill, 'Supervisão de IA', t.setor === o.setor ? 'Mobilidade interna' : 'Transição de setor: ' + t.setor]
+          .filter(Boolean)
+          .forEach(s => { const span = document.createElement('span'); span.className = 'skill-tag'; span.textContent = s; sk.appendChild(span); });
+      }
 
-      // premissas do fundo
-      const people = +($('simPeople') || {}).value || 0;
-      const cost = Math.max(0, +($('simCost') || {}).value || 0);
-      const fx = Math.max(0.1, +String(($('simFx') || {}).value || '5.2').replace(',', '.'));
-      set('simPeopleLabel', people.toLocaleString('pt-BR'));
       const invest = people * cost, fund = invest / 15e6 * 100;
       set('simInvest', brl(invest));
       set('simFundPct', fund.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%');
       const fp = $('simFundPct'); if (fp) fp.style.color = fund > 100 ? '#F0457A' : '#FFFFFF';
+      const fw = $('simFundBarWrap'); if (fw) fw.classList.toggle('is-over', fund > 100);
       const fb = $('simFundBar'); if (fb) fb.style.width = Math.min(100, fund) + '%';
-      const monthly = diff * fx / 12;
-      set('simPayback', diff > 0 ? (cost / monthly < 1 ? '< 1 mês' : (cost / monthly).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' meses') : 'Sem ganho salarial');
+      // payback = custo ÷ (ganho mensal em US$ × câmbio)
+      const monthlyBRL = diff / 12 * fx;
+      const payback = diff > 0 ? cost / monthlyBRL : null;
+      set('simPayback', payback == null ? 'Sem ganho salarial' : payback < 1 ? '< 1 mês' : payback.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' meses');
       set('simAggGain', (diff >= 0 ? '+' : '') + usd(diff * people));
       drawChart(o, t);
     }
 
     fillOrig();
-    const start = cargos.find(c => /analista financeiro/i.test(c.title)) || cargos[0];
+    const start = cargos.find(c => /^analista financeiro$/i.test(c.cargo)) || cargos[0];
     if (start) selOrig.value = start.id;
     fillTarget();
     run();
 
-    if (selSector) selSector.addEventListener('change', () => { fillOrig(); fillTarget(); run(); });
+    if (selSector) selSector.addEventListener('change', () => { fillOrig(); selOrig.selectedIndex = 0; fillTarget(); run(); });
     selOrig.addEventListener('change', () => { fillTarget(); run(); });
     selTarget.addEventListener('change', run);
     ['simPeople', 'simCost', 'simFx'].forEach(id => { const el = $(id); if (el) el.addEventListener('input', run); });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSimulator);
-  else initSimulator();
+  /* ---------------- Vídeo do dashboard ---------------- */
+  // Carrega só perto da tela, toca sem som em loop e pausa fora da tela.
+  function initVideo() {
+    const video = $('dashVideo'), btn = $('dashVideoToggle');
+    if (!video) return;
+    const start = +video.dataset.start || 0;
+    let userPaused = reduceMotion, loaded = false;
+
+    const label = () => {
+      if (!btn) return;
+      const paused = video.paused;
+      btn.textContent = paused ? '▶ Reproduzir' : '❚❚ Pausar';
+      btn.setAttribute('aria-pressed', String(paused));
+      btn.setAttribute('aria-label', paused ? 'Reproduzir vídeo' : 'Pausar vídeo');
+    };
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      video.src = video.dataset.src;
+      video.preload = 'auto';
+      video.addEventListener('loadedmetadata', () => { if (start && start < video.duration) video.currentTime = start; }, { once: true });
+    };
+    const play = () => { load(); const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+
+    video.addEventListener('ended', () => { video.currentTime = start; if (!userPaused) play(); });
+    video.addEventListener('play', label);
+    video.addEventListener('pause', label);
+    if (btn) btn.addEventListener('click', () => {
+      if (video.paused) { userPaused = false; play(); } else { userPaused = true; video.pause(); }
+    });
+    label();
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if (en.isIntersecting) { load(); if (!userPaused) play(); }
+          else if (!video.paused) video.pause();
+        });
+      }, { rootMargin: '200px 0px' }).observe(video);
+    } else {
+      load();
+      if (!userPaused) play();
+    }
+  }
+
+  function init() { initSimulator(); initVideo(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
