@@ -7,9 +7,9 @@ Esta pasta tem tudo o que é preciso para publicar na Vercel.
 
 | Pasta / arquivo | Para que serve |
 | --- | --- |
-| `index.html` | Landing page com os gráficos, filtros, simulador e Power BI |
+| `index.html` | Landing page com os gráficos, filtros, simulador e o vídeo do dashboard |
 | `bussola.html` | Ferramenta Bússola 2030 (análise de currículo) |
-| `css/`, `js/`, `vendor/`, `assets/` | Estilo, scripts, bibliotecas e imagens do site |
+| `css/`, `js/`, `vendor/`, `assets/` | Estilo, scripts, bibliotecas, imagens e o vídeo demo (`assets/video/`) |
 | `downloads/BI_Final_v2.pbix` | Arquivo do Power BI (botão "Baixar .PBIX") |
 | `api/index.py` | API da Bússola (vira uma função Python na Vercel) |
 | `backend/` | Os 5 agentes e a base WEF/McKinsey usados pela API |
@@ -52,5 +52,6 @@ A Vercel publica a nova versão sozinha em cerca de 1 minuto.
 ## Observações
 
 - As fontes e as fotos da equipe vêm da internet; sem conexão o site funciona com fonte padrão.
-- O botão "Abrir relatório interativo" do Power BI pede login na conta Microsoft dona do relatório.
+- A leitura de PDF e DOCX na Bússola usa bibliotecas da internet (pdf.js e mammoth). Sem conexão, o arquivo é enviado ao servidor local, que extrai o texto.
+- A pasta `design_handoff_impacto_ia_2030/` é só referência de design: não precisa ir para o GitHub nem para a Vercel.
 - A primeira análise da Bússola depois de um tempo parado pode levar alguns segundos a mais na Vercel (a função "acorda").
